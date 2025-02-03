@@ -107,7 +107,7 @@ end
 --	local fileFunctionsAvailable = isfile and writefile and readfile
 
 --	if not fileFunctionsAvailable and not useStudio then
---		warn('Rayfield Interface Suite | Sirius Analytics:\n\n\nAs you don\'t have file functionality with your executor, we are unable to save whether you want to opt in or out to analytics.\nIf you do not want to take part in anonymised usage statistics, let us know in our Discord at sirius.menu/discord and we will manually opt you out.')
+--		warn('Rayfield Interface Suite | Sirius Analytics:\n\n\nAs you don\'t have file functionality with your executor, we are unable to save whether you want to opt in or out to analytics.\nIf you do not want to take part in anonymised usage statistics, let us know in our Discord at Perfectus/discord and we will manually opt you out.')
 --		analytics = true	
 --	else
 --		prompt.create(
@@ -840,7 +840,7 @@ local function LoadConfiguration(Configuration)
 		else
 			warn("Perfectus | Unable to find '"..FlagName.. "' in the save file.")
 			print("The error above may not be an issue if new elements have been added or not been set values.")
-			--RayfieldLibrary:Notify({Title = "Rayfield Flags", Content = "Rayfield was unable to find '"..FlagName.. "' in the save file. Check sirius.menu/discord for help.", Image = 3944688398})
+			--RayfieldLibrary:Notify({Title = "Rayfield Flags", Content = "Rayfield was unable to find '"..FlagName.. "' in the save file. Check Perfectus/discord for help.", Image = 3944688398})
 		end
 	end
 
