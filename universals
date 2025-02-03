@@ -418,7 +418,7 @@ local RayfieldLibrary = {
 		},
 
         Perfectus = {
-            TextColor = Color3.fromRGB(139, 101, 139),
+            TextColor = Color3.fromRGB(0, 0, 128),
         
             Background = Color3.fromRGB(151, 255, 255),
             Topbar = Color3.fromRGB(151, 255, 255),
@@ -441,22 +441,22 @@ local RayfieldLibrary = {
                     
             SliderBackground = Color3.fromRGB(151, 255, 255),
             SliderProgress = Color3.fromRGB(151, 255, 255),
-            SliderStroke = Color3.fromRGB(0, 250, 154),
+            SliderStroke = Color3.fromRGB(151, 255, 255),
         
             ToggleBackground = Color3.fromRGB(0, 250, 154),
-            ToggleEnabled = Color3.fromRGB(0, 250, 154),
-            ToggleDisabled = Color3.fromRGB(100, 100, 100),
-            ToggleEnabledStroke = Color3.fromRGB(0, 250, 154),
-            ToggleDisabledStroke = Color3.fromRGB(125, 125, 125),
-            ToggleEnabledOuterStroke = Color3.fromRGB(100, 100, 100),
-            ToggleDisabledOuterStroke = Color3.fromRGB(65, 65, 65),
+            ToggleEnabled = Color3.fromRGB(50, 205, 50),
+            ToggleDisabled = Color3.fromRGB(34, 139, 34),
+            ToggleEnabledStroke = Color3.fromRGB(34, 139, 34),
+            ToggleDisabledStroke = Color3.fromRGB(50, 205, 50),
+            ToggleEnabledOuterStroke = Color3.fromRGB(50, 205, 50),
+            ToggleDisabledOuterStroke = Color3.fromRGB(34, 139, 34),
         
-            DropdownSelected = Color3.fromRGB(151, 255, 255),
-            DropdownUnselected = Color3.fromRGB(139, 101, 139),
+            DropdownSelected = Color3.fromRGB(34, 139, 34),
+            DropdownUnselected = Color3.fromRGB(50, 205, 50),
         
-            InputBackground = Color3.fromRGB(139, 0, 139),
+            InputBackground = Color3.fromRGB(34, 139, 34),
             InputStroke = Color3.fromRGB(139, 101, 139),
-            PlaceholderColor = Color3.fromRGB(139, 0, 139)
+            PlaceholderColor = Color3.fromRGB(151, 255, 255)
         },
 
 		Bloom = {
