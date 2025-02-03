@@ -417,47 +417,6 @@ local RayfieldLibrary = {
 			PlaceholderColor = Color3.fromRGB(120, 140, 120)
 		},
 
-        Perfectus = {
-            TextColor = Color3.fromRGB(0, 0, 128),
-        
-            Background = Color3.fromRGB(135, 206, 255),
-            Topbar = Color3.fromRGB(0, 191, 255),
-            Shadow = Color3.fromRGB(139, 101, 139),
-        
-            NotificationBackground = Color3.fromRGB(139, 101, 139),
-            NotificationActionsBackground = Color3.fromRGB(151, 255, 255),
-        
-            TabBackground = Color3.fromRGB(0, 0, 128),
-            TabStroke = Color3.fromRGB(139, 101, 139),
-            TabBackgroundSelected = Color3.fromRGB(0, 0, 128),
-            TabTextColor = Color3.fromRGB(135, 206, 255),
-            SelectedTabTextColor = Color3.fromRGB(0, 191, 255),
-        
-            ElementBackground = Color3.fromRGB(0, 191, 255),
-            ElementBackgroundHover = Color3.fromRGB(30, 144, 255),
-            SecondaryElementBackground = Color3.fromRGB(30, 144, 255),
-            ElementStroke = Color3.fromRGB(0, 0, 128),
-            SecondaryElementStroke = Color3.fromRGB(30, 144, 255),
-                    
-            SliderBackground = Color3.fromRGB(151, 255, 255),
-            SliderProgress = Color3.fromRGB(30, 144, 255),
-            SliderStroke = Color3.fromRGB(0, 0, 128),
-        
-            ToggleBackground = Color3.fromRGB(99, 184, 255),
-            ToggleEnabled = Color3.fromRGB(0, 0, 128),
-            ToggleDisabled = Color3.fromRGB(30, 144, 255),
-            ToggleEnabledStroke = Color3.fromRGB(0, 0, 128),
-            ToggleDisabledStroke = Color3.fromRGB(0, 0, 128),
-            ToggleEnabledOuterStroke = Color3.fromRGB(30, 144, 255),
-            ToggleDisabledOuterStroke = Color3.fromRGB(0, 0, 128),
-        
-            DropdownSelected = Color3.fromRGB(27, 139, 180),
-            DropdownUnselected = Color3.fromRGB(30, 144, 255),
-        
-            InputBackground = Color3.fromRGB(30, 144, 255),
-            InputStroke = Color3.fromRGB(0, 0, 128),
-            PlaceholderColor = Color3.fromRGB(135, 206, 255)
-        },
 
 		Bloom = {
 			TextColor = Color3.fromRGB(60, 40, 50),
