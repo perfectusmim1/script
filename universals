@@ -427,11 +427,11 @@ local RayfieldLibrary = {
             NotificationBackground = Color3.fromRGB(139, 101, 139),
             NotificationActionsBackground = Color3.fromRGB(151, 255, 255),
         
-            TabBackground = Color3.fromRGB(80, 80, 80),
+            TabBackground = Color3.fromRGB(255, 0, 255),
             TabStroke = Color3.fromRGB(139, 101, 139),
             TabBackgroundSelected = Color3.fromRGB(210, 210, 210),
-            TabTextColor = Color3.fromRGB(240, 240, 240),
-            SelectedTabTextColor = Color3.fromRGB(50, 50, 50),
+            TabTextColor = Color3.fromRGB(139, 0, 139),
+            SelectedTabTextColor = Color3.fromRGB(139, 0, 139),
         
             ElementBackground = Color3.fromRGB(35, 35, 35),
             ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
@@ -454,9 +454,9 @@ local RayfieldLibrary = {
             DropdownSelected = Color3.fromRGB(151, 255, 255),
             DropdownUnselected = Color3.fromRGB(139, 101, 139),
         
-            InputBackground = Color3.fromRGB(151, 255, 255),
+            InputBackground = Color3.fromRGB(139, 0, 139),
             InputStroke = Color3.fromRGB(139, 101, 139),
-            PlaceholderColor = Color3.fromRGB(178, 178, 178)
+            PlaceholderColor = Color3.fromRGB(139, 0, 139)
         },
 
 		Bloom = {
