@@ -417,6 +417,48 @@ local RayfieldLibrary = {
 			PlaceholderColor = Color3.fromRGB(120, 140, 120)
 		},
 
+        Perfectus = {
+            TextColor = Color3.fromRGB(139, 101, 139),
+        
+            Background = Color3.fromRGB(151, 255, 255),
+            Topbar = Color3.fromRGB(151, 255, 255),
+            Shadow = Color3.fromRGB(139, 101, 139),
+        
+            NotificationBackground = Color3.fromRGB(139, 101, 139),
+            NotificationActionsBackground = Color3.fromRGB(151, 255, 255),
+        
+            TabBackground = Color3.fromRGB(80, 80, 80),
+            TabStroke = Color3.fromRGB(139, 101, 139),
+            TabBackgroundSelected = Color3.fromRGB(210, 210, 210),
+            TabTextColor = Color3.fromRGB(240, 240, 240),
+            SelectedTabTextColor = Color3.fromRGB(50, 50, 50),
+        
+            ElementBackground = Color3.fromRGB(35, 35, 35),
+            ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
+            SecondaryElementBackground = Color3.fromRGB(25, 25, 25),
+            ElementStroke = Color3.fromRGB(139, 101, 139),
+            SecondaryElementStroke = Color3.fromRGB(40, 40, 40),
+                    
+            SliderBackground = Color3.fromRGB(151, 255, 255),
+            SliderProgress = Color3.fromRGB(151, 255, 255),
+            SliderStroke = Color3.fromRGB(58, 163, 255),
+        
+            ToggleBackground = Color3.fromRGB(30, 30, 30),
+            ToggleEnabled = Color3.fromRGB(0, 146, 214),
+            ToggleDisabled = Color3.fromRGB(100, 100, 100),
+            ToggleEnabledStroke = Color3.fromRGB(0, 170, 255),
+            ToggleDisabledStroke = Color3.fromRGB(125, 125, 125),
+            ToggleEnabledOuterStroke = Color3.fromRGB(100, 100, 100),
+            ToggleDisabledOuterStroke = Color3.fromRGB(65, 65, 65),
+        
+            DropdownSelected = Color3.fromRGB(151, 255, 255),
+            DropdownUnselected = Color3.fromRGB(139, 101, 139),
+        
+            InputBackground = Color3.fromRGB(151, 255, 255),
+            InputStroke = Color3.fromRGB(139, 101, 139),
+            PlaceholderColor = Color3.fromRGB(178, 178, 178)
+        },
+
 		Bloom = {
 			TextColor = Color3.fromRGB(60, 40, 50),
 
