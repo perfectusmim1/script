@@ -420,7 +420,7 @@ local RayfieldLibrary = {
         Perfectus = {
             TextColor = Color3.fromRGB(0, 0, 128),
         
-            Background = Color3.fromRGB(99, 184, 255),
+            Background = Color3.fromRGB(16, 78, 139),
             Topbar = Color3.fromRGB(0, 191, 255),
             Shadow = Color3.fromRGB(139, 101, 139),
         
@@ -2002,7 +2002,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Button.BackgroundTransparency = 1
 			Button.UIStroke.Transparency = 1
-			Button.Title.TextTransparency = 0
+			Button.Title.TextTransparency = 1
 
 			TweenService:Create(Button, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 			TweenService:Create(Button.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
