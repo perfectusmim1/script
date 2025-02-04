@@ -436,7 +436,7 @@ local RayfieldLibrary = {
             ElementBackground = Color3.fromRGB(0, 191, 255),
             ElementBackgroundHover = Color3.fromRGB(30, 144, 255),
             SecondaryElementBackground = Color3.fromRGB(30, 144, 255),
-            ElementStroke = Color3.fromRGB(0, 0, 128),
+            ElementStroke = Color3.fromRGB(0, 134, 139),
             SecondaryElementStroke = Color3.fromRGB(30, 144, 255),
                     
             SliderBackground = Color3.fromRGB(151, 255, 255),
@@ -446,7 +446,7 @@ local RayfieldLibrary = {
             ToggleBackground = Color3.fromRGB(99, 184, 255),
             ToggleEnabled = Color3.fromRGB(0, 0, 128),
             ToggleDisabled = Color3.fromRGB(30, 144, 255),
-            ToggleEnabledStroke = Color3.fromRGB(0, 0, 128),
+            ToggleEnabledStroke = Color3.fromRGB(0, 134, 139),
             ToggleDisabledStroke = Color3.fromRGB(0, 0, 128),
             ToggleEnabledOuterStroke = Color3.fromRGB(30, 144, 255),
             ToggleDisabledOuterStroke = Color3.fromRGB(0, 0, 128),
