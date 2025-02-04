@@ -2002,7 +2002,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			Button.BackgroundTransparency = 1
 			Button.UIStroke.Transparency = 1
-			Button.Title.TextTransparency = 1
+			Button.Title.TextTransparency = 0
 
 			TweenService:Create(Button, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
 			TweenService:Create(Button.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
