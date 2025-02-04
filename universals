@@ -1,3 +1,4 @@
+
 if debugX then
 	warn('Initialising Rayfield')
 end
@@ -439,7 +440,7 @@ local RayfieldLibrary = {
             SecondaryElementStroke = Color3.fromRGB(30, 144, 255),
                     
             SliderBackground = Color3.fromRGB(151, 255, 255),
-            SliderProgress = Color3.fromRGB(30, 144, 255),
+            SliderProgress = Color3.fromRGB(65, 105, 225),
             SliderStroke = Color3.fromRGB(0, 0, 128),
         
             ToggleBackground = Color3.fromRGB(99, 184, 255),
