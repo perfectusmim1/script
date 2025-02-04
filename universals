@@ -420,7 +420,7 @@ local RayfieldLibrary = {
         Perfectus = {
             TextColor = Color3.fromRGB(0, 0, 128),
         
-            Background = Color3.fromRGB(16, 78, 139),
+            Background = Color3.fromRGB(24, 116, 205),
             Topbar = Color3.fromRGB(0, 191, 255),
             Shadow = Color3.fromRGB(139, 101, 139),
         
