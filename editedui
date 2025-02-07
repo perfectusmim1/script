@@ -459,6 +459,91 @@ local RayfieldLibrary = {
             PlaceholderColor = Color3.fromRGB(99, 184, 255)
         },
 
+		
+Perfectus2 = {
+    TextColor = Color3.fromRGB(0, 0, 128),
+
+    Background = Color3.fromRGB(0, 154, 205),
+    Topbar = Color3.fromRGB(0, 191, 255),
+    Shadow = Color3.fromRGB(0, 134, 139), -- Mor rengi mavi ile değiştirdik
+
+    NotificationBackground = Color3.fromRGB(0, 134, 139), -- Mor rengi mavi ile değiştirdik
+    NotificationActionsBackground = Color3.fromRGB(151, 255, 255),
+
+    TabBackground = Color3.fromRGB(0, 0, 128),
+    TabStroke = Color3.fromRGB(0, 134, 139), -- Mor rengi mavi ile değiştirdik
+    TabBackgroundSelected = Color3.fromRGB(0, 0, 128),
+    TabTextColor = Color3.fromRGB(135, 206, 255),
+    SelectedTabTextColor = Color3.fromRGB(0, 191, 255),
+
+    ElementBackground = Color3.fromRGB(0, 191, 255),
+    ElementBackgroundHover = Color3.fromRGB(30, 144, 255),
+    SecondaryElementBackground = Color3.fromRGB(30, 144, 255),
+    ElementStroke = Color3.fromRGB(0, 134, 139),
+    SecondaryElementStroke = Color3.fromRGB(30, 144, 255),
+
+    SliderBackground = Color3.fromRGB(151, 255, 255),
+    SliderProgress = Color3.fromRGB(0, 0, 238),
+    SliderStroke = Color3.fromRGB(0, 0, 128),
+
+    ToggleBackground = Color3.fromRGB(99, 184, 255),
+    ToggleEnabled = Color3.fromRGB(0, 0, 128),
+    ToggleDisabled = Color3.fromRGB(30, 144, 255),
+    ToggleEnabledStroke = Color3.fromRGB(0, 134, 139),
+    ToggleDisabledStroke = Color3.fromRGB(0, 0, 128),
+    ToggleEnabledOuterStroke = Color3.fromRGB(30, 144, 255),
+    ToggleDisabledOuterStroke = Color3.fromRGB(0, 0, 128),
+
+    DropdownSelected = Color3.fromRGB(27, 139, 180),
+    DropdownUnselected = Color3.fromRGB(30, 144, 255),
+
+    InputBackground = Color3.fromRGB(30, 144, 255),
+    InputStroke = Color3.fromRGB(0, 0, 128),
+    PlaceholderColor = Color3.fromRGB(99, 184, 255)
+},
+
+Perfectus3 = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
+
+    Background = Color3.fromRGB(45, 45, 48), -- Koyu gri arka plan
+    Topbar = Color3.fromRGB(28, 28, 30), -- Daha koyu gri üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
+
+    NotificationBackground = Color3.fromRGB(45, 45, 48), -- Koyu gri bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(63, 63, 70), -- Orta gri bildirim eylem arka planı
+
+    TabBackground = Color3.fromRGB(63, 63, 70), -- Orta gri sekme arka planı
+    TabStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(0, 122, 204), -- Mavi seçili sekme arka planı
+    TabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
+
+    ElementBackground = Color3.fromRGB(63, 63, 70), -- Orta gri element arka planı
+    ElementBackgroundHover = Color3.fromRGB(72, 72, 80), -- Daha açık gri element hover arka planı
+    SecondaryElementBackground = Color3.fromRGB(72, 72, 80), -- Daha açık gri ikincil element arka planı
+    ElementStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri ikincil element çerçevesi
+
+    SliderBackground = Color3.fromRGB(45, 45, 48), -- Koyu gri slider arka planı
+    SliderProgress = Color3.fromRGB(0, 122, 204), -- Mavi slider ilerleme rengi
+    SliderStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri slider çerçevesi
+
+    ToggleBackground = Color3.fromRGB(63, 63, 70), -- Orta gri toggle arka planı
+    ToggleEnabled = Color3.fromRGB(0, 122, 204), -- Mavi toggle etkin rengi
+    ToggleDisabled = Color3.fromRGB(72, 72, 80), -- Daha açık gri toggle devre dışı rengi
+    ToggleEnabledStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(0, 122, 204), -- Mavi toggle etkin dış çerçevesi
+    ToggleDisabledOuterStroke = Color3.fromRGB(72, 72, 80), -- Daha açık gri toggle devre dışı dış çerçevesi
+
+    DropdownSelected = Color3.fromRGB(0, 122, 204), -- Mavi dropdown seçili rengi
+    DropdownUnselected = Color3.fromRGB(63, 63, 70), -- Orta gri dropdown seçilmemiş rengi
+
+    InputBackground = Color3.fromRGB(45, 45, 48), -- Koyu gri input arka planı
+    InputStroke = Color3.fromRGB(28, 28, 30), -- Daha koyu gri input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
+
 		Bloom = {
 			TextColor = Color3.fromRGB(60, 40, 50),
 
@@ -1969,8 +2054,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 			TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {ImageTransparency = 0}):Play()
 			TweenService:Create(TabButton, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.TabBackgroundSelected}):Play()
 			TweenService:Create(TabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextColor3 = SelectedTheme.SelectedTabTextColor}):Play()
-			TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {ImageColor3 = SelectedTheme.SelectedTabTextColor}):Play()
-
+			-- TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {ImageColor3 = SelectedTheme.SelectedTabTextColor}):Play() -- Bu satırı kaldır veya yorum satırı yap
+		
 			for _, OtherTabButton in ipairs(TabList:GetChildren()) do
 				if OtherTabButton.Name ~= "Template" and OtherTabButton.ClassName == "Frame" and OtherTabButton ~= TabButton and OtherTabButton.Name ~= "Placeholder" then
 					TweenService:Create(OtherTabButton, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.TabBackground}):Play()
@@ -1982,7 +2067,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					TweenService:Create(OtherTabButton.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0.5}):Play()
 				end
 			end
-
+		
 			if Elements.UIPageLayout.CurrentPage ~= TabPage then
 				Elements.UIPageLayout:JumpTo(TabPage)
 			end
