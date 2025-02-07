@@ -544,6 +544,89 @@ Perfectus3 = {
     PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
 },
 
+Perfectus4 = {
+    TextColor = Color3.fromRGB(68, 70, 84), -- Koyu gri metin rengi
+
+    Background = Color3.fromRGB(242, 243, 247), -- Açık gri arka plan
+    Topbar = Color3.fromRGB(225, 227, 234), -- Daha açık gri üst bar
+    Shadow = Color3.fromRGB(200, 200, 200), -- Açık gri gölge
+
+    NotificationBackground = Color3.fromRGB(255, 255, 255), -- Beyaz bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(230, 230, 230), -- Açık gri bildirim eylem arka planı
+
+    TabBackground = Color3.fromRGB(230, 230, 230), -- Açık gri sekme arka planı
+    TabStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(114, 137, 218), -- Mavi seçili sekme arka planı
+    TabTextColor = Color3.fromRGB(68, 70, 84), -- Koyu gri sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
+
+    ElementBackground = Color3.fromRGB(230, 230, 230), -- Açık gri element arka planı
+    ElementBackgroundHover = Color3.fromRGB(215, 215, 215), -- Daha açık gri element hover arka planı
+    SecondaryElementBackground = Color3.fromRGB(245, 245, 245), -- Daha açık gri ikincil element arka planı
+    ElementStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri ikincil element çerçevesi
+
+    SliderBackground = Color3.fromRGB(230, 230, 230), -- Açık gri slider arka planı
+    SliderProgress = Color3.fromRGB(114, 137, 218), -- Mavi slider ilerleme rengi
+    SliderStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri slider çerçevesi
+
+    ToggleBackground = Color3.fromRGB(230, 230, 230), -- Açık gri toggle arka planı
+    ToggleEnabled = Color3.fromRGB(114, 137, 218), -- Mavi toggle etkin rengi
+    ToggleDisabled = Color3.fromRGB(245, 245, 245), -- Daha açık gri toggle devre dışı rengi
+    ToggleEnabledStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(114, 137, 218), -- Mavi toggle etkin dış çerçevesi
+    ToggleDisabledOuterStroke = Color3.fromRGB(245, 245, 245), -- Daha açık gri toggle devre dışı dış çerçevesi
+
+    DropdownSelected = Color3.fromRGB(114, 137, 218), -- Mavi dropdown seçili rengi
+    DropdownUnselected = Color3.fromRGB(230, 230, 230), -- Açık gri dropdown seçilmemiş rengi
+
+    InputBackground = Color3.fromRGB(245, 245, 245), -- Daha açık gri input arka planı
+    InputStroke = Color3.fromRGB(210, 210, 210), -- Daha açık gri input çerçevesi
+    PlaceholderColor = Color3.fromRGB(150, 150, 150) -- Orta gri placeholder rengi
+},
+
+Perfectus5 = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz metin rengi
+
+    Background = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi arka plan
+    Topbar = Color3.fromRGB(25, 181, 174), -- Turkuaz üst bar
+    Shadow = Color3.fromRGB(24, 90, 157), -- Koyu mavi gölge
+
+    NotificationBackground = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(42, 161, 152), -- Turkuaz bildirim eylem arka planı
+
+    TabBackground = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi sekme arka planı
+    TabStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(25, 181, 174), -- Turkuaz seçili sekme arka planı
+    TabTextColor = Color3.fromRGB(208, 235, 255), -- Açık mavi sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
+
+    ElementBackground = Color3.fromRGB(42, 161, 152), -- Turkuaz element arka planı
+    ElementBackgroundHover = Color3.fromRGB(25, 181, 174), -- Açık turkuaz element hover arka planı
+    SecondaryElementBackground = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi ikincil element arka planı
+    ElementStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi ikincil element çerçevesi
+
+    SliderBackground = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi slider arka planı
+    SliderProgress = Color3.fromRGB(25, 181, 174), -- Turkuaz slider ilerleme rengi
+    SliderStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi slider çerçevesi
+
+    ToggleBackground = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi toggle arka planı
+    ToggleEnabled = Color3.fromRGB(25, 181, 174), -- Turkuaz toggle etkin rengi
+    ToggleDisabled = Color3.fromRGB(42, 161, 152), -- Koyu turkuaz toggle devre dışı rengi
+    ToggleEnabledStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(25, 181, 174), -- Turkuaz toggle etkin dış çerçevesi
+    ToggleDisabledOuterStroke = Color3.fromRGB(42, 161, 152), -- Koyu turkuaz toggle devre dışı dış çerçevesi
+
+    DropdownSelected = Color3.fromRGB(25, 181, 174), -- Turkuaz dropdown seçili rengi
+    DropdownUnselected = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi dropdown seçilmemiş rengi
+
+    InputBackground = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi input arka planı
+    InputStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi input çerçevesi
+    PlaceholderColor = Color3.fromRGB(208, 235, 255) -- Açık mavi placeholder rengi
+},
 		Bloom = {
 			TextColor = Color3.fromRGB(60, 40, 50),
 
