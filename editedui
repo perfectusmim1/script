@@ -166,258 +166,49 @@ local RayfieldLibrary = {
 	Flags = {},
 	Theme = {
 		Default = {
-			TextColor = Color3.fromRGB(240, 240, 240),
-
-			Background = Color3.fromRGB(25, 25, 25),
-			Topbar = Color3.fromRGB(34, 34, 34),
-			Shadow = Color3.fromRGB(20, 20, 20),
-
-			NotificationBackground = Color3.fromRGB(20, 20, 20),
-			NotificationActionsBackground = Color3.fromRGB(230, 230, 230),
-
-			TabBackground = Color3.fromRGB(80, 80, 80),
-			TabStroke = Color3.fromRGB(85, 85, 85),
-			TabBackgroundSelected = Color3.fromRGB(210, 210, 210),
-			TabTextColor = Color3.fromRGB(240, 240, 240),
-			SelectedTabTextColor = Color3.fromRGB(50, 50, 50),
-
-			ElementBackground = Color3.fromRGB(35, 35, 35),
-			ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
-			SecondaryElementBackground = Color3.fromRGB(25, 25, 25),
-			ElementStroke = Color3.fromRGB(50, 50, 50),
-			SecondaryElementStroke = Color3.fromRGB(40, 40, 40),
-
-			SliderBackground = Color3.fromRGB(50, 138, 220),
-			SliderProgress = Color3.fromRGB(50, 138, 220),
-			SliderStroke = Color3.fromRGB(58, 163, 255),
-
-			ToggleBackground = Color3.fromRGB(30, 30, 30),
-			ToggleEnabled = Color3.fromRGB(0, 146, 214),
-			ToggleDisabled = Color3.fromRGB(100, 100, 100),
-			ToggleEnabledStroke = Color3.fromRGB(0, 170, 255),
-			ToggleDisabledStroke = Color3.fromRGB(125, 125, 125),
-			ToggleEnabledOuterStroke = Color3.fromRGB(100, 100, 100),
-			ToggleDisabledOuterStroke = Color3.fromRGB(65, 65, 65),
-
-			DropdownSelected = Color3.fromRGB(40, 40, 40),
-			DropdownUnselected = Color3.fromRGB(30, 30, 30),
-
-			InputBackground = Color3.fromRGB(30, 30, 30),
-			InputStroke = Color3.fromRGB(65, 65, 65),
-			PlaceholderColor = Color3.fromRGB(178, 178, 178)
+			TextColor = Color3.fromRGB(255, 255, 255), -- Net beyaz metin
+		
+			Background = Color3.fromRGB(0, 0, 0), -- Saf siyah ana arka plan
+			Topbar = Color3.fromRGB(20, 20, 20), -- Hafif açık siyah üst bar
+			Shadow = Color3.fromRGB(0, 0, 0), -- Belirgin siyah gölge
+		
+			NotificationBackground = Color3.fromRGB(15, 15, 15), -- Hafif farklı koyu ton, bildirim arka planı
+			NotificationActionsBackground = Color3.fromRGB(30, 30, 30), -- Biraz daha açık siyah, bildirim eylem alanı
+		
+			TabBackground = Color3.fromRGB(30, 30, 30), -- Sekmeler için koyu zemin
+			TabStroke = Color3.fromRGB(20, 20, 20), -- İnce siyah çerçeve
+			TabBackgroundSelected = Color3.fromRGB(50, 50, 50), -- Seçili sekmede hafif parlak siyah ton
+			TabTextColor = Color3.fromRGB(255, 255, 255), -- Sekme yazılarında net beyaz
+			SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Seçili sekmede de beyaz metin
+		
+			ElementBackground = Color3.fromRGB(30, 30, 30), -- Elementlerin arka planı
+			ElementBackgroundHover = Color3.fromRGB(40, 40, 40), -- Hover durumunda hafif aydınlanma
+			SecondaryElementBackground = Color3.fromRGB(40, 40, 40), -- İkincil element arka planı
+			ElementStroke = Color3.fromRGB(20, 20, 20), -- Koyu çerçeve detayları
+			SecondaryElementStroke = Color3.fromRGB(20, 20, 20), -- İkincil çerçeve detayları
+		
+			SliderBackground = Color3.fromRGB(15, 15, 15), -- Slider için koyu arka plan
+			SliderProgress = Color3.fromRGB(80, 80, 80), -- Slider ilerleme rengi, net kontrast sağlar
+			SliderStroke = Color3.fromRGB(20, 20, 20), -- Slider çevresinde ince siyah çerçeve
+		
+			ToggleBackground = Color3.fromRGB(30, 30, 30), -- Toggle ana arka planı
+			ToggleEnabled = Color3.fromRGB(80, 80, 80), -- Toggle etkin durumda daha belirgin ton
+			ToggleDisabled = Color3.fromRGB(40, 40, 40), -- Toggle devre dışı durum için biraz daha açık ton
+			ToggleEnabledStroke = Color3.fromRGB(20, 20, 20), -- Toggle etkin çerçevesi
+			ToggleDisabledStroke = Color3.fromRGB(20, 20, 20), -- Toggle devre dışı çerçevesi
+			ToggleEnabledOuterStroke = Color3.fromRGB(80, 80, 80), -- Dış çerçeve etkin durum
+			ToggleDisabledOuterStroke = Color3.fromRGB(40, 40, 40), -- Dış çerçeve devre dışı durum
+		
+			DropdownSelected = Color3.fromRGB(80, 80, 80), -- Seçili dropdown için belirgin koyu ton
+			DropdownUnselected = Color3.fromRGB(30, 30, 30), -- Seçilmemiş dropdown için ana arka plan tonu
+		
+			InputBackground = Color3.fromRGB(15, 15, 15), -- Input alanı için koyu arka plan
+			InputStroke = Color3.fromRGB(20, 20, 20), -- İnput çevresinde ince siyah çerçeve
+			PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi, okunabilirlik için ideal
 		},
+		
 
-		Ocean = {
-			TextColor = Color3.fromRGB(230, 240, 240),
-
-			Background = Color3.fromRGB(20, 30, 30),
-			Topbar = Color3.fromRGB(25, 40, 40),
-			Shadow = Color3.fromRGB(15, 20, 20),
-
-			NotificationBackground = Color3.fromRGB(25, 35, 35),
-			NotificationActionsBackground = Color3.fromRGB(230, 240, 240),
-
-			TabBackground = Color3.fromRGB(40, 60, 60),
-			TabStroke = Color3.fromRGB(50, 70, 70),
-			TabBackgroundSelected = Color3.fromRGB(100, 180, 180),
-			TabTextColor = Color3.fromRGB(210, 230, 230),
-			SelectedTabTextColor = Color3.fromRGB(20, 50, 50),
-
-			ElementBackground = Color3.fromRGB(30, 50, 50),
-			ElementBackgroundHover = Color3.fromRGB(40, 60, 60),
-			SecondaryElementBackground = Color3.fromRGB(30, 45, 45),
-			ElementStroke = Color3.fromRGB(45, 70, 70),
-			SecondaryElementStroke = Color3.fromRGB(40, 65, 65),
-
-			SliderBackground = Color3.fromRGB(0, 110, 110),
-			SliderProgress = Color3.fromRGB(0, 140, 140),
-			SliderStroke = Color3.fromRGB(0, 160, 160),
-
-			ToggleBackground = Color3.fromRGB(30, 50, 50),
-			ToggleEnabled = Color3.fromRGB(0, 130, 130),
-			ToggleDisabled = Color3.fromRGB(70, 90, 90),
-			ToggleEnabledStroke = Color3.fromRGB(0, 160, 160),
-			ToggleDisabledStroke = Color3.fromRGB(85, 105, 105),
-			ToggleEnabledOuterStroke = Color3.fromRGB(50, 100, 100),
-			ToggleDisabledOuterStroke = Color3.fromRGB(45, 65, 65),
-
-			DropdownSelected = Color3.fromRGB(30, 60, 60),
-			DropdownUnselected = Color3.fromRGB(25, 40, 40),
-
-			InputBackground = Color3.fromRGB(30, 50, 50),
-			InputStroke = Color3.fromRGB(50, 70, 70),
-			PlaceholderColor = Color3.fromRGB(140, 160, 160)
-		},
-
-		AmberGlow = {
-			TextColor = Color3.fromRGB(255, 245, 230),
-
-			Background = Color3.fromRGB(45, 30, 20),
-			Topbar = Color3.fromRGB(55, 40, 25),
-			Shadow = Color3.fromRGB(35, 25, 15),
-
-			NotificationBackground = Color3.fromRGB(50, 35, 25),
-			NotificationActionsBackground = Color3.fromRGB(245, 230, 215),
-
-			TabBackground = Color3.fromRGB(75, 50, 35),
-			TabStroke = Color3.fromRGB(90, 60, 45),
-			TabBackgroundSelected = Color3.fromRGB(230, 180, 100),
-			TabTextColor = Color3.fromRGB(250, 220, 200),
-			SelectedTabTextColor = Color3.fromRGB(50, 30, 10),
-
-			ElementBackground = Color3.fromRGB(60, 45, 35),
-			ElementBackgroundHover = Color3.fromRGB(70, 50, 40),
-			SecondaryElementBackground = Color3.fromRGB(55, 40, 30),
-			ElementStroke = Color3.fromRGB(85, 60, 45),
-			SecondaryElementStroke = Color3.fromRGB(75, 50, 35),
-
-			SliderBackground = Color3.fromRGB(220, 130, 60),
-			SliderProgress = Color3.fromRGB(250, 150, 75),
-			SliderStroke = Color3.fromRGB(255, 170, 85),
-
-			ToggleBackground = Color3.fromRGB(55, 40, 30),
-			ToggleEnabled = Color3.fromRGB(240, 130, 30),
-			ToggleDisabled = Color3.fromRGB(90, 70, 60),
-			ToggleEnabledStroke = Color3.fromRGB(255, 160, 50),
-			ToggleDisabledStroke = Color3.fromRGB(110, 85, 75),
-			ToggleEnabledOuterStroke = Color3.fromRGB(200, 100, 50),
-			ToggleDisabledOuterStroke = Color3.fromRGB(75, 60, 55),
-
-			DropdownSelected = Color3.fromRGB(70, 50, 40),
-			DropdownUnselected = Color3.fromRGB(55, 40, 30),
-
-			InputBackground = Color3.fromRGB(60, 45, 35),
-			InputStroke = Color3.fromRGB(90, 65, 50),
-			PlaceholderColor = Color3.fromRGB(190, 150, 130)
-		},
-
-		Light = {
-			TextColor = Color3.fromRGB(40, 40, 40),
-
-			Background = Color3.fromRGB(245, 245, 245),
-			Topbar = Color3.fromRGB(230, 230, 230),
-			Shadow = Color3.fromRGB(200, 200, 200),
-
-			NotificationBackground = Color3.fromRGB(250, 250, 250),
-			NotificationActionsBackground = Color3.fromRGB(240, 240, 240),
-
-			TabBackground = Color3.fromRGB(235, 235, 235),
-			TabStroke = Color3.fromRGB(215, 215, 215),
-			TabBackgroundSelected = Color3.fromRGB(255, 255, 255),
-			TabTextColor = Color3.fromRGB(80, 80, 80),
-			SelectedTabTextColor = Color3.fromRGB(0, 0, 0),
-
-			ElementBackground = Color3.fromRGB(240, 240, 240),
-			ElementBackgroundHover = Color3.fromRGB(225, 225, 225),
-			SecondaryElementBackground = Color3.fromRGB(235, 235, 235),
-			ElementStroke = Color3.fromRGB(210, 210, 210),
-			SecondaryElementStroke = Color3.fromRGB(210, 210, 210),
-
-			SliderBackground = Color3.fromRGB(150, 180, 220),
-			SliderProgress = Color3.fromRGB(100, 150, 200), 
-			SliderStroke = Color3.fromRGB(120, 170, 220),
-
-			ToggleBackground = Color3.fromRGB(220, 220, 220),
-			ToggleEnabled = Color3.fromRGB(0, 146, 214),
-			ToggleDisabled = Color3.fromRGB(150, 150, 150),
-			ToggleEnabledStroke = Color3.fromRGB(0, 170, 255),
-			ToggleDisabledStroke = Color3.fromRGB(170, 170, 170),
-			ToggleEnabledOuterStroke = Color3.fromRGB(100, 100, 100),
-			ToggleDisabledOuterStroke = Color3.fromRGB(180, 180, 180),
-
-			DropdownSelected = Color3.fromRGB(230, 230, 230),
-			DropdownUnselected = Color3.fromRGB(220, 220, 220),
-
-			InputBackground = Color3.fromRGB(240, 240, 240),
-			InputStroke = Color3.fromRGB(180, 180, 180),
-			PlaceholderColor = Color3.fromRGB(140, 140, 140)
-		},
-
-		Amethyst = {
-			TextColor = Color3.fromRGB(240, 240, 240),
-
-			Background = Color3.fromRGB(30, 20, 40),
-			Topbar = Color3.fromRGB(40, 25, 50),
-			Shadow = Color3.fromRGB(20, 15, 30),
-
-			NotificationBackground = Color3.fromRGB(35, 20, 40),
-			NotificationActionsBackground = Color3.fromRGB(240, 240, 250),
-
-			TabBackground = Color3.fromRGB(60, 40, 80),
-			TabStroke = Color3.fromRGB(70, 45, 90),
-			TabBackgroundSelected = Color3.fromRGB(180, 140, 200),
-			TabTextColor = Color3.fromRGB(230, 230, 240),
-			SelectedTabTextColor = Color3.fromRGB(50, 20, 50),
-
-			ElementBackground = Color3.fromRGB(45, 30, 60),
-			ElementBackgroundHover = Color3.fromRGB(50, 35, 70),
-			SecondaryElementBackground = Color3.fromRGB(40, 30, 55),
-			ElementStroke = Color3.fromRGB(70, 50, 85),
-			SecondaryElementStroke = Color3.fromRGB(65, 45, 80),
-
-			SliderBackground = Color3.fromRGB(100, 60, 150),
-			SliderProgress = Color3.fromRGB(130, 80, 180),
-			SliderStroke = Color3.fromRGB(150, 100, 200),
-
-			ToggleBackground = Color3.fromRGB(45, 30, 55),
-			ToggleEnabled = Color3.fromRGB(120, 60, 150),
-			ToggleDisabled = Color3.fromRGB(94, 47, 117),
-			ToggleEnabledStroke = Color3.fromRGB(140, 80, 170),
-			ToggleDisabledStroke = Color3.fromRGB(124, 71, 150),
-			ToggleEnabledOuterStroke = Color3.fromRGB(90, 40, 120),
-			ToggleDisabledOuterStroke = Color3.fromRGB(80, 50, 110),
-
-			DropdownSelected = Color3.fromRGB(50, 35, 70),
-			DropdownUnselected = Color3.fromRGB(35, 25, 50),
-
-			InputBackground = Color3.fromRGB(45, 30, 60),
-			InputStroke = Color3.fromRGB(80, 50, 110),
-			PlaceholderColor = Color3.fromRGB(178, 150, 200)
-		},
-
-		Green = {
-			TextColor = Color3.fromRGB(30, 60, 30),
-
-			Background = Color3.fromRGB(235, 245, 235),
-			Topbar = Color3.fromRGB(210, 230, 210),
-			Shadow = Color3.fromRGB(200, 220, 200),
-
-			NotificationBackground = Color3.fromRGB(240, 250, 240),
-			NotificationActionsBackground = Color3.fromRGB(220, 235, 220),
-
-			TabBackground = Color3.fromRGB(215, 235, 215),
-			TabStroke = Color3.fromRGB(190, 210, 190),
-			TabBackgroundSelected = Color3.fromRGB(245, 255, 245),
-			TabTextColor = Color3.fromRGB(50, 80, 50),
-			SelectedTabTextColor = Color3.fromRGB(20, 60, 20),
-
-			ElementBackground = Color3.fromRGB(225, 240, 225),
-			ElementBackgroundHover = Color3.fromRGB(210, 225, 210),
-			SecondaryElementBackground = Color3.fromRGB(235, 245, 235), 
-			ElementStroke = Color3.fromRGB(180, 200, 180),
-			SecondaryElementStroke = Color3.fromRGB(180, 200, 180),
-
-			SliderBackground = Color3.fromRGB(90, 160, 90),
-			SliderProgress = Color3.fromRGB(70, 130, 70),
-			SliderStroke = Color3.fromRGB(100, 180, 100),
-
-			ToggleBackground = Color3.fromRGB(215, 235, 215),
-			ToggleEnabled = Color3.fromRGB(60, 130, 60),
-			ToggleDisabled = Color3.fromRGB(150, 175, 150),
-			ToggleEnabledStroke = Color3.fromRGB(80, 150, 80),
-			ToggleDisabledStroke = Color3.fromRGB(130, 150, 130),
-			ToggleEnabledOuterStroke = Color3.fromRGB(100, 160, 100),
-			ToggleDisabledOuterStroke = Color3.fromRGB(160, 180, 160),
-
-			DropdownSelected = Color3.fromRGB(225, 240, 225),
-			DropdownUnselected = Color3.fromRGB(210, 225, 210),
-
-			InputBackground = Color3.fromRGB(235, 245, 235),
-			InputStroke = Color3.fromRGB(180, 200, 180),
-			PlaceholderColor = Color3.fromRGB(120, 140, 120)
-		},
-
-        Perfectus = {
+        PerfectusBlue = {
             TextColor = Color3.fromRGB(0, 0, 128),
         
             Background = Color3.fromRGB(0, 154, 205),
@@ -459,50 +250,7 @@ local RayfieldLibrary = {
             PlaceholderColor = Color3.fromRGB(99, 184, 255)
         },
 
-		
-Perfectus2 = {
-    TextColor = Color3.fromRGB(0, 0, 128),
-
-    Background = Color3.fromRGB(0, 154, 205),
-    Topbar = Color3.fromRGB(0, 191, 255),
-    Shadow = Color3.fromRGB(0, 134, 139), -- Mor rengi mavi ile değiştirdik
-
-    NotificationBackground = Color3.fromRGB(0, 134, 139), -- Mor rengi mavi ile değiştirdik
-    NotificationActionsBackground = Color3.fromRGB(151, 255, 255),
-
-    TabBackground = Color3.fromRGB(0, 0, 128),
-    TabStroke = Color3.fromRGB(0, 134, 139), -- Mor rengi mavi ile değiştirdik
-    TabBackgroundSelected = Color3.fromRGB(0, 0, 128),
-    TabTextColor = Color3.fromRGB(135, 206, 255),
-    SelectedTabTextColor = Color3.fromRGB(0, 191, 255),
-
-    ElementBackground = Color3.fromRGB(0, 191, 255),
-    ElementBackgroundHover = Color3.fromRGB(30, 144, 255),
-    SecondaryElementBackground = Color3.fromRGB(30, 144, 255),
-    ElementStroke = Color3.fromRGB(0, 134, 139),
-    SecondaryElementStroke = Color3.fromRGB(30, 144, 255),
-
-    SliderBackground = Color3.fromRGB(151, 255, 255),
-    SliderProgress = Color3.fromRGB(0, 0, 238),
-    SliderStroke = Color3.fromRGB(0, 0, 128),
-
-    ToggleBackground = Color3.fromRGB(99, 184, 255),
-    ToggleEnabled = Color3.fromRGB(0, 0, 128),
-    ToggleDisabled = Color3.fromRGB(30, 144, 255),
-    ToggleEnabledStroke = Color3.fromRGB(0, 134, 139),
-    ToggleDisabledStroke = Color3.fromRGB(0, 0, 128),
-    ToggleEnabledOuterStroke = Color3.fromRGB(30, 144, 255),
-    ToggleDisabledOuterStroke = Color3.fromRGB(0, 0, 128),
-
-    DropdownSelected = Color3.fromRGB(27, 139, 180),
-    DropdownUnselected = Color3.fromRGB(30, 144, 255),
-
-    InputBackground = Color3.fromRGB(30, 144, 255),
-    InputStroke = Color3.fromRGB(0, 0, 128),
-    PlaceholderColor = Color3.fromRGB(99, 184, 255)
-},
-
-Perfectus3 = {
+PerfectusDark = {
     TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
 
     Background = Color3.fromRGB(45, 45, 48), -- Koyu gri arka plan
@@ -544,7 +292,7 @@ Perfectus3 = {
     PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
 },
 
-Perfectus4 = {
+PerfectusLight = {
     TextColor = Color3.fromRGB(68, 70, 84), -- Koyu gri metin rengi
 
     Background = Color3.fromRGB(242, 243, 247), -- Açık gri arka plan
@@ -586,7 +334,7 @@ Perfectus4 = {
     PlaceholderColor = Color3.fromRGB(150, 150, 150) -- Orta gri placeholder rengi
 },
 
-Perfectus5 = {
+PerfectusOcean = {
     TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz metin rengi
 
     Background = Color3.fromRGB(37, 107, 143), -- Okyanus mavisi arka plan
@@ -627,130 +375,381 @@ Perfectus5 = {
     InputStroke = Color3.fromRGB(24, 90, 157), -- Koyu mavi input çerçevesi
     PlaceholderColor = Color3.fromRGB(208, 235, 255) -- Açık mavi placeholder rengi
 },
-		Bloom = {
-			TextColor = Color3.fromRGB(60, 40, 50),
 
-			Background = Color3.fromRGB(255, 240, 245),
-			Topbar = Color3.fromRGB(250, 220, 225),
-			Shadow = Color3.fromRGB(230, 190, 195),
+PerfectusPurple = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
 
-			NotificationBackground = Color3.fromRGB(255, 235, 240),
-			NotificationActionsBackground = Color3.fromRGB(245, 215, 225),
+    Background = Color3.fromRGB(45, 0, 45), -- Mor temalı koyu arka plan
+    Topbar = Color3.fromRGB(30, 0, 30), -- Daha koyu mor üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
 
-			TabBackground = Color3.fromRGB(240, 210, 220),
-			TabStroke = Color3.fromRGB(230, 200, 210),
-			TabBackgroundSelected = Color3.fromRGB(255, 225, 235),
-			TabTextColor = Color3.fromRGB(80, 40, 60),
-			SelectedTabTextColor = Color3.fromRGB(50, 30, 50),
+    NotificationBackground = Color3.fromRGB(45, 0, 45), -- Mor bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(60, 0, 60), -- Orta ton mor bildirim eylem arka planı
 
-			ElementBackground = Color3.fromRGB(255, 235, 240),
-			ElementBackgroundHover = Color3.fromRGB(245, 220, 230),
-			SecondaryElementBackground = Color3.fromRGB(255, 235, 240), 
-			ElementStroke = Color3.fromRGB(230, 200, 210),
-			SecondaryElementStroke = Color3.fromRGB(230, 200, 210),
+    TabBackground = Color3.fromRGB(60, 0, 60), -- Orta ton mor sekme arka planı
+    TabStroke = Color3.fromRGB(30, 0, 30), -- Daha koyu mor sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(128, 0, 128), -- Seçili sekmede canlı mor vurgu
+    TabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
 
-			SliderBackground = Color3.fromRGB(240, 130, 160),
-			SliderProgress = Color3.fromRGB(250, 160, 180),
-			SliderStroke = Color3.fromRGB(255, 180, 200),
+    ElementBackground = Color3.fromRGB(60, 0, 60), -- Orta ton mor element arka planı
+    ElementBackgroundHover = Color3.fromRGB(70, 0, 70), -- Hover durumunda biraz daha açık mor
+    SecondaryElementBackground = Color3.fromRGB(70, 0, 70), -- İkincil element arka planı
+    ElementStroke = Color3.fromRGB(30, 0, 30), -- Koyu mor element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(30, 0, 30), -- Koyu mor ikincil element çerçevesi
 
-			ToggleBackground = Color3.fromRGB(240, 210, 220),
-			ToggleEnabled = Color3.fromRGB(255, 140, 170),
-			ToggleDisabled = Color3.fromRGB(200, 180, 185),
-			ToggleEnabledStroke = Color3.fromRGB(250, 160, 190),
-			ToggleDisabledStroke = Color3.fromRGB(210, 180, 190),
-			ToggleEnabledOuterStroke = Color3.fromRGB(220, 160, 180),
-			ToggleDisabledOuterStroke = Color3.fromRGB(190, 170, 180),
+    SliderBackground = Color3.fromRGB(45, 0, 45), -- Mor slider arka planı
+    SliderProgress = Color3.fromRGB(128, 0, 128), -- Slider ilerlemesinde canlı mor
+    SliderStroke = Color3.fromRGB(30, 0, 30), -- Koyu mor slider çerçevesi
 
-			DropdownSelected = Color3.fromRGB(250, 220, 225),
-			DropdownUnselected = Color3.fromRGB(240, 210, 220),
+    ToggleBackground = Color3.fromRGB(60, 0, 60), -- Orta ton mor toggle arka planı
+    ToggleEnabled = Color3.fromRGB(128, 0, 128), -- Toggle etkinken mor vurgu
+    ToggleDisabled = Color3.fromRGB(70, 0, 70), -- Toggle devre dışı, daha açık mor
+    ToggleEnabledStroke = Color3.fromRGB(30, 0, 30), -- Koyu mor toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(30, 0, 30), -- Koyu mor toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(128, 0, 128), -- Toggle etkin dış çerçevesinde mor
+    ToggleDisabledOuterStroke = Color3.fromRGB(70, 0, 70), -- Toggle devre dışı dış çerçevesinde daha açık mor
 
-			InputBackground = Color3.fromRGB(255, 235, 240),
-			InputStroke = Color3.fromRGB(220, 190, 200),
-			PlaceholderColor = Color3.fromRGB(170, 130, 140)
-		},
+    DropdownSelected = Color3.fromRGB(128, 0, 128), -- Seçili dropdown'da mor vurgu
+    DropdownUnselected = Color3.fromRGB(60, 0, 60), -- Seçilmemiş dropdown için orta ton mor
 
-		DarkBlue = {
-			TextColor = Color3.fromRGB(230, 230, 230),
+    InputBackground = Color3.fromRGB(45, 0, 45), -- Mor input arka planı
+    InputStroke = Color3.fromRGB(30, 0, 30), -- Koyu mor input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
 
-			Background = Color3.fromRGB(20, 25, 30),
-			Topbar = Color3.fromRGB(30, 35, 40),
-			Shadow = Color3.fromRGB(15, 20, 25),
+PerfectusGreen = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
 
-			NotificationBackground = Color3.fromRGB(25, 30, 35),
-			NotificationActionsBackground = Color3.fromRGB(45, 50, 55),
+    Background = Color3.fromRGB(35, 45, 35), -- Yeşil temalı koyu arka plan
+    Topbar = Color3.fromRGB(25, 35, 25), -- Daha koyu yeşil üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
 
-			TabBackground = Color3.fromRGB(35, 40, 45),
-			TabStroke = Color3.fromRGB(45, 50, 60),
-			TabBackgroundSelected = Color3.fromRGB(40, 70, 100),
-			TabTextColor = Color3.fromRGB(200, 200, 200),
-			SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+    NotificationBackground = Color3.fromRGB(35, 45, 35), -- Yeşil bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(55, 65, 55), -- Orta ton yeşil bildirim eylem arka planı
 
-			ElementBackground = Color3.fromRGB(30, 35, 40),
-			ElementBackgroundHover = Color3.fromRGB(40, 45, 50),
-			SecondaryElementBackground = Color3.fromRGB(35, 40, 45), 
-			ElementStroke = Color3.fromRGB(45, 50, 60),
-			SecondaryElementStroke = Color3.fromRGB(40, 45, 55),
+    TabBackground = Color3.fromRGB(55, 65, 55), -- Orta ton yeşil sekme arka planı
+    TabStroke = Color3.fromRGB(25, 35, 25), -- Daha koyu yeşil sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(0, 150, 0), -- Seçili sekmede canlı yeşil vurgu
+    TabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
 
-			SliderBackground = Color3.fromRGB(0, 90, 180),
-			SliderProgress = Color3.fromRGB(0, 120, 210),
-			SliderStroke = Color3.fromRGB(0, 150, 240),
+    ElementBackground = Color3.fromRGB(55, 65, 55), -- Orta ton yeşil element arka planı
+    ElementBackgroundHover = Color3.fromRGB(65, 75, 65), -- Hover durumunda biraz daha açık yeşil
+    SecondaryElementBackground = Color3.fromRGB(65, 75, 65), -- İkincil element arka planı
+    ElementStroke = Color3.fromRGB(25, 35, 25), -- Koyu yeşil element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(25, 35, 25), -- Koyu yeşil ikincil element çerçevesi
 
-			ToggleBackground = Color3.fromRGB(35, 40, 45),
-			ToggleEnabled = Color3.fromRGB(0, 120, 210),
-			ToggleDisabled = Color3.fromRGB(70, 70, 80),
-			ToggleEnabledStroke = Color3.fromRGB(0, 150, 240),
-			ToggleDisabledStroke = Color3.fromRGB(75, 75, 85),
-			ToggleEnabledOuterStroke = Color3.fromRGB(20, 100, 180), 
-			ToggleDisabledOuterStroke = Color3.fromRGB(55, 55, 65),
+    SliderBackground = Color3.fromRGB(35, 45, 35), -- Yeşil slider arka planı
+    SliderProgress = Color3.fromRGB(0, 150, 0), -- Slider ilerlemesinde canlı yeşil
+    SliderStroke = Color3.fromRGB(25, 35, 25), -- Koyu yeşil slider çerçevesi
 
-			DropdownSelected = Color3.fromRGB(30, 70, 90),
-			DropdownUnselected = Color3.fromRGB(25, 30, 35),
+    ToggleBackground = Color3.fromRGB(55, 65, 55), -- Orta ton yeşil toggle arka planı
+    ToggleEnabled = Color3.fromRGB(0, 150, 0), -- Toggle etkinken yeşil vurgu
+    ToggleDisabled = Color3.fromRGB(65, 75, 65), -- Toggle devre dışı, biraz daha açık yeşil
+    ToggleEnabledStroke = Color3.fromRGB(25, 35, 25), -- Koyu yeşil toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(25, 35, 25), -- Koyu yeşil toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(0, 150, 0), -- Toggle etkin dış çerçevesinde yeşil
+    ToggleDisabledOuterStroke = Color3.fromRGB(65, 75, 65), -- Toggle devre dışı dış çerçevesinde daha açık yeşil
 
-			InputBackground = Color3.fromRGB(25, 30, 35),
-			InputStroke = Color3.fromRGB(45, 50, 60), 
-			PlaceholderColor = Color3.fromRGB(150, 150, 160)
-		},
+    DropdownSelected = Color3.fromRGB(0, 150, 0), -- Seçili dropdown'da yeşil vurgu
+    DropdownUnselected = Color3.fromRGB(55, 65, 55), -- Seçilmemiş dropdown için orta ton yeşil
 
-		Serenity = {
-			TextColor = Color3.fromRGB(50, 55, 60),
-			Background = Color3.fromRGB(240, 245, 250),
-			Topbar = Color3.fromRGB(215, 225, 235),
-			Shadow = Color3.fromRGB(200, 210, 220),
+    InputBackground = Color3.fromRGB(35, 45, 35), -- Yeşil input arka planı
+    InputStroke = Color3.fromRGB(25, 35, 25), -- Koyu yeşil input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
 
-			NotificationBackground = Color3.fromRGB(210, 220, 230),
-			NotificationActionsBackground = Color3.fromRGB(225, 230, 240),
+PerfectusOrange = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
 
-			TabBackground = Color3.fromRGB(200, 210, 220),
-			TabStroke = Color3.fromRGB(180, 190, 200),
-			TabBackgroundSelected = Color3.fromRGB(175, 185, 200),
-			TabTextColor = Color3.fromRGB(50, 55, 60),
-			SelectedTabTextColor = Color3.fromRGB(30, 35, 40),
+    Background = Color3.fromRGB(50, 30, 20), -- Turuncu temalı koyu arka plan
+    Topbar = Color3.fromRGB(30, 20, 15), -- Daha koyu turuncu üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
 
-			ElementBackground = Color3.fromRGB(210, 220, 230),
-			ElementBackgroundHover = Color3.fromRGB(220, 230, 240),
-			SecondaryElementBackground = Color3.fromRGB(200, 210, 220),
-			ElementStroke = Color3.fromRGB(190, 200, 210),
-			SecondaryElementStroke = Color3.fromRGB(180, 190, 200),
+    NotificationBackground = Color3.fromRGB(50, 30, 20), -- Turuncu bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(65, 45, 35), -- Orta ton turuncu bildirim eylem arka planı
 
-			SliderBackground = Color3.fromRGB(200, 220, 235),  -- Lighter shade
-			SliderProgress = Color3.fromRGB(70, 130, 180),
-			SliderStroke = Color3.fromRGB(150, 180, 220),
+    TabBackground = Color3.fromRGB(65, 45, 35), -- Orta ton turuncu sekme arka planı
+    TabStroke = Color3.fromRGB(30, 20, 15), -- Daha koyu turuncu sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(255, 140, 0), -- Seçili sekmede canlı turuncu vurgu
+    TabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
 
-			ToggleBackground = Color3.fromRGB(210, 220, 230),
-			ToggleEnabled = Color3.fromRGB(70, 160, 210),
-			ToggleDisabled = Color3.fromRGB(180, 180, 180),
-			ToggleEnabledStroke = Color3.fromRGB(60, 150, 200),
-			ToggleDisabledStroke = Color3.fromRGB(140, 140, 140),
-			ToggleEnabledOuterStroke = Color3.fromRGB(100, 120, 140),
-			ToggleDisabledOuterStroke = Color3.fromRGB(120, 120, 130),
+    ElementBackground = Color3.fromRGB(65, 45, 35), -- Orta ton turuncu element arka planı
+    ElementBackgroundHover = Color3.fromRGB(75, 55, 45), -- Hover durumunda biraz daha açık turuncu
+    SecondaryElementBackground = Color3.fromRGB(75, 55, 45), -- İkincil element arka planı
+    ElementStroke = Color3.fromRGB(30, 20, 15), -- Koyu turuncu element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(30, 20, 15), -- Koyu turuncu ikincil element çerçevesi
 
-			DropdownSelected = Color3.fromRGB(220, 230, 240),
-			DropdownUnselected = Color3.fromRGB(200, 210, 220),
+    SliderBackground = Color3.fromRGB(50, 30, 20), -- Turuncu slider arka planı
+    SliderProgress = Color3.fromRGB(255, 140, 0), -- Slider ilerlemesinde canlı turuncu
+    SliderStroke = Color3.fromRGB(30, 20, 15), -- Koyu turuncu slider çerçevesi
 
-			InputBackground = Color3.fromRGB(220, 230, 240),
-			InputStroke = Color3.fromRGB(180, 190, 200),
-			PlaceholderColor = Color3.fromRGB(150, 150, 150)
-		},
+    ToggleBackground = Color3.fromRGB(65, 45, 35), -- Orta ton turuncu toggle arka planı
+    ToggleEnabled = Color3.fromRGB(255, 140, 0), -- Toggle etkinken turuncu vurgu
+    ToggleDisabled = Color3.fromRGB(75, 55, 45), -- Toggle devre dışı, biraz daha açık turuncu
+    ToggleEnabledStroke = Color3.fromRGB(30, 20, 15), -- Koyu turuncu toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(30, 20, 15), -- Koyu turuncu toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(255, 140, 0), -- Toggle etkin dış çerçevesinde turuncu
+    ToggleDisabledOuterStroke = Color3.fromRGB(75, 55, 45), -- Toggle devre dışı dış çerçevesinde daha açık turuncu
+
+    DropdownSelected = Color3.fromRGB(255, 140, 0), -- Seçili dropdown'da turuncu vurgu
+    DropdownUnselected = Color3.fromRGB(65, 45, 35), -- Seçilmemiş dropdown için orta ton turuncu
+
+    InputBackground = Color3.fromRGB(50, 30, 20), -- Turuncu input arka planı
+    InputStroke = Color3.fromRGB(30, 20, 15), -- Koyu turuncu input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
+
+PerfectusRed = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
+
+    Background = Color3.fromRGB(50, 0, 0), -- Koyu kırmızı arka plan
+    Topbar = Color3.fromRGB(30, 0, 0), -- Daha koyu kırmızı üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
+
+    NotificationBackground = Color3.fromRGB(50, 0, 0), -- Koyu kırmızı bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(80, 0, 0), -- Orta ton kırmızı bildirim eylem arka planı
+
+    TabBackground = Color3.fromRGB(80, 0, 0), -- Orta ton kırmızı sekme arka planı
+    TabStroke = Color3.fromRGB(30, 0, 0), -- Daha koyu kırmızı sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(200, 0, 0), -- Seçili sekmede parlak kırmızı vurgu
+    TabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
+
+    ElementBackground = Color3.fromRGB(80, 0, 0), -- Orta ton kırmızı element arka planı
+    ElementBackgroundHover = Color3.fromRGB(100, 0, 0), -- Hover durumunda biraz daha açık kırmızı
+    SecondaryElementBackground = Color3.fromRGB(100, 0, 0), -- İkincil element arka planı
+    ElementStroke = Color3.fromRGB(30, 0, 0), -- Koyu kırmızı element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(30, 0, 0), -- Koyu kırmızı ikincil element çerçevesi
+
+    SliderBackground = Color3.fromRGB(50, 0, 0), -- Koyu kırmızı slider arka planı
+    SliderProgress = Color3.fromRGB(200, 0, 0), -- Parlak kırmızı slider ilerleme rengi
+    SliderStroke = Color3.fromRGB(30, 0, 0), -- Koyu kırmızı slider çerçevesi
+
+    ToggleBackground = Color3.fromRGB(80, 0, 0), -- Orta ton kırmızı toggle arka planı
+    ToggleEnabled = Color3.fromRGB(200, 0, 0), -- Toggle etkinken parlak kırmızı vurgu
+    ToggleDisabled = Color3.fromRGB(100, 0, 0), -- Toggle devre dışı, biraz daha açık kırmızı
+    ToggleEnabledStroke = Color3.fromRGB(30, 0, 0), -- Koyu kırmızı toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(30, 0, 0), -- Koyu kırmızı toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(200, 0, 0), -- Toggle etkin dış çerçevesinde parlak kırmızı
+    ToggleDisabledOuterStroke = Color3.fromRGB(100, 0, 0), -- Toggle devre dışı dış çerçevesinde daha açık kırmızı
+
+    DropdownSelected = Color3.fromRGB(200, 0, 0), -- Seçili dropdown'da kırmızı vurgu
+    DropdownUnselected = Color3.fromRGB(80, 0, 0), -- Seçilmemiş dropdown için orta ton kırmızı
+
+    InputBackground = Color3.fromRGB(50, 0, 0), -- Koyu kırmızı input arka planı
+    InputStroke = Color3.fromRGB(30, 0, 0), -- Koyu kırmızı input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
+
+PerfectusCrimson = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Beyaz yazı rengi
+
+    Background = Color3.fromRGB(20, 20, 20), -- Siyah ağırlıklı koyu arka plan
+    Topbar = Color3.fromRGB(15, 15, 15), -- Daha koyu siyah üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
+
+    NotificationBackground = Color3.fromRGB(30, 10, 10), -- Hafif kırmızı dokunuşlu koyu siyah bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(80, 0, 0), -- Daha belirgin kırmızı bildirim eylem arka planı
+
+    TabBackground = Color3.fromRGB(40, 20, 20), -- Kırmızı-siyah karışımı sekme arka planı
+    TabStroke = Color3.fromRGB(15, 15, 15), -- Daha koyu sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(180, 0, 0), -- Seçili sekmede parlak kırmızı vurgu
+    TabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255), -- Beyaz seçili sekme yazı rengi
+
+    ElementBackground = Color3.fromRGB(40, 20, 20), -- Kırmızı-siyah karışımı element arka planı
+    ElementBackgroundHover = Color3.fromRGB(60, 30, 30), -- Hover durumunda biraz daha kırmızı
+    SecondaryElementBackground = Color3.fromRGB(60, 30, 30), -- İkincil element arka planı
+    ElementStroke = Color3.fromRGB(15, 15, 15), -- Siyah element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(15, 15, 15), -- Siyah ikincil element çerçevesi
+
+    SliderBackground = Color3.fromRGB(30, 10, 10), -- Hafif kırmızı dokunuşlu siyah slider arka planı
+    SliderProgress = Color3.fromRGB(180, 0, 0), -- Parlak kırmızı slider ilerleme rengi
+    SliderStroke = Color3.fromRGB(15, 15, 15), -- Siyah slider çerçevesi
+
+    ToggleBackground = Color3.fromRGB(40, 20, 20), -- Kırmızı-siyah karışımı toggle arka planı
+    ToggleEnabled = Color3.fromRGB(180, 0, 0), -- Toggle etkinken parlak kırmızı vurgu
+    ToggleDisabled = Color3.fromRGB(60, 30, 30), -- Toggle devre dışı, daha hafif kırmızı
+    ToggleEnabledStroke = Color3.fromRGB(15, 15, 15), -- Siyah toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(15, 15, 15), -- Siyah toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(180, 0, 0), -- Toggle etkin dış çerçevesinde kırmızı
+    ToggleDisabledOuterStroke = Color3.fromRGB(60, 30, 30), -- Toggle devre dışı dış çerçevesinde daha açık kırmızı
+
+    DropdownSelected = Color3.fromRGB(180, 0, 0), -- Seçili dropdown'da kırmızı vurgu
+    DropdownUnselected = Color3.fromRGB(40, 20, 20), -- Seçilmemiş dropdown için kırmızı-siyah karışımı
+
+    InputBackground = Color3.fromRGB(30, 10, 10), -- Hafif kırmızı dokunuşlu siyah input arka planı
+    InputStroke = Color3.fromRGB(15, 15, 15), -- Siyah input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
+
+PerfectusYellow = {
+    TextColor = Color3.fromRGB(0, 0, 0), -- Siyah yazı rengi
+
+    Background = Color3.fromRGB(45, 45, 10), -- Koyu sarımsı gri arka plan
+    Topbar = Color3.fromRGB(35, 35, 8), -- Daha koyu sarımsı üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Siyah gölge
+
+    NotificationBackground = Color3.fromRGB(50, 50, 15), -- Koyu sarı bildirim arka planı
+    NotificationActionsBackground = Color3.fromRGB(100, 85, 10), -- Orta ton altın sarısı bildirim eylem arka planı
+
+    TabBackground = Color3.fromRGB(100, 85, 10), -- Orta ton altın sarısı sekme arka planı
+    TabStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarımsı sekme çerçevesi
+    TabBackgroundSelected = Color3.fromRGB(255, 215, 0), -- Parlak altın sarısı seçili sekme arka planı
+    TabTextColor = Color3.fromRGB(0, 0, 0), -- Siyah sekme yazı rengi
+    SelectedTabTextColor = Color3.fromRGB(0, 0, 0), -- Siyah seçili sekme yazı rengi
+
+    ElementBackground = Color3.fromRGB(100, 85, 10), -- Orta ton altın sarısı element arka planı
+    ElementBackgroundHover = Color3.fromRGB(120, 100, 20), -- Hover durumunda daha parlak sarı
+    SecondaryElementBackground = Color3.fromRGB(120, 100, 20), -- İkincil element arka planı
+    ElementStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarı element çerçevesi
+    SecondaryElementStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarı ikincil element çerçevesi
+
+    SliderBackground = Color3.fromRGB(50, 50, 15), -- Koyu sarı slider arka planı
+    SliderProgress = Color3.fromRGB(255, 215, 0), -- Parlak altın sarısı slider ilerleme rengi
+    SliderStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarı slider çerçevesi
+
+    ToggleBackground = Color3.fromRGB(100, 85, 10), -- Orta ton altın sarısı toggle arka planı
+    ToggleEnabled = Color3.fromRGB(255, 215, 0), -- Parlak altın sarısı toggle etkin rengi
+    ToggleDisabled = Color3.fromRGB(120, 100, 20), -- Daha hafif sarı toggle devre dışı rengi
+    ToggleEnabledStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarı toggle etkin çerçevesi
+    ToggleDisabledStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarı toggle devre dışı çerçevesi
+    ToggleEnabledOuterStroke = Color3.fromRGB(255, 215, 0), -- Parlak altın sarısı toggle etkin dış çerçevesi
+    ToggleDisabledOuterStroke = Color3.fromRGB(120, 100, 20), -- Daha hafif sarı toggle devre dışı dış çerçevesi
+
+    DropdownSelected = Color3.fromRGB(255, 215, 0), -- Parlak altın sarısı seçili dropdown rengi
+    DropdownUnselected = Color3.fromRGB(100, 85, 10), -- Orta ton altın sarısı dropdown seçilmemiş rengi
+
+    InputBackground = Color3.fromRGB(50, 50, 15), -- Koyu sarı input arka planı
+    InputStroke = Color3.fromRGB(35, 35, 8), -- Daha koyu sarı input çerçevesi
+    PlaceholderColor = Color3.fromRGB(127, 127, 127) -- Gri placeholder rengi
+},
+
+CyberTechStil = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Net beyaz yazı
+    Background = Color3.fromRGB(20, 20, 20), -- Derin koyu gri zemin
+    Topbar = Color3.fromRGB(30, 30, 30), -- Hafif daha açık üst bar
+    Shadow = Color3.fromRGB(0, 0, 0), -- Belirgin siyah gölge
+
+    NotificationBackground = Color3.fromRGB(25, 25, 25), -- Minimal farkla koyu bildirim alanı
+    NotificationActionsBackground = Color3.fromRGB(35, 35, 35), -- Neon vurguyu destekleyen alt ton
+
+    TabBackground = Color3.fromRGB(35, 35, 35), -- Dengeleyici sekme zemin rengi
+    TabStroke = Color3.fromRGB(30, 30, 30), -- İnce siyah çerçeve
+    TabBackgroundSelected = Color3.fromRGB(0, 200, 255), -- Neon mavi seçili sekme vurgusu
+    TabTextColor = Color3.fromRGB(255, 255, 255),
+    SelectedTabTextColor = Color3.fromRGB(255, 255, 255),
+
+    ElementBackground = Color3.fromRGB(35, 35, 35),
+    ElementBackgroundHover = Color3.fromRGB(45, 45, 45), -- Hover durumunda hafif aydınlanma
+    SecondaryElementBackground = Color3.fromRGB(45, 45, 45),
+    ElementStroke = Color3.fromRGB(30, 30, 30),
+    SecondaryElementStroke = Color3.fromRGB(30, 30, 30),
+
+    SliderBackground = Color3.fromRGB(25, 25, 25),
+    SliderProgress = Color3.fromRGB(0, 200, 255),
+    SliderStroke = Color3.fromRGB(30, 30, 30),
+
+    ToggleBackground = Color3.fromRGB(35, 35, 35),
+    ToggleEnabled = Color3.fromRGB(0, 200, 255),
+    ToggleDisabled = Color3.fromRGB(45, 45, 45),
+    ToggleEnabledStroke = Color3.fromRGB(30, 30, 30),
+    ToggleDisabledStroke = Color3.fromRGB(30, 30, 30),
+    ToggleEnabledOuterStroke = Color3.fromRGB(0, 200, 255),
+    ToggleDisabledOuterStroke = Color3.fromRGB(45, 45, 45),
+
+    DropdownSelected = Color3.fromRGB(0, 200, 255),
+    DropdownUnselected = Color3.fromRGB(35, 35, 35),
+
+    InputBackground = Color3.fromRGB(25, 25, 25),
+    InputStroke = Color3.fromRGB(30, 30, 30),
+    PlaceholderColor = Color3.fromRGB(120, 120, 120)
+},
+
+PastelDream = {
+    TextColor = Color3.fromRGB(30, 30, 30), -- Koyu metin rengi, net okunabilirlik için
+    Background = Color3.fromRGB(245, 245, 245), -- Neredeyse beyaz, pastel tonlu arka plan
+    Topbar = Color3.fromRGB(225, 225, 225), -- Hafif gölgeli üst bar
+    Shadow = Color3.fromRGB(200, 200, 200), -- Yumuşak gölge efekti
+
+    NotificationBackground = Color3.fromRGB(230, 230, 230),
+    NotificationActionsBackground = Color3.fromRGB(210, 210, 210),
+
+    TabBackground = Color3.fromRGB(240, 240, 240),
+    TabStroke = Color3.fromRGB(200, 200, 200),
+    TabBackgroundSelected = Color3.fromRGB(150, 200, 255), -- Pastel mavi seçili vurgu
+    TabTextColor = Color3.fromRGB(30, 30, 30),
+    SelectedTabTextColor = Color3.fromRGB(30, 30, 30),
+
+    ElementBackground = Color3.fromRGB(240, 240, 240),
+    ElementBackgroundHover = Color3.fromRGB(250, 250, 250),
+    SecondaryElementBackground = Color3.fromRGB(250, 250, 250),
+    ElementStroke = Color3.fromRGB(200, 200, 200),
+    SecondaryElementStroke = Color3.fromRGB(200, 200, 200),
+
+    SliderBackground = Color3.fromRGB(230, 230, 230),
+    SliderProgress = Color3.fromRGB(150, 200, 255),
+    SliderStroke = Color3.fromRGB(200, 200, 200),
+
+    ToggleBackground = Color3.fromRGB(240, 240, 240),
+    ToggleEnabled = Color3.fromRGB(150, 200, 255),
+    ToggleDisabled = Color3.fromRGB(250, 250, 250),
+    ToggleEnabledStroke = Color3.fromRGB(200, 200, 200),
+    ToggleDisabledStroke = Color3.fromRGB(200, 200, 200),
+    ToggleEnabledOuterStroke = Color3.fromRGB(150, 200, 255),
+    ToggleDisabledOuterStroke = Color3.fromRGB(250, 250, 250),
+
+    DropdownSelected = Color3.fromRGB(150, 200, 255),
+    DropdownUnselected = Color3.fromRGB(240, 240, 240),
+
+    InputBackground = Color3.fromRGB(230, 230, 230),
+    InputStroke = Color3.fromRGB(200, 200, 200),
+    PlaceholderColor = Color3.fromRGB(180, 180, 180)
+},
+
+ElegantLuxe = {
+    TextColor = Color3.fromRGB(255, 255, 255), -- Parlak beyaz metin
+    Background = Color3.fromRGB(15, 30, 60), -- Derin lacivert zemin
+    Topbar = Color3.fromRGB(25, 50, 100), -- Hafif aydınlatılmış üst bar
+    Shadow = Color3.fromRGB(0, 0, 0),
+
+    NotificationBackground = Color3.fromRGB(20, 40, 80),
+    NotificationActionsBackground = Color3.fromRGB(30, 60, 120),
+
+    TabBackground = Color3.fromRGB(25, 40, 70),
+    TabStroke = Color3.fromRGB(20, 30, 50),
+    TabBackgroundSelected = Color3.fromRGB(255, 215, 0), -- Canlı altın vurgusu
+    TabTextColor = Color3.fromRGB(255, 255, 255),
+    SelectedTabTextColor = Color3.fromRGB(0, 0, 0), -- Altın üzerinde kontrast için koyu metin
+
+    ElementBackground = Color3.fromRGB(25, 40, 70),
+    ElementBackgroundHover = Color3.fromRGB(35, 50, 90),
+    SecondaryElementBackground = Color3.fromRGB(35, 50, 90),
+    ElementStroke = Color3.fromRGB(20, 30, 50),
+    SecondaryElementStroke = Color3.fromRGB(20, 30, 50),
+
+    SliderBackground = Color3.fromRGB(20, 40, 70),
+    SliderProgress = Color3.fromRGB(255, 215, 0),
+    SliderStroke = Color3.fromRGB(20, 30, 50),
+
+    ToggleBackground = Color3.fromRGB(25, 40, 70),
+    ToggleEnabled = Color3.fromRGB(255, 215, 0),
+    ToggleDisabled = Color3.fromRGB(35, 50, 90),
+    ToggleEnabledStroke = Color3.fromRGB(20, 30, 50),
+    ToggleDisabledStroke = Color3.fromRGB(20, 30, 50),
+    ToggleEnabledOuterStroke = Color3.fromRGB(255, 215, 0),
+    ToggleDisabledOuterStroke = Color3.fromRGB(35, 50, 90),
+
+    DropdownSelected = Color3.fromRGB(255, 215, 0),
+    DropdownUnselected = Color3.fromRGB(25, 40, 70),
+
+    InputBackground = Color3.fromRGB(20, 40, 70),
+    InputStroke = Color3.fromRGB(20, 30, 50),
+    PlaceholderColor = Color3.fromRGB(180, 180, 180)
+},
 	}
 }
 
