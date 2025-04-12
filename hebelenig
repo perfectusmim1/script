@@ -1,0 +1,213 @@
+local Library = loadstring(game:HttpGet("https://github.com/1dontgiveaf/Fluent/releases/latest/download/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/1dontgiveaf/Fluent/main/Addons/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/1dontgiveaf/Fluent/main/Addons/InterfaceManager.lua"))()
+
+
+local Window = Fluent:CreateWindow({
+    Title = "I am monkey",
+    SubTitle = "by nigga",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(450, 350),
+    Acrylic = false,
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" })
+}
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local backpack = player:WaitForChild("Backpack")
+local remote = game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Plant_RE")
+
+local autoCollect, autoSell, autoBuySeeds, autoPlant, autoWalkToPlant = false, false, false, false, false
+local walkSpeed = 30
+
+local function getOwnedPlot()
+    for _, plot in pairs(workspace.Farm:GetChildren()) do
+        local important = plot:FindFirstChild("Important") or plot:FindFirstChild("Importanert")
+        if important then
+            local data = important:FindFirstChild("Data")
+            if data and data:FindFirstChild("Owner") and data.Owner.Value == player.Name then
+                return plot
+            end
+        end
+    end
+    return nil
+end
+
+task.spawn(function()
+    while task.wait(0.1) do
+        if autoCollect then
+            local plot = getOwnedPlot()
+            local farm = plot and plot:FindFirstChild("Important"):FindFirstChild("Plants_Physical")
+            if farm then
+                for _, prompt in ipairs(farm:GetDescendants()) do
+                    if prompt:IsA("ProximityPrompt") then
+                        local playerRoot = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                        if playerRoot then
+                            local dist = (playerRoot.Position - prompt.Parent.Position).Magnitude
+                            if dist <= 20 then
+                                prompt.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
+                                prompt.MaxActivationDistance = 100
+                                prompt.RequiresLineOfSight = false
+                                prompt.Enabled = true
+                                fireproximityprompt(prompt, 1, true)
+                            elseif autoWalkToPlant then
+                                -- Make the player walk to the plant if it's farther than 20 studs
+                                local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
+                                if humanoid then
+                                    humanoid:MoveTo(prompt.Parent.Position + Vector3.new(0, 5, 0)) -- slight offset to stand near
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait() do
+        if autoSell then
+            local shopStand = workspace.NPCS["Sell Stands"]["Shop Stand"]
+            if shopStand then
+                local character = player.Character or player.CharacterAdded:Wait()
+                local root = character:WaitForChild("HumanoidRootPart")
+                task.wait(0.5)
+                root.CFrame = shopStand.CFrame * CFrame.new(0, 0, 3)
+                task.wait(0.5)
+                game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Inventory"):FireServer()
+                task.wait(0.5)
+                root.CFrame = CFrame.new(27.028656, 4.61500359, -81.4960098, 0.801240802, -3.3885601e-09, -0.598342061, -3.22234683e-10, 1, -6.09475403e-09, 0.598342061, 5.07617193e-09, 0.801240802)
+            end
+        end
+    end
+end)
+
+local function autoBuySeedsFunction()
+    local shopUI = player:WaitForChild("PlayerGui"):WaitForChild("Seed_Shop")
+    local scroll = shopUI.Frame.ScrollingFrame
+    for _, item in pairs(scroll:GetChildren()) do
+        local stock = item:FindFirstChild("Stock")
+        if stock and stock:IsA("NumberValue") and stock.Value > 0 then
+            ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(item.Name)
+        end
+    end
+end
+
+task.spawn(function()
+    while task.wait(0.1) do
+        if autoBuySeeds then
+            autoBuySeedsFunction()
+        end
+    end
+end)
+
+local function findSeedTool()
+    for _, item in ipairs(player.Character:GetChildren()) do
+        if item:IsA("Tool") and item.Name:find("Seed") then
+            local crop = item.Name:match("^(.-) Seed")
+            return item, crop
+        end
+    end
+
+    for _, item in ipairs(backpack:GetChildren()) do
+        if item:IsA("Tool") and item.Name:find("Seed") then
+            local crop = item.Name:match("^(.-) Seed")
+            return item, crop
+        end
+    end
+
+    return nil, nil
+end
+
+task.spawn(function()
+    while task.wait(0.1) do
+        if autoPlant then
+            local character = player.Character or player.CharacterAdded:Wait()
+            local root = character:WaitForChild("HumanoidRootPart")
+
+            local pos = Vector3.new(math.floor(root.Position.X), 0.1, math.floor(root.Position.Z))
+            local tool, seedType = findSeedTool()
+
+            if tool and seedType then
+                if tool.Parent == backpack then
+                    character:WaitForChild("Humanoid"):EquipTool(tool)
+                    repeat task.wait() until tool.Parent == character
+                end
+                remote:FireServer(pos, seedType)
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while task.wait(0.1) do
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = walkSpeed
+        end
+    end
+end)
+
+local Toggle = Tabs.Main:AddToggle(
+    "AutoCollectToggle",
+    {
+        Title = "Auto Collect",
+        Default = false,
+        Callback = function(state)
+            autoCollect = state
+        end
+    }
+)
+
+local Toggle = Tabs.Main:AddToggle(
+    "AutoWalkToPlantToggle",
+    {
+        Title = "Auto Walk To Plant",
+        Default = false,
+        Callback = function(state)
+            autoWalkToPlant = state
+        end
+    }
+)
+
+local Toggle = Tabs.Main:AddToggle(
+    "AutoSellToggle",
+    {
+        Title = "Auto Sell",
+        Default = false,
+        Callback = function(state)
+            autoSell = state
+        end
+    }
+)
+
+local Toggle = Tabs.Main:AddToggle(
+    "AutoBuySeedsToggle",
+    {
+        Title = "Auto Buy Seeds",
+        Default = false,
+        Callback = function(state)
+            autoBuySeeds = state
+        end
+    }
+)
+
+local Toggle = Tabs.Main:AddToggle(
+    "AutoPlantToggle",
+    {
+        Title = "Auto Plant",
+        Default = false,
+        Callback = function(state)
+            autoPlant = state
+        end
+    }
+)
