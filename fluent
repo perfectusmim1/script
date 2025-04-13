@@ -19,7 +19,12 @@ local Themes = {
 		"Aqua",
 		"Amethyst",
 		"Rose",
-		"Sakura"
+		"Sakura",
+		"Sunset",
+		"Ocean",
+		"Forest",
+		"Volcanic",
+		"Cosmic"
 	},
 	Dark = {
 		Name = "Dark",
@@ -344,8 +349,143 @@ local Themes = {
 		SubText = Color3.fromRGB(220, 220, 220),
 		Hover = Color3.fromRGB(200, 120, 170),
 		HoverChange = 0.04,
+	},
+	Sunset = {
+		Name = "Sunset",
+		Accent = Color3.fromRGB(255, 128, 0),
+
+		AcrylicMain = Color3.fromRGB(40, 20, 15),
+		AcrylicBorder = Color3.fromRGB(80, 40, 30), 
+		AcrylicGradient = ColorSequence.new{
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 153, 51)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 102, 0)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(204, 51, 0))
+		},
+		AcrylicNoise = 0.87,
+
+		TitleBarLine = Color3.fromRGB(102, 51, 0),
+		Tab = Color3.fromRGB(255, 153, 51),
+
+		Element = Color3.fromRGB(255, 140, 26),
+		ElementBorder = Color3.fromRGB(153, 76, 0),
+		InElementBorder = Color3.fromRGB(255, 128, 0),
+		ElementTransparency = 0.84,
+
+		Text = Color3.fromRGB(255, 255, 255),
+		SubText = Color3.fromRGB(255, 179, 102),
+		Hover = Color3.fromRGB(255, 153, 51),
+		HoverChange = 0.04
+	},
+
+	Ocean = {
+		Name = "Ocean",
+		Accent = Color3.fromRGB(0, 153, 255),
+
+		AcrylicMain = Color3.fromRGB(15, 25, 35),
+		AcrylicBorder = Color3.fromRGB(30, 50, 70),
+		AcrylicGradient = ColorSequence.new{
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 40, 80)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(10, 30, 60)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(5, 15, 40))
+		},
+		AcrylicNoise = 0.92,
+
+		TitleBarLine = Color3.fromRGB(0, 102, 204),
+		Tab = Color3.fromRGB(51, 153, 255),
+
+		Element = Color3.fromRGB(26, 140, 255),
+		ElementBorder = Color3.fromRGB(0, 76, 153),
+		InElementBorder = Color3.fromRGB(0, 128, 255),
+		ElementTransparency = 0.86,
+
+		Text = Color3.fromRGB(230, 255, 255),
+		SubText = Color3.fromRGB(179, 230, 255),
+		Hover = Color3.fromRGB(51, 153, 255),
+		HoverChange = 0.04
+	},
+
+	Forest = {
+		Name = "Forest", 
+		Accent = Color3.fromRGB(40, 180, 99),
+
+		AcrylicMain = Color3.fromRGB(20, 30, 20),
+		AcrylicBorder = Color3.fromRGB(40, 60, 40),
+		AcrylicGradient = ColorSequence.new{
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 80, 40)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(20, 60, 30)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 40, 20))
+		},
+		AcrylicNoise = 0.90,
+
+		TitleBarLine = Color3.fromRGB(40, 100, 50),
+		Tab = Color3.fromRGB(60, 180, 80),
+
+		Element = Color3.fromRGB(50, 160, 70),
+		ElementBorder = Color3.fromRGB(30, 80, 40),
+		InElementBorder = Color3.fromRGB(40, 140, 60),
+		ElementTransparency = 0.85,
+
+		Text = Color3.fromRGB(230, 255, 230),
+		SubText = Color3.fromRGB(179, 255, 179), 
+		Hover = Color3.fromRGB(60, 180, 80),
+		HoverChange = 0.04
+	},
+
+	Volcanic = {
+		Name = "Volcanic",
+		Accent = Color3.fromRGB(255, 69, 0),
+
+		AcrylicMain = Color3.fromRGB(40, 10, 10),
+		AcrylicBorder = Color3.fromRGB(80, 20, 20),
+		AcrylicGradient = ColorSequence.new{
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(80, 20, 20)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(60, 15, 15)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(40, 10, 10))
+		},
+		AcrylicNoise = 0.94,
+
+		TitleBarLine = Color3.fromRGB(153, 0, 0),
+		Tab = Color3.fromRGB(255, 69, 0),
+
+		Element = Color3.fromRGB(255, 99, 71),
+		ElementBorder = Color3.fromRGB(139, 0, 0),
+		InElementBorder = Color3.fromRGB(205, 0, 0),
+		ElementTransparency = 0.88,
+
+		Text = Color3.fromRGB(255, 239, 213),
+		SubText = Color3.fromRGB(255, 178, 140),
+		Hover = Color3.fromRGB(255, 69, 0),
+		HoverChange = 0.04
+	},
+
+	Cosmic = {
+		Name = "Cosmic",
+		Accent = Color3.fromRGB(147, 112, 219),
+
+		AcrylicMain = Color3.fromRGB(20, 15, 30),
+		AcrylicBorder = Color3.fromRGB(40, 30, 60),
+		AcrylicGradient = ColorSequence.new{
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 0, 100)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(100, 0, 150)), 
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(150, 0, 200))
+		},
+		AcrylicNoise = 0.91,
+
+		TitleBarLine = Color3.fromRGB(75, 0, 130),
+		Tab = Color3.fromRGB(147, 112, 219),
+
+		Element = Color3.fromRGB(138, 43, 226),
+		ElementBorder = Color3.fromRGB(75, 0, 130),
+		InElementBorder = Color3.fromRGB(106, 90, 205),
+		ElementTransparency = 0.87,
+
+		Text = Color3.fromRGB(230, 230, 250),
+		SubText = Color3.fromRGB(220, 208, 255),
+		Hover = Color3.fromRGB(147, 112, 219),
+		HoverChange = 0.04
 	}
 }
+
 
 local Library = {
 	Version = "1.1.0",
