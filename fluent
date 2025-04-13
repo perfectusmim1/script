@@ -510,17 +510,16 @@ local Themes = {
 		Hover = Color3.fromRGB(147, 112, 219),
 		HoverChange = 0.04
 	},
-
-    Perfectus = {
+Perfectus = {
 		Name = "Perfectus",
 		Accent = Color3.fromRGB(0, 140, 255),
 
 		AcrylicMain = Color3.fromRGB(0, 0, 0),
 		AcrylicBorder = Color3.fromRGB(15, 15, 15),
 		AcrylicGradient = ColorSequence.new{
-			ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 140, 255)),
-			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 80, 200)),
-			ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 30, 150))
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 0, 0)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))
 		},
 		AcrylicNoise = 0.96,
 
@@ -560,7 +559,6 @@ local Themes = {
 		Hover = Color3.fromRGB(0, 140, 255),
 		HoverChange = 0.05
 	}
-
 }
 
 local Library = {
