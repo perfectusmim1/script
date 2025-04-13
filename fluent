@@ -511,55 +511,56 @@ local Themes = {
 		HoverChange = 0.04
 	},
 
-	Perfectus = {
+    Perfectus = {
 		Name = "Perfectus",
-		Accent = Color3.fromRGB(0, 170, 255),
+		Accent = Color3.fromRGB(0, 140, 255),
 
 		AcrylicMain = Color3.fromRGB(0, 0, 0),
-		AcrylicBorder = Color3.fromRGB(20, 20, 20),
+		AcrylicBorder = Color3.fromRGB(15, 15, 15),
 		AcrylicGradient = ColorSequence.new{
-			ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 170, 255)),
-			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 100, 255)),
-			ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 50, 255))
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 140, 255)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 80, 200)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 30, 150))
 		},
-		AcrylicNoise = 0.95,
+		AcrylicNoise = 0.96,
 
-		TitleBarLine = Color3.fromRGB(0, 100, 255),
-		Tab = Color3.fromRGB(0, 170, 255),
+		TitleBarLine = Color3.fromRGB(0, 90, 220),
+		Tab = Color3.fromRGB(0, 140, 255),
 
-		Element = Color3.fromRGB(0, 120, 255),
-		ElementBorder = Color3.fromRGB(0, 50, 100),
-		InElementBorder = Color3.fromRGB(0, 150, 255),
-		ElementTransparency = 0.92,
+		Element = Color3.fromRGB(0, 100, 220),
+		ElementBorder = Color3.fromRGB(0, 40, 80),
+		InElementBorder = Color3.fromRGB(0, 120, 240),
+		ElementTransparency = 0.9,
 
-		DropdownFrame = Color3.fromRGB(0, 150, 255),
-		DropdownHolder = Color3.fromRGB(0, 0, 0),
-		DropdownBorder = Color3.fromRGB(0, 100, 200),
-		DropdownOption = Color3.fromRGB(0, 170, 255),
+		DropdownFrame = Color3.fromRGB(0, 120, 240),
+		DropdownHolder = Color3.fromRGB(5, 5, 5),
+		DropdownBorder = Color3.fromRGB(0, 80, 160),
+		DropdownOption = Color3.fromRGB(0, 140, 255),
 
-		SliderRail = Color3.fromRGB(0, 170, 255),
+		SliderRail = Color3.fromRGB(0, 140, 255),
 		
-		ToggleSlider = Color3.fromRGB(0, 170, 255),
+		ToggleSlider = Color3.fromRGB(0, 140, 255),
 		ToggleToggled = Color3.fromRGB(0, 0, 0),
 
-		Input = Color3.fromRGB(0, 150, 255),
+		Input = Color3.fromRGB(0, 120, 240),
 		InputFocused = Color3.fromRGB(0, 0, 0),
-		InputIndicator = Color3.fromRGB(0, 170, 255),
+		InputIndicator = Color3.fromRGB(0, 140, 255),
 
 		Dialog = Color3.fromRGB(0, 0, 0),
-		DialogHolder = Color3.fromRGB(10, 10, 10),
-		DialogHolderLine = Color3.fromRGB(20, 20, 20),
-		DialogButton = Color3.fromRGB(0, 100, 255),
-		DialogButtonBorder = Color3.fromRGB(0, 150, 255),
-		DialogBorder = Color3.fromRGB(30, 30, 30),
-		DialogInput = Color3.fromRGB(0, 50, 100),
-		DialogInputLine = Color3.fromRGB(0, 170, 255),
+		DialogHolder = Color3.fromRGB(8, 8, 8),
+		DialogHolderLine = Color3.fromRGB(15, 15, 15),
+		DialogButton = Color3.fromRGB(0, 90, 220),
+		DialogButtonBorder = Color3.fromRGB(0, 120, 240),
+		DialogBorder = Color3.fromRGB(20, 20, 20),
+		DialogInput = Color3.fromRGB(0, 40, 80),
+		DialogInputLine = Color3.fromRGB(0, 140, 255),
 
-		Text = Color3.fromRGB(255, 255, 255),
-		SubText = Color3.fromRGB(200, 200, 200),
-		Hover = Color3.fromRGB(0, 170, 255),
-		HoverChange = 0.04
+		Text = Color3.fromRGB(240, 240, 245),
+		SubText = Color3.fromRGB(180, 180, 190),
+		Hover = Color3.fromRGB(0, 140, 255),
+		HoverChange = 0.05
 	}
+
 }
 
 local Library = {
