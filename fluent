@@ -24,7 +24,8 @@ local Themes = {
 		"Ocean",
 		"Forest",
 		"Volcanic",
-		"Cosmic"
+		"Cosmic",
+		"Perfectus"
 	},
 	Dark = {
 		Name = "Dark",
@@ -371,6 +372,11 @@ local Themes = {
 		InElementBorder = Color3.fromRGB(255, 128, 0),
 		ElementTransparency = 0.84,
 
+		DropdownFrame = Color3.fromRGB(255, 153, 51), 
+		DropdownHolder = Color3.fromRGB(40, 20, 15),
+		DropdownBorder = Color3.fromRGB(102, 51, 0),
+		DropdownOption = Color3.fromRGB(255, 140, 26),
+
 		Text = Color3.fromRGB(255, 255, 255),
 		SubText = Color3.fromRGB(255, 179, 102),
 		Hover = Color3.fromRGB(255, 153, 51),
@@ -397,6 +403,11 @@ local Themes = {
 		ElementBorder = Color3.fromRGB(0, 76, 153),
 		InElementBorder = Color3.fromRGB(0, 128, 255),
 		ElementTransparency = 0.86,
+
+		DropdownFrame = Color3.fromRGB(51, 153, 255),
+		DropdownHolder = Color3.fromRGB(15, 25, 35),
+		DropdownBorder = Color3.fromRGB(0, 76, 153),
+		DropdownOption = Color3.fromRGB(26, 140, 255),
 
 		Text = Color3.fromRGB(230, 255, 255),
 		SubText = Color3.fromRGB(179, 230, 255),
@@ -425,6 +436,11 @@ local Themes = {
 		InElementBorder = Color3.fromRGB(40, 140, 60),
 		ElementTransparency = 0.85,
 
+		DropdownFrame = Color3.fromRGB(60, 180, 80),
+		DropdownHolder = Color3.fromRGB(20, 30, 20),
+		DropdownBorder = Color3.fromRGB(30, 80, 40),
+		DropdownOption = Color3.fromRGB(50, 160, 70),
+
 		Text = Color3.fromRGB(230, 255, 230),
 		SubText = Color3.fromRGB(179, 255, 179), 
 		Hover = Color3.fromRGB(60, 180, 80),
@@ -451,6 +467,11 @@ local Themes = {
 		ElementBorder = Color3.fromRGB(139, 0, 0),
 		InElementBorder = Color3.fromRGB(205, 0, 0),
 		ElementTransparency = 0.88,
+
+		DropdownFrame = Color3.fromRGB(255, 69, 0),
+		DropdownHolder = Color3.fromRGB(40, 10, 10),
+		DropdownBorder = Color3.fromRGB(139, 0, 0),
+		DropdownOption = Color3.fromRGB(255, 99, 71),
 
 		Text = Color3.fromRGB(255, 239, 213),
 		SubText = Color3.fromRGB(255, 178, 140),
@@ -479,13 +500,67 @@ local Themes = {
 		InElementBorder = Color3.fromRGB(106, 90, 205),
 		ElementTransparency = 0.87,
 
+		DropdownFrame = Color3.fromRGB(147, 112, 219),
+		DropdownHolder = Color3.fromRGB(20, 15, 30), 
+		DropdownBorder = Color3.fromRGB(75, 0, 130),
+		DropdownOption = Color3.fromRGB(138, 43, 226),
+
 		Text = Color3.fromRGB(230, 230, 250),
 		SubText = Color3.fromRGB(220, 208, 255),
 		Hover = Color3.fromRGB(147, 112, 219),
 		HoverChange = 0.04
+	},
+
+	Perfectus = {
+		Name = "Perfectus",
+		Accent = Color3.fromRGB(0, 170, 255),
+
+		AcrylicMain = Color3.fromRGB(0, 0, 0),
+		AcrylicBorder = Color3.fromRGB(20, 20, 20),
+		AcrylicGradient = ColorSequence.new{
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 170, 255)),
+			ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 100, 255)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 50, 255))
+		},
+		AcrylicNoise = 0.95,
+
+		TitleBarLine = Color3.fromRGB(0, 100, 255),
+		Tab = Color3.fromRGB(0, 170, 255),
+
+		Element = Color3.fromRGB(0, 120, 255),
+		ElementBorder = Color3.fromRGB(0, 50, 100),
+		InElementBorder = Color3.fromRGB(0, 150, 255),
+		ElementTransparency = 0.92,
+
+		DropdownFrame = Color3.fromRGB(0, 150, 255),
+		DropdownHolder = Color3.fromRGB(0, 0, 0),
+		DropdownBorder = Color3.fromRGB(0, 100, 200),
+		DropdownOption = Color3.fromRGB(0, 170, 255),
+
+		SliderRail = Color3.fromRGB(0, 170, 255),
+		
+		ToggleSlider = Color3.fromRGB(0, 170, 255),
+		ToggleToggled = Color3.fromRGB(0, 0, 0),
+
+		Input = Color3.fromRGB(0, 150, 255),
+		InputFocused = Color3.fromRGB(0, 0, 0),
+		InputIndicator = Color3.fromRGB(0, 170, 255),
+
+		Dialog = Color3.fromRGB(0, 0, 0),
+		DialogHolder = Color3.fromRGB(10, 10, 10),
+		DialogHolderLine = Color3.fromRGB(20, 20, 20),
+		DialogButton = Color3.fromRGB(0, 100, 255),
+		DialogButtonBorder = Color3.fromRGB(0, 150, 255),
+		DialogBorder = Color3.fromRGB(30, 30, 30),
+		DialogInput = Color3.fromRGB(0, 50, 100),
+		DialogInputLine = Color3.fromRGB(0, 170, 255),
+
+		Text = Color3.fromRGB(255, 255, 255),
+		SubText = Color3.fromRGB(200, 200, 200),
+		Hover = Color3.fromRGB(0, 170, 255),
+		HoverChange = 0.04
 	}
 }
-
 
 local Library = {
 	Version = "1.1.0",
@@ -2311,8 +2386,14 @@ Components.Notification = (function()
 			NewNotification.Holder.Size = UDim2.new(1, 0, 0, 58 + ContentSize)
 
 			RootMotor:setGoal({
-				Scale = Spring(0, { frequency = 5 }),
-				Offset = Spring(0, { frequency = 5 }),
+				Scale = Spring(0, { 
+					frequency = 7,
+					dampingRatio = 0.85
+				}),
+				Offset = Spring(0, {
+					frequency = 7,
+					dampingRatio = 0.85
+				})
 			})
 		end
 
@@ -2321,10 +2402,16 @@ Components.Notification = (function()
 				NewNotification.Closed = true
 				task.spawn(function()
 					RootMotor:setGoal({
-						Scale = Spring(1, { frequency = 5 }),
-						Offset = Spring(60, { frequency = 5 }),
+						Scale = Spring(1, {
+							frequency = 7,
+							dampingRatio = 0.85
+						}),
+						Offset = Spring(60, {
+							frequency = 7,
+							dampingRatio = 0.85
+						})
 					})
-					task.wait(0.4)
+					task.wait(0.35)
 					if Library.UseAcrylic then
 						NewNotification.AcrylicPaint.Model:Destroy()
 					end
@@ -3847,7 +3934,7 @@ ElementsTable.Keybind = (function()
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			AutomaticSize = Enum.AutomaticSize.X,
 			BackgroundTransparency = 1,
-			ThemeTag = {
+				ThemeTag = {
 				TextColor3 = "Text",
 			},
 		})
@@ -3961,7 +4048,8 @@ ElementsTable.Keybind = (function()
 						if
 							Input.KeyCode.Name == Key
 							or Key == "MouseLeft" and Input.UserInputType == Enum.UserInputType.MouseButton1
-							or Key == "MouseRight" and Input.UserInputType == Enum.UserInputType.MouseButton2
+							or Key == "MouseRight"
+							and Input.UserInputType == Enum.UserInputType.MouseButton2
 						then
 							Picking = false
 
@@ -5763,7 +5851,7 @@ local SaveManager = {} do
 
 		if isfile(self.Folder .. "/autoload.txt") then
 			local name = readfile(self.Folder .. "/autoload.txt")
-			AutoloadButton:SetDesc("Current autoload config: " .. name)
+				AutoloadButton:SetDesc("Current autoload config: " .. name)
 		end
 
 		SaveManager:SetIgnoreIndexes({ "SaveManager_ConfigList", "SaveManager_ConfigName" })
