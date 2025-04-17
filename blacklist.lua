@@ -1,5 +1,1 @@
-return {
-    blacklisted = {
-        2221082353
-    }
-}
+local bannedUserId = 2221082353
