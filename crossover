@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/perfectusmim1/Hub/refs/heads/main/Key"))()
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/38fc4fca3cbad17b2ac15eba8716d9cc.lua"))()
