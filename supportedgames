@@ -10,12 +10,13 @@ local ForgeWithKey = ForgeTab:Section({ Title = "Key Required", Opened = true })
 
 local ForgeScripts = {
     Keyless = {
-        {title = "AirFlow", url = "https://airflowscript.com/loader", keyless = true}
+        {title = "AirFlow", url = "https://airflowscript.com/loader", keyless = true, date = "07.01.2026"},
+        {title = "Metan Hub", url = "https://raw.githubusercontent.com/Raw4exe/MetanHub/refs/heads/main/TheForge.lua", keyless = true, date = "07.01.2026"}
     },
     WithKey = {
-        {title = "Astra", url = "https://getastra.lol/loader.lua", keyless = false},
-        {title = "Dodo Hub", url = "https://raw.githubusercontent.com/dodohubx-rgb/dodohub/refs/heads/main/loader.luau", keyless = false},
-        {title = "Wings", url = "https://raw.githubusercontent.com/GiftStein1/pepehook-loader/refs/heads/main/loader.lua", keyless = false}
+        {title = "Astra", url = "https://getastra.lol/loader.lua", keyless = false, date = "07.01.2026"},
+        {title = "Dodo Hub", url = "https://raw.githubusercontent.com/dodohubx-rgb/dodohub/refs/heads/main/loader.luau", keyless = false, date = "07.01.2026"},
+        {title = "Wings", url = "https://raw.githubusercontent.com/GiftStein1/pepehook-loader/refs/heads/main/loader.lua", keyless = false, date = "07.01.2026"}
     }
 }
 
@@ -32,10 +33,12 @@ local BloxSection2 = BloxTab:Section({ Title = "Key Required", Opened = true })
 AddManualScript(BloxSection, "Blox Fruits", {
     title = "Hoho Hub", 
     url = "link_buraya", 
-    keyless = true 
+    keyless = true,
+    date = "03.01.2026"
 })
 AddManualScript(BloxSection2, "Blox Fruits", {
     title = "Hoho Hub (Protected)", 
     url = "link_buraya", 
-    keyless = false 
+    keyless = false,
+    date = "07.01.2026"
 })
