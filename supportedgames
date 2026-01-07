@@ -1,9 +1,5 @@
--- Spiem Hub | Remote Manual Scripts Config
+-- The Forge
 
--- Bu dosya ana script tarafından otomatik olarak yüklenecektir.
--- 'Window' ve 'AddManualScript' değişkenleri ana scriptten otomatik olarak sağlanır.
-
--- ### THE FORGE TAB ###
 local ForgeTab = Window:Tab({
     Title = "The Forge",
     Icon = "rbxassetid://131605400943404",
@@ -26,7 +22,9 @@ local ForgeScripts = {
 for _, s in pairs(ForgeScripts.Keyless) do AddManualScript(ForgeKeyless, "The Forge", s) end
 for _, s in pairs(ForgeScripts.WithKey) do AddManualScript(ForgeWithKey, "The Forge", s) end
 
--- ### BLOX FRUITS ###
+
+-- Blox Fruits
+
 local BloxTab = Window:Tab({ Title = "Blox Fruits" })
 local BloxSection = BloxTab:Section({ Title = "Keyless Scripts", Opened = true })
 local BloxSection2 = BloxTab:Section({ Title = "Key Required", Opened = true })
@@ -37,11 +35,7 @@ AddManualScript(BloxSection, "Blox Fruits", {
     keyless = true 
 })
 AddManualScript(BloxSection2, "Blox Fruits", {
-    title = "Hoho Hub", 
+    title = "Hoho Hub (Protected)", 
     url = "link_buraya", 
     keyless = false 
 })
-
--- Toplam manuel script sayısını döndür (İstatistik için)
--- Toplam: Forge (4) + Blox Fruits (2) = 6
-return (#ForgeScripts.Keyless + #ForgeScripts.WithKey) + 2
