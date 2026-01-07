@@ -26,7 +26,11 @@ for _, s in pairs(ForgeScripts.WithKey) do AddManualScript(ForgeWithKey, "The Fo
 
 -- Blox Fruits
 
-local BloxTab = Window:Tab({ Title = "Blox Fruits" })
+--[[
+local BloxTab = Window:Tab({
+    Title = "Blox Fruits",
+    Icon = "rbxassetid://131605400943404",
+})
 local BloxSection = BloxTab:Section({ Title = "Keyless Scripts", Opened = true })
 local BloxSection2 = BloxTab:Section({ Title = "Key Required", Opened = true })
 
@@ -42,3 +46,5 @@ AddManualScript(BloxSection2, "Blox Fruits", {
     keyless = false,
     date = "07.01.2026"
 })
+
+]]
