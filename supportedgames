@@ -34,3 +34,21 @@ for _, s in pairs(ForgeScripts.WithKey) do AddManualScript(ForgeWithKey, "The Fo
 
 -- Toplam manuel script sayısını döndür (İstatistik için)
 return #ForgeScripts.Keyless + #ForgeScripts.WithKey
+
+
+-- 1. Tab ve Section oluştur
+local BloxTab = Window:Tab({ Title = "Blox Fruits" })
+local BloxSection = BloxTab:Section({ Title = "Keyless Scripts", Opened = true })
+local BloxSection2 = BloxTab:Section({ Title = "Key Required", Opened = true })
+
+-- 2. Tek satırla ekle!
+AddManualScript(BloxSection, "Blox Fruits", {
+    title = "Hoho Hub", 
+    url = "link_buraya", 
+    keyless = true -- false ise kırmızı, true ise yeşil olur
+})
+AddManualScript(BloxSection2, "Blox Fruits", {
+    title = "Hoho Hub", 
+    url = "link_buraya", 
+    keyless = false -- false ise kırmızı, true ise yeşil olur
+})
