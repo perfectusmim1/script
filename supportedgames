@@ -1,0 +1,36 @@
+-- Spiem Hub | Remote Manual Scripts Config
+
+-- Bu dosya ana script tarafından otomatik olarak yüklenecektir.
+-- 'Window' ve 'AddManualScript' değişkenleri ana scriptten otomatik olarak sağlanır.
+
+-- ### THE FORGE TAB ###
+local ForgeTab = Window:Tab({
+    Title = "The Forge",
+    Icon = "rbxassetid://131605400943404",
+})
+
+local ForgeKeyless = ForgeTab:Section({ Title = "Keyless Scripts",  Opened = true })
+local ForgeWithKey = ForgeTab:Section({ Title = "Key Required", Opened = true })
+
+local ForgeScripts = {
+    Keyless = {
+        {title = "AirFlow", url = "https://airflowscript.com/loader", keyless = true}
+    },
+    WithKey = {
+        {title = "Astra", url = "https://getastra.lol/loader.lua", keyless = false},
+        {title = "Dodo Hub", url = "https://raw.githubusercontent.com/dodohubx-rgb/dodohub/refs/heads/main/loader.luau", keyless = false},
+        {title = "Wings", url = "https://raw.githubusercontent.com/GiftStein1/pepehook-loader/refs/heads/main/loader.lua", keyless = false}
+    }
+}
+
+for _, s in pairs(ForgeScripts.Keyless) do AddManualScript(ForgeKeyless, "The Forge", s) end
+for _, s in pairs(ForgeScripts.WithKey) do AddManualScript(ForgeWithKey, "The Forge", s) end
+
+
+-- ### BLOX FRUITS (ÖRNEK) ###
+-- local BloxTab = Window:Tab({ Title = "Blox Fruits" })
+-- local BloxSection = BloxTab:Section({ Title = "Keyless", Opened = true })
+-- AddManualScript(BloxSection, "Blox Fruits", { title = "Hoho Hub", url = "...", keyless = true })
+
+-- Toplam manuel script sayısını döndür (İstatistik için)
+return #ForgeScripts.Keyless + #ForgeScripts.WithKey
