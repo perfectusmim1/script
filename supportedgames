@@ -26,29 +26,22 @@ local ForgeScripts = {
 for _, s in pairs(ForgeScripts.Keyless) do AddManualScript(ForgeKeyless, "The Forge", s) end
 for _, s in pairs(ForgeScripts.WithKey) do AddManualScript(ForgeWithKey, "The Forge", s) end
 
-
--- ### BLOX FRUITS (ÖRNEK) ###
--- local BloxTab = Window:Tab({ Title = "Blox Fruits" })
--- local BloxSection = BloxTab:Section({ Title = "Keyless", Opened = true })
--- AddManualScript(BloxSection, "Blox Fruits", { title = "Hoho Hub", url = "...", keyless = true })
-
--- Toplam manuel script sayısını döndür (İstatistik için)
-return #ForgeScripts.Keyless + #ForgeScripts.WithKey
-
-
--- 1. Tab ve Section oluştur
+-- ### BLOX FRUITS ###
 local BloxTab = Window:Tab({ Title = "Blox Fruits" })
 local BloxSection = BloxTab:Section({ Title = "Keyless Scripts", Opened = true })
 local BloxSection2 = BloxTab:Section({ Title = "Key Required", Opened = true })
 
--- 2. Tek satırla ekle!
 AddManualScript(BloxSection, "Blox Fruits", {
     title = "Hoho Hub", 
     url = "link_buraya", 
-    keyless = true -- false ise kırmızı, true ise yeşil olur
+    keyless = true 
 })
 AddManualScript(BloxSection2, "Blox Fruits", {
     title = "Hoho Hub", 
     url = "link_buraya", 
-    keyless = false -- false ise kırmızı, true ise yeşil olur
+    keyless = false 
 })
+
+-- Toplam manuel script sayısını döndür (İstatistik için)
+-- Toplam: Forge (4) + Blox Fruits (2) = 6
+return (#ForgeScripts.Keyless + #ForgeScripts.WithKey) + 2
