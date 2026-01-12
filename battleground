@@ -1,0 +1,4776 @@
+local vu1 = loadstring(game:HttpGet([[https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua]]))()
+local vu2 = game:GetService('Players')
+local vu3 = game:GetService('RunService')
+local vu4 = game:GetService('StarterGui')
+local vu5 = game:GetService('UserInputService')
+local vu6 = game:GetService('VirtualInputManager')
+local vu7 = game:GetService('ReplicatedStorage')
+local vu8 = game:GetService('Workspace')
+local vu9 = game:GetService('HttpService')
+local v10 = game:GetService('CoreGui')
+local vu11 = vu2.LocalPlayer
+local vu12 = vu3.RenderStepped
+local vu13 = vu3.Heartbeat
+local v14 = vu11
+local vu15 = vu11.GetMouse(v14)
+local vu16 = workspace.CurrentCamera
+local vu17 = nil
+local vu18 = nil
+local vu19 = true
+local vu20 = true
+local vu21 = 'Najpxsriz'
+local v22 = nil
+local v23 = nil
+local v24 = nil
+local v25 = nil
+local v26 = nil
+local v27 = nil
+local vu28 = nil
+local vu29 = nil
+local vu30 = nil
+local v31 = nil
+local v32 = nil
+local vu33 = nil
+local vu34 = false
+local vu35 = {
+    [Enum.KeyCode.W] = true,
+    [Enum.KeyCode.A] = true,
+    [Enum.KeyCode.S] = true,
+    [Enum.KeyCode.D] = true,
+    [Enum.KeyCode.One] = true,
+    [Enum.KeyCode.Two] = true,
+    [Enum.KeyCode.Three] = true,
+    [Enum.KeyCode.Four] = true,
+    [Enum.KeyCode.F] = true,
+    [Enum.KeyCode.G] = true,
+    [Enum.KeyCode.Q] = true,
+}
+
+vu5.InputBegan:Connect(function(p36, _)
+    if vu34 and vu35[p36.KeyCode] then
+        return Enum.ContextActionResult.Sink
+    end
+end)
+vu5.InputEnded:Connect(function(p37, _)
+    if vu34 and vu35[p37.KeyCode] then
+        return Enum.ContextActionResult.Sink
+    end
+end)
+
+local vu38 = {
+    AntiFling = {enabled = false},
+    Movement = {
+        upDistance = 20,
+        downDistance = 200,
+        boostDistance = 400,
+        smoothMovement = true,
+        moveSpeed = 1.5,
+    },
+    CustomVelocity = {
+        X = 0,
+        Y = 0,
+        Z = 0,
+    },
+    CustomTeleportOffset = {
+        X = 0,
+        Y = 0,
+        Z = 0,
+    },
+    TeleportCycle = {
+        enabled = false,
+        isCycling = false,
+        originalPosition = nil,
+        cycleCoroutine = nil,
+        delayBetweenTeleports = 1.5,
+        keybind = Enum.KeyCode.Y,
+    },
+    AutoRankMode = {
+        enabled = false,
+        targetKeybind = Enum.KeyCode.R,
+        excludedPlayerName = '',
+        isWaitingForAnimation = false,
+        blockingAnimationIds = {
+            ['rbxassetid://10470389827'] = true,
+            ['rbxassetid://13935548552'] = true,
+            ['rbxassetid://13380778193'] = true,
+        },
+        selectedKey = Enum.KeyCode.One,
+        downTeleportDelay = 1,
+    },
+    TeleportToPlayer = {
+        selectedPlayerName = '',
+    },
+    KeyMapping = {
+        ['1'] = Enum.KeyCode.One,
+        ['2'] = Enum.KeyCode.Two,
+        ['3'] = Enum.KeyCode.Three,
+        ['4'] = Enum.KeyCode.Four,
+    },
+    Aiming = {
+        isAiming = false,
+        isAimingNoCamera = false,
+        lockedPlayer = nil,
+        isLocked = false,
+    },
+    Orbit = {
+        target = nil,
+        isOrbiting = false,
+        radius = 10,
+        speed = 1,
+        angle = 0,
+        height = 0,
+        heightMin = -10,
+        heightMax = 10,
+        predictEnabled = false,
+        faceEnabled = false,
+        targetPartName = 'HumanoidRootPart',
+    },
+    AutoFarm = {
+        isAutoFarming = false,
+        farmDistance = 5,
+        farmHeight = 0,
+        targetHealthThreshold = 50,
+    },
+    TeleportBehind = {
+        isEnabled = false,
+        ignoreSigma = true,
+        teleportDistance = 5,
+        excludedPlayers = {Kukuri_xyz = true},
+    },
+    AnimationTeleport = {
+        animations = {
+            {
+                id = 'rbxassetid://17799224866',
+                delay = 1.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://18179181663',
+                delay = 2,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://12273188754',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://12296882427',
+                delay = 1,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://16139108718',
+                delay = 0.25,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://14351441234',
+                delay = 1.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://14046756619',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://15145462680',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://15295895753',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://13376962659',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://14057231976',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://12463072679',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://13630786846',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://12830917034',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://13633468484',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://14701242661',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://14719290328',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://15676072469',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://15520132233',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://16062712948',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://17889080495',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://17464644182',
+                delay = 0.5,
+                distance = -200,
+            },
+            {
+                id = 'rbxassetid://18896229321',
+                delay = 0.5,
+                distance = -200,
+            },
+        },
+        isEnabled = false,
+        defaultDistance = -1500,
+    },
+    AntiRagdoll = {
+        enabled = false,
+        connections = {},
+        isBreaking = false,
+        breakHeight = 50,
+        velocityStrength = 100,
+        teleportDistance = 3,
+    },
+    ExcludedPlayers = {Kukuri_xyz = true},
+    RemoteActions = {
+        chatMessage = 'Kukuri Client User!',
+        spamChatDelay = 3,
+        isSpammingChat = false,
+        spamChatCoroutine = nil,
+        characterToChange = 'Bald',
+    },
+    AntiOrbitLock = {
+        enabled = false,
+        isDetectingLock = false,
+        lockDetectedTime = 0,
+        isCameraLocked = false,
+        detectionDistance = 20,
+        originalCameraType = Enum.CameraType.Custom,
+        originalCameraSubject = nil,
+    },
+    TeleportToCursor = {
+        enabled = false,
+        keybind = Enum.KeyCode.T,
+        verticalOffset = 3,
+    },
+    CrashMode = {
+        enabled = false,
+        keybindToggle = Enum.KeyCode.LeftAlt,
+        isCameraLocked = false,
+        lockedCameraPosition = nil,
+        lockedCameraRotation = nil,
+    },
+    ConfigManagement = {
+        currentConfigName = '',
+        selectedConfigName = '',
+        autoloadConfigName = '',
+    },
+    FlyMode = {
+        enabled = false,
+        isFlying = false,
+        speed = 100,
+        keybind = Enum.KeyCode.Y,
+    },
+}
+local vu39 = {}
+local vu40 = {}
+local vu41 = {}
+local vu42 = nil
+local vu43 = nil
+local vu44 = {}
+local vu45 = {}
+local vu46 = 0.15
+local vu47 = 100
+local vu48 = -500
+local vu49 = 'KukuriConfigs'
+local vu50 = 'KukuriAutoload.cfg'
+local vu51 = nil
+local vu52 = nil
+
+local function vu64(p53, p54)
+    if p53 and p53 ~= '' then
+        if writefile and (isfolder and (makefolder and (pcall and vu9))) then
+            local v55, v56 = pcall(vu9.JSONEncode, vu9, p54)
+
+            if v55 then
+                local v57, v58 = pcall(isfolder, vu49)
+
+                if v57 then
+                    if not v58 then
+                        local v59, v60 = pcall(makefolder, vu49)
+
+                        if not v59 then
+                            warn('Kukuri Client: Failed to create config folder:', v60)
+
+                            return false, 'Folder creation failed'
+                        end
+
+                        print('Kukuri Client: Created config folder:', vu49)
+                    end
+
+                    local v61 = vu49 .. '/' .. p53 .. '.json'
+                    local v62, v63 = pcall(writefile, v61, v56)
+
+                    if v62 then
+                        print('Kukuri Client: Config saved successfully to:', v61)
+
+                        return true
+                    else
+                        warn('Kukuri Client: Failed to write config file:', v61, v63)
+
+                        return false, 'File write failed: ' .. tostring(v63)
+                    end
+                else
+                    warn('Kukuri Client: Error checking folder existence:', v58)
+
+                    return false, 'Folder check error'
+                end
+            else
+                warn('Kukuri Client: Failed to encode config data for saving:', v56)
+
+                return false, 'JSON Encode failed'
+            end
+        else
+            warn([[Kukuri Client: Missing required functions for saving (writefile, isfolder, makefolder, pcall, HttpService).]])
+
+            return false, 'Missing functions'
+        end
+    else
+        warn('Kukuri Client: Cannot save config with empty name.')
+
+        return false, 'Empty config name'
+    end
+end
+local function vu73(p65)
+    if p65 and p65 ~= '' then
+        if readfile and (isfile and (pcall and vu9)) then
+            local v66 = vu49 .. '/' .. p65 .. '.json'
+            local v67, v68 = pcall(isfile, v66)
+
+            if v67 then
+                if v68 then
+                    local v69, v70 = pcall(readfile, v66)
+
+                    if v69 and v70 then
+                        local v71, v72 = pcall(vu9.JSONDecode, vu9, v70)
+
+                        if v71 then
+                            print('Kukuri Client: Config loaded successfully from:', v66)
+
+                            return v72
+                        else
+                            warn('Kukuri Client: Failed to decode config data from file:', v66, v72)
+
+                            return nil, 'JSON Decode failed: ' .. tostring(v72)
+                        end
+                    else
+                        warn('Kukuri Client: Failed to read config file:', v66, v70)
+
+                        return nil, 'File read failed: ' .. tostring(v70)
+                    end
+                else
+                    warn('Kukuri Client: Config file not found:', v66)
+
+                    return nil, 'File not found'
+                end
+            else
+                warn('Kukuri Client: Error checking file existence:', v66, v68)
+
+                return nil, 'File check error'
+            end
+        else
+            warn([[Kukuri Client: Missing required functions for loading (readfile, isfile, pcall, HttpService).]])
+
+            return nil, 'Missing functions'
+        end
+    else
+        warn('Kukuri Client: Cannot load config with empty name.')
+
+        return nil, 'Empty config name'
+    end
+end
+local function vu80(p74)
+    if p74 and p74 ~= '' then
+        if delfile and (isfile and pcall) then
+            local v75 = vu49 .. '/' .. p74 .. '.json'
+            local v76, v77 = pcall(isfile, v75)
+
+            if v76 then
+                if v77 then
+                    local v78, v79 = pcall(delfile, v75)
+
+                    if v78 then
+                        print('Kukuri Client: Config file deleted:', v75)
+
+                        return true
+                    else
+                        warn('Kukuri Client: Failed to delete config file:', v75, v79)
+
+                        return false, 'File delete failed: ' .. tostring(v79)
+                    end
+                else
+                    warn('Kukuri Client: Config file not found for deletion:', v75)
+
+                    return false, 'File not found'
+                end
+            else
+                warn('Kukuri Client: Error checking file existence for deletion:', v75, v77)
+
+                return false, 'File check error'
+            end
+        else
+            warn([[Kukuri Client: Missing required functions for deleting (delfile, isfile, pcall).]])
+
+            return false, 'Missing functions'
+        end
+    else
+        warn('Kukuri Client: Cannot delete config with empty name.')
+
+        return false, 'Empty config name'
+    end
+end
+local function vu91()
+    local v81 = {}
+
+    if not (listfiles and (isfolder and (pcall and string))) then
+        warn([[Kukuri Client: Missing required functions for listing configs (listfiles, isfolder, pcall, string).]])
+
+        return {}
+    end
+
+    local v82, v83 = pcall(isfolder, vu49)
+
+    if not (v82 and v83) then
+        if not v83 then
+            print('Kukuri Client: Config folder not found for listing:', vu49)
+        end
+
+        return {}
+    end
+
+    local v84, v85 = pcall(listfiles, vu49)
+
+    if not v84 then
+        warn('Kukuri Client: Failed to list files in config folder:', vu49, v85)
+
+        return {}
+    end
+
+    local v86, v87, v88 = ipairs(v85)
+
+    while true do
+        local v89
+
+        v88, v89 = v86(v87, v88)
+
+        if v88 == nil then
+            break
+        end
+
+        local v90 = string.match(v89, '([^/\\]+)%.json$')
+
+        if v90 then
+            table.insert(v81, v90)
+        end
+    end
+
+    print('Kukuri Client: Found config files:', table.concat(v81, ', '))
+
+    return v81
+end
+local function vu95(p92)
+    if writefile and pcall then
+        local v93, v94 = pcall(writefile, vu50, p92 or '')
+
+        if v93 then
+            print('Kukuri Client: Autoload config name set to:', p92 or 'None')
+
+            return true
+        else
+            warn('Kukuri Client: Failed to write autoload config file:', vu50, v94)
+
+            return false
+        end
+    else
+        warn([[Kukuri Client: Missing required functions for setting autoload (writefile, pcall).]])
+
+        return false
+    end
+end
+local function vu100()
+    if readfile and (isfile and pcall) then
+        local v96, v97 = pcall(isfile, vu50)
+
+        if v96 and v97 then
+            local v98, v99 = pcall(readfile, vu50)
+
+            if v98 and v99 then
+                print('Kukuri Client: Retrieved autoload config name:', v99)
+
+                return v99
+            else
+                warn('Kukuri Client: Failed to read autoload config file:', vu50, v99)
+
+                return ''
+            end
+        else
+            return ''
+        end
+    else
+        warn([[Kukuri Client: Missing required functions for getting autoload (readfile, isfile, pcall).]])
+
+        return ''
+    end
+end
+local function vu102()
+    local v101 = vu95('')
+
+    if v101 then
+        print('Kukuri Client: Autoload config name reset.')
+    end
+
+    return v101
+end
+local function vu104()
+    if vu17 then
+        local v103 = vu17:FindFirstChild('HumanoidRootPart')
+
+        if v103 then
+            vu51 = Instance.new('BodyVelocity')
+            vu51.Velocity = Vector3.new(0, 0, 0)
+            vu51.MaxForce = Vector3.new(100000, 100000, 100000)
+            vu51.P = 10000
+            vu51.Parent = v103
+            vu52 = Instance.new('BodyGyro')
+            vu52.MaxTorque = Vector3.new(100000, 100000, 100000)
+            vu52.P = 10000
+            vu52.CFrame = v103.CFrame
+            vu52.Parent = v103
+            vu38.FlyMode.isFlying = true
+
+            vu1:Notify({
+                Title = 'Fly Mode',
+                Content = 'Fly Enabled',
+                Duration = 2,
+            })
+        end
+    else
+        return
+    end
+end
+local function vu105()
+    vu38.FlyMode.isFlying = false
+
+    if vu51 then
+        vu51:Destroy()
+
+        vu51 = nil
+    end
+    if vu52 then
+        vu52:Destroy()
+
+        vu52 = nil
+    end
+
+    vu1:Notify({
+        Title = 'Fly Mode',
+        Content = 'Fly Disabled',
+        Duration = 2,
+    })
+end
+local function vu108()
+    if vu38.FlyMode.isFlying and vu17 then
+        local v106 = vu17:FindFirstChild('HumanoidRootPart')
+
+        if v106 and (vu51 and vu52) then
+            local v107 = Vector3.zero
+
+            if vu5:IsKeyDown(Enum.KeyCode.W) then
+                v107 = v107 + vu16.CFrame.LookVector
+            end
+            if vu5:IsKeyDown(Enum.KeyCode.S) then
+                v107 = v107 - vu16.CFrame.LookVector
+            end
+            if vu5:IsKeyDown(Enum.KeyCode.A) then
+                v107 = v107 - vu16.CFrame.RightVector
+            end
+            if vu5:IsKeyDown(Enum.KeyCode.D) then
+                v107 = v107 + vu16.CFrame.RightVector
+            end
+            if vu5:IsKeyDown(Enum.KeyCode.Space) then
+                v107 = v107 + Vector3.new(0, 1, 0)
+            end
+            if v107.Magnitude <= 0 then
+                vu51.Velocity = Vector3.zero
+            else
+                vu51.Velocity = v107.Unit * vu38.FlyMode.speed
+            end
+
+            vu52.CFrame = CFrame.new(v106.Position, v106.Position + vu16.CFrame.LookVector)
+        end
+    else
+        return
+    end
+end
+local function vu110(p109)
+    if p109 then
+        pcall(p109.Disconnect, p109)
+    end
+
+    return nil
+end
+local function vu112(p111)
+    if p111 then
+        return vu2:GetPlayerFromCharacter(p111)
+    else
+        return nil
+    end
+end
+local function vu114(p113)
+    if p113 then
+        if p113 == vu11 then
+            p113 = false
+        else
+            p113 = not vu38.ExcludedPlayers[p113.Name]
+        end
+    end
+
+    return p113
+end
+local function vu121(p115, p116)
+    local v117, v118, v119 = pairs(p116)
+
+    while true do
+        local v120
+
+        v119, v120 = v117(v118, v119)
+
+        if v119 == nil then
+            break
+        end
+        if type(v120) ~= 'table' or type(p115[v119]) ~= 'table' then
+            p115[v119] = v120
+        else
+            vu121(p115[v119], v120)
+        end
+    end
+end
+local function vu129()
+    if vu1 and vu1.Options then
+        local vu122 = vu1.Options
+
+        pcall(function()
+            if vu122.antiFlingToggle then
+                vu122.antiFlingToggle:SetValue(vu38.AntiFling.enabled)
+            end
+            if vu122.antiOrbitLockToggle then
+                vu122.antiOrbitLockToggle:SetValue(vu38.AntiOrbitLock.enabled)
+            end
+            if vu122.antiOrbitDetectDist then
+                vu122.antiOrbitDetectDist:SetValue(vu38.AntiOrbitLock.detectionDistance)
+            end
+            if vu122.farmToggle then
+                vu122.farmToggle:SetValue(vu38.AutoFarm.isAutoFarming)
+            end
+            if vu122.farmDistance then
+                vu122.farmDistance:SetValue(vu38.AutoFarm.farmDistance)
+            end
+            if vu122.farmHeight then
+                vu122.farmHeight:SetValue(vu38.AutoFarm.farmHeight)
+            end
+            if vu122.healthThreshold then
+                vu122.healthThreshold:SetValue(vu38.AutoFarm.targetHealthThreshold)
+            end
+            if vu122.teleportCycleToggle then
+                vu122.teleportCycleToggle:SetValue(vu38.TeleportCycle.enabled)
+            end
+            if vu122.teleportCycleDelaySlider then
+                vu122.teleportCycleDelaySlider:SetValue(vu38.TeleportCycle.delayBetweenTeleports)
+            end
+            if vu122.voidKillToggle then
+                vu122.voidKillToggle:SetValue(vu38.AnimationTeleport.isEnabled)
+            end
+            if vu122.voidKillDistance then
+                vu122.voidKillDistance:SetValue(vu38.AnimationTeleport.defaultDistance)
+            end
+            if vu122.backTeleportToggle then
+                vu122.backTeleportToggle:SetValue(vu38.TeleportBehind.isEnabled)
+            end
+            if vu122.teleportDistanceSlider then
+                vu122.teleportDistanceSlider:SetValue(vu38.TeleportBehind.teleportDistance)
+            end
+            if vu122.antiRagdollToggle then
+                vu122.antiRagdollToggle:SetValue(vu38.AntiRagdoll.enabled)
+            end
+            if vu122.smoothMovementToggle then
+                vu122.smoothMovementToggle:SetValue(vu38.Movement.smoothMovement)
+            end
+            if vu122.teleportToCursorToggle then
+                vu122.teleportToCursorToggle:SetValue(vu38.TeleportToCursor.enabled)
+            end
+            if vu122.teleportCursorOffsetY then
+                vu122.teleportCursorOffsetY:SetValue(vu38.TeleportToCursor.verticalOffset)
+            end
+            if vu122.orbitToggle then
+                vu122.orbitToggle:SetValue(vu38.Orbit.isOrbiting)
+            end
+            if vu122.orbitTargetPartDropdown then
+                vu122.orbitTargetPartDropdown:SetValue(vu38.Orbit.targetPartName)
+            end
+            if vu122.orbitRadius then
+                vu122.orbitRadius:SetValue(vu38.Orbit.radius)
+            end
+            if vu122.orbitSpeed then
+                vu122.orbitSpeed:SetValue(vu38.Orbit.speed)
+            end
+            if vu122.orbitHeight then
+                vu122.orbitHeight:SetValue(vu38.Orbit.height)
+            end
+            if vu122.predictToggle then
+                vu122.predictToggle:SetValue(vu38.Orbit.predictEnabled)
+            end
+            if vu122.faceToggle then
+                vu122.faceToggle:SetValue(vu38.Orbit.faceEnabled)
+            end
+            if vu122.velocityX then
+                vu122.velocityX:SetValue(vu38.CustomVelocity.X)
+            end
+            if vu122.velocityY then
+                vu122.velocityY:SetValue(vu38.CustomVelocity.Y)
+            end
+            if vu122.velocityZ then
+                vu122.velocityZ:SetValue(vu38.CustomVelocity.Z)
+            end
+            if vu122.customTeleportX then
+                vu122.customTeleportX:SetValue(tostring(vu38.CustomTeleportOffset.X))
+            end
+            if vu122.customTeleportY then
+                vu122.customTeleportY:SetValue(tostring(vu38.CustomTeleportOffset.Y))
+            end
+            if vu122.customTeleportZ then
+                vu122.customTeleportZ:SetValue(tostring(vu38.CustomTeleportOffset.Z))
+            end
+            if vu122.teleportToPlayerInput then
+                vu122.teleportToPlayerInput:SetValue(vu38.TeleportToPlayer.selectedPlayerName)
+            end
+            if vu122.flyModeToggle then
+                vu122.flyModeToggle:SetValue(vu38.FlyMode.enabled)
+            end
+            if vu122.flySpeedSlider then
+                vu122.flySpeedSlider:SetValue(vu38.FlyMode.speed)
+            end
+            if vu122.autoRankModeToggle then
+                vu122.autoRankModeToggle:SetValue(vu38.AutoRankMode.enabled)
+            end
+            if vu122.autoRankExcludeInput then
+                vu122.autoRankExcludeInput:SetValue(vu38.AutoRankMode.excludedPlayerName)
+            end
+            if vu122.autoRankKeyDropdown then
+                local v123, v124, v125 = pairs(vu38.KeyMapping)
+                local v126 = '1'
+
+                while true do
+                    local v127
+
+                    v125, v127 = v123(v124, v125)
+
+                    if v125 == nil then
+                        v125 = v126
+
+                        break
+                    end
+                    if v127 == vu38.AutoRankMode.selectedKey then
+                        break
+                    end
+                end
+
+                vu122.autoRankKeyDropdown:SetValue(v125)
+            end
+            if vu122.autoRankDelaySlider then
+                vu122.autoRankDelaySlider:SetValue(vu38.AutoRankMode.downTeleportDelay)
+            end
+            if vu122.crashModeToggle then
+                vu122.crashModeToggle:SetValue(vu38.CrashMode.enabled)
+            end
+            if vu122.chatMessageInput then
+                vu122.chatMessageInput:SetValue(vu38.RemoteActions.chatMessage)
+            end
+            if vu122.spamChatToggle then
+                vu122.spamChatToggle:SetValue(vu38.RemoteActions.isSpammingChat)
+            end
+            if vu122.spamChatDelaySlider then
+                vu122.spamChatDelaySlider:SetValue(vu38.RemoteActions.spamChatDelay)
+            end
+            if vu122.changeCharacterDropdown then
+                vu122.changeCharacterDropdown:SetValue(vu38.RemoteActions.characterToChange)
+            end
+            if vu122.autoloadStatusLabel then
+                local v128 = vu100()
+
+                vu122.autoloadStatusLabel:SetDesc('Current autoload: ' .. ((not v128 or (v128 == '' or not v128)) and 'None' or v128))
+            end
+        end)
+        print('Kukuri Client: GUI updated from config.')
+    end
+end
+local function vu144(p130)
+    if type(p130) == 'table' then
+        local v131, v132 = pcall(vu9.JSONEncode, vu9, vu38)
+        local v133
+
+        if v131 then
+            local v134
+
+            v134, v133 = pcall(vu9.JSONDecode, vu9, v132)
+
+            if not v134 then
+                warn([[Kukuri Client: Failed to deep copy config for applying (decode step). Applying directly.]])
+
+                v133 = vu38
+            end
+        else
+            warn([[Kukuri Client: Failed to deep copy config for applying (encode step). Applying directly.]])
+
+            v133 = vu38
+        end
+
+        local v135, v136, v137 = pairs(p130)
+        local v138 = {}
+
+        while true do
+            local v139
+
+            v137, v139 = v135(v136, v137)
+
+            if v137 == nil then
+                break
+            end
+            if v137 ~= 'ConfigManagement' then
+                v138[v137] = v139
+            end
+        end
+
+        vu121(v133, v138)
+
+        vu38 = v133
+
+        vu129()
+
+        if vu38.AntiFling.enabled then
+            if vu41.handleToggle then
+                vu41.handleToggle(true)
+            end
+        elseif vu41.handleToggle then
+            vu41.handleToggle(false)
+        end
+        if vu38.AntiRagdoll.enabled then
+            startAntiRagdoll()
+        else
+            local v140, v141, v142 = ipairs(vu38.AntiRagdoll.connections)
+
+            while true do
+                local v143
+
+                v142, v143 = v140(v141, v142)
+
+                if v142 == nil then
+                    break
+                end
+
+                vu38.AntiRagdoll.connections[v142] = vu110(v143)
+            end
+
+            table.clear(vu38.AntiRagdoll.connections)
+
+            vu38.AntiRagdoll.isBreaking = false
+            vu33 = vu110(vu33)
+        end
+
+        vu1:Notify({
+            Title = 'Config Loaded',
+            Content = 'Settings applied successfully.',
+            Duration = 3,
+        })
+    else
+        warn('Kukuri Client: Invalid config data provided for applying.')
+    end
+end
+local function vu145()
+    vu29 = vu110(vu29)
+    vu30 = vu110(vu30)
+end
+local function vu150(p146)
+    if vu19 and (vu20 and p146) then
+        local vu147 = p146:FindFirstChild('HumanoidRootPart')
+        local vu148 = p146:FindFirstChildOfClass('Humanoid')
+
+        if vu147 and vu148 then
+            vu145()
+            print('Kukuri Client: Connecting Anti-Void system...')
+            pcall(function()
+                if vu8.FallenPartsDestroyHeight == 0 / 0 then
+                    print('Kukuri Client: FallenPartsDestroyHeight is already NaN.')
+                else
+                    vu8.FallenPartsDestroyHeight = 0 / 0
+
+                    print('Kukuri Client: Set FallenPartsDestroyHeight to NaN.')
+                end
+            end)
+
+            vu47 = vu148.Health
+            vu30 = vu3.RenderStepped:Connect(function()
+                if vu19 and (vu20 and (vu148 and vu148.Parent)) then
+                    vu47 = vu148.Health
+
+                    vu108()
+                else
+                    vu30 = vu110(vu30)
+                end
+            end)
+            vu29 = vu148.HealthChanged:Connect(function(p149)
+                if vu19 and (vu20 and (vu147 and (vu147.Parent and (vu148 and vu148.Parent)))) then
+                    if p149 <= 0 and vu147.Position.Y <= vu48 then
+                        print([[Kukuri Client: Void death detected, attempting to restore health...]])
+
+                        vu148.Health = vu47 > 0 and vu47 or 100
+                    end
+                else
+                    vu29 = vu110(vu29)
+                end
+            end)
+
+            print('Kukuri Client: Anti-Void system connected successfully.')
+        else
+            vu145()
+        end
+    else
+        vu145()
+
+        return
+    end
+end
+local function vu151()
+    if not vu38.AntiOrbitLock.isCameraLocked then
+        print('[Anti-Orbit] Locking camera...')
+
+        vu38.AntiOrbitLock.originalCameraType = vu16.CameraType
+        vu38.AntiOrbitLock.originalCameraSubject = vu16.CameraSubject
+        vu16.CameraType = Enum.CameraType.Scriptable
+        vu38.AntiOrbitLock.isCameraLocked = true
+    end
+end
+local function vu152()
+    if vu38.AntiOrbitLock.isCameraLocked then
+        print('[Anti-Orbit] Unlocking camera...')
+
+        if vu16.CameraType == Enum.CameraType.Scriptable then
+            vu16.CameraType = vu38.AntiOrbitLock.originalCameraType
+        end
+        if vu16.CameraSubject == nil or vu11.Character and vu16.CameraSubject == vu11.Character:FindFirstChildOfClass('Humanoid') then
+            print([[[Anti-Orbit] Camera subject likely default or unchanged by this feature.]])
+        else
+            print([[[Anti-Orbit] Camera subject changed by another process, not restoring.]])
+        end
+
+        vu38.AntiOrbitLock.isCameraLocked = false
+        vu38.AntiOrbitLock.isDetectingLock = false
+        vu38.AntiOrbitLock.lockDetectedTime = 0
+    end
+end
+local function vu158()
+    if vu17 and (vu18 and vu18.Health > 0) then
+        print('[Anti-Orbit] Lock persisted, teleporting away!')
+
+        local vu153 = vu17:FindFirstChild('HumanoidRootPart')
+
+        if vu153 then
+            local v154, v155 = pcall(vu17.MoveTo, vu17, Vector3.new(math.huge, math.huge, math.huge))
+
+            if v154 then
+                vu1:Notify({
+                    Title = 'Anti-Orbit',
+                    Content = 'Teleported away.',
+                    Duration = 3,
+                })
+            else
+                warn('[Anti-Orbit] MoveTo failed:', v155)
+
+                local v156, v157 = pcall(function()
+                    vu153.CFrame = CFrame.new(10000000, 10000000, 10000000)
+                end)
+
+                if v156 then
+                    vu1:Notify({
+                        Title = 'Anti-Orbit',
+                        Content = 'Teleported away (fallback).',
+                        Duration = 3,
+                    })
+                else
+                    warn('[Anti-Orbit] CFrame teleport fallback also failed:', v157)
+                    vu1:Notify({
+                        Title = 'Anti-Orbit Error',
+                        Content = 'Failed to teleport away!',
+                        Duration = 4,
+                    })
+                end
+            end
+        else
+            warn('[Anti-Orbit] Cannot teleport: HumanoidRootPart not found.')
+        end
+    else
+        warn([[[Anti-Orbit] Cannot teleport: Character or Humanoid invalid.]])
+    end
+
+    vu152()
+end
+local function vu164()
+    if vu38.AntiOrbitLock.enabled and (vu17 and (vu18 and vu18.Health > 0)) then
+        local v159 = vu17:FindFirstChild('HumanoidRootPart')
+
+        if v159 then
+            local v160 = false
+            local v161 = vu16.CameraSubject
+            local v162
+
+            if v161 and v161.Parent and v161.Parent:IsA('Model') then
+                v162 = vu112(v161.Parent)
+            else
+                v162 = nil
+            end
+            if v162 and vu114(v162) then
+                local v163 = v162.Character
+
+                if v163 then
+                    v163 = v163:FindFirstChild('HumanoidRootPart')
+                end
+
+                v160 = v163 and (v159.Position - v163.Position).Magnitude < vu38.AntiOrbitLock.detectionDistance and true or v160
+            end
+            if v160 then
+                if vu38.AntiOrbitLock.isDetectingLock then
+                    if tick() - vu38.AntiOrbitLock.lockDetectedTime > 1 then
+                        vu158()
+                    end
+                else
+                    vu38.AntiOrbitLock.isDetectingLock = true
+                    vu38.AntiOrbitLock.lockDetectedTime = tick()
+
+                    vu151()
+                    vu1:Notify({
+                        Title = 'Anti-Orbit',
+                        Content = 'Opponent lock detected! Holding camera...',
+                        Duration = 2,
+                    })
+                end
+            elseif vu38.AntiOrbitLock.isDetectingLock then
+                print('[Anti-Orbit] Opponent lock released within grace period.')
+                vu152()
+                vu1:Notify({
+                    Title = 'Anti-Orbit',
+                    Content = 'Opponent lock released.',
+                    Duration = 2,
+                })
+            elseif vu38.AntiOrbitLock.isCameraLocked then
+                print([[[Anti-Orbit] Failsafe: Unlocking camera as no lock source is detected.]])
+                vu152()
+            end
+        end
+    else
+        if vu38.AntiOrbitLock.isCameraLocked then
+            vu152()
+        end
+
+        vu38.AntiOrbitLock.isDetectingLock = false
+
+        return
+    end
+end
+local function vu167()
+    local vu165 = vu11.Character
+
+    if vu165 then
+        vu165 = vu165:FindFirstChild('HumanoidRootPart')
+    end
+    if vu165 then
+        if vu15.Target then
+            local vu166 = vu15.Hit.Position + Vector3.new(0, vu38.TeleportToCursor.verticalOffset, 0)
+            local _, _ = pcall(function()
+                vu165.CFrame = CFrame.new(vu166)
+            end)
+        end
+    end
+end
+local function vu168()
+    if not vu38.CrashMode.isCameraLocked then
+        vu38.CrashMode.lockedCameraPosition = vu16.CFrame.Position
+        vu38.CrashMode.lockedCameraRotation = vu16.CFrame.Rotation
+        vu16.CameraType = Enum.CameraType.Scriptable
+        vu38.CrashMode.isCameraLocked = true
+
+        vu1:Notify({
+            Title = 'Crash Mode',
+            Content = 'Camera Locked',
+            Duration = 2,
+        })
+    end
+end
+local function vu169()
+    if vu38.CrashMode.isCameraLocked then
+        vu16.CameraType = Enum.CameraType.Custom
+        vu38.CrashMode.isCameraLocked = false
+        vu38.CrashMode.lockedCameraPosition = nil
+        vu38.CrashMode.lockedCameraRotation = nil
+
+        vu1:Notify({
+            Title = 'Crash Mode',
+            Content = 'Camera Unlocked',
+            Duration = 2,
+        })
+    end
+end
+local function vu173()
+    if vu17 then
+        local v170, _ = pcall(vu17.MoveTo, vu17, Vector3.new(math.huge, math.huge, math.huge))
+
+        if v170 then
+            vu1:Notify({
+                Title = 'Crash Mode',
+                Content = 'Teleported',
+                Duration = 3,
+            })
+        else
+            local vu171 = vu17:FindFirstChild('HumanoidRootPart')
+
+            if vu171 then
+                local v172, _ = pcall(function()
+                    vu171.CFrame = CFrame.new(1000000000, 1000000000, 1000000000)
+                end)
+
+                if v172 then
+                    vu1:Notify({
+                        Title = 'Crash Mode',
+                        Content = 'Teleported (Fallback)',
+                        Duration = 3,
+                    })
+                else
+                    vu1:Notify({
+                        Title = 'Crash Mode Error',
+                        Content = 'Failed to teleport!',
+                        Duration = 4,
+                    })
+                end
+            else
+                vu1:Notify({
+                    Title = 'Crash Mode Error',
+                    Content = 'Failed to teleport (No RootPart)!',
+                    Duration = 4,
+                })
+            end
+        end
+    else
+        vu1:Notify({
+            Title = 'Crash Mode Error',
+            Content = 'Character not found!',
+            Duration = 3,
+        })
+    end
+end
+local function vu174()
+    vu38.CrashMode.enabled = not vu38.CrashMode.enabled
+
+    if not vu38.CrashMode.enabled then
+        vu169()
+    end
+
+    vu1:Notify({
+        Title = 'Crash Mode',
+        Content = vu38.CrashMode.enabled and 'Enabled' or 'Disabled',
+        Duration = 3,
+    })
+
+    if vu1.Options and vu1.Options.crashModeToggle then
+        vu1.Options.crashModeToggle:SetValue(vu38.CrashMode.enabled)
+    end
+end
+local function vu178(p175, p176)
+    local v177 = p175:WaitForChild(p176, 5)
+
+    if not v177 then
+        vu1:Notify({
+            Title = 'Remote Error',
+            Content = 'Remote not found: ' .. p176,
+            Duration = 5,
+        })
+        warn([[Kukuri Client Warning: Could not find RemoteEvent/RemoteFunction ']] .. p176 .. "' in " .. p175.Name)
+    end
+
+    return v177
+end
+
+task.spawn(function()
+    if vu19 then
+        local vu179 = vu11.Character or vu11.CharacterAdded:Wait()
+
+        vu17 = vu179
+        vu18 = vu17:WaitForChild('Humanoid')
+
+        pcall(function()
+            vu42 = vu178(vu179, 'Communicate')
+            vu43 = vu178(vu7:WaitForChild('DefaultChatSystemChatEvents', 5), 'SayMessageRequest')
+        end)
+    end
+end)
+
+local function vu180(...)
+    if vu19 then
+        if vu42 and vu42:IsA('RemoteEvent') then
+            pcall(vu42.FireServer, vu42, ...)
+        elseif vu42 then
+            warn("Kukuri Client Warning: 'Communicate' is not a RemoteEvent.")
+            vu1:Notify({
+                Title = 'Remote Error',
+                Content = "'Communicate' is not RemoteEvent",
+                Duration = 4,
+            })
+        else
+            warn('Kukuri Client Warning: Communicate RemoteEvent not found.')
+            vu1:Notify({
+                Title = 'Remote Error',
+                Content = 'Communicate RemoteEvent Not Found',
+                Duration = 4,
+            })
+        end
+    end
+end
+local function vu181(...)
+    if vu19 then
+        if vu43 and vu43:IsA('RemoteEvent') then
+            pcall(vu43.FireServer, vu43, ...)
+        elseif vu43 then
+            warn('Kukuri Client Warning: Chat Remote is not a RemoteEvent.')
+            vu1:Notify({
+                Title = 'Remote Error',
+                Content = 'Chat Remote is not RemoteEvent',
+                Duration = 4,
+            })
+        else
+            warn('Kukuri Client Warning: Chat RemoteEvent not found.')
+            vu1:Notify({
+                Title = 'Remote Error',
+                Content = 'Chat RemoteEvent Not Found',
+                Duration = 4,
+            })
+        end
+    end
+end
+local function v183(pu182)
+    if vu19 then
+        vu17 = pu182
+        vu18 = pu182:WaitForChild('Humanoid')
+        vu38.AntiOrbitLock.isDetectingLock = false
+        vu38.AntiOrbitLock.lockDetectedTime = 0
+
+        if vu38.AntiOrbitLock.isCameraLocked then
+            vu38.AntiOrbitLock.isCameraLocked = false
+        end
+
+        vu169()
+        task.wait(0.5)
+        pcall(function()
+            vu42 = vu178(pu182, 'Communicate')
+        end)
+
+        if not vu42 then
+            warn([[Kukuri Client Warning: Failed to re-initialize Communicate remote on character respawn.]])
+        end
+        if vu38.AntiRagdoll.enabled then
+            startAntiRagdoll()
+        end
+        if vu20 then
+            vu150(pu182)
+        end
+    end
+end
+
+vu110(nil)
+
+local vu184 = vu11.CharacterAdded:Connect(v183)
+
+if vu11.Character then
+    v183(vu11.Character)
+else
+    vu11.CharacterAdded:Wait()
+    v183(vu11.Character)
+end
+
+local vu185 = vu2.LocalPlayer
+local vu186 = vu3.RenderStepped
+local vu187 = {}
+local vu188 = {}
+
+function vu41.disableRenderStepped(p189)
+    if vu187[p189] then
+        local v190, v191, v192 = pairs(vu187[p189])
+
+        while true do
+            local v193
+
+            v192, v193 = v190(v191, v192)
+
+            if v192 == nil then
+                break
+            end
+
+            vu110(v193)
+        end
+
+        table.clear(vu187[p189])
+    end
+end
+function vu41.enableRenderStepped(pu194)
+    if pu194 ~= vu185 then
+        vu41.disableRenderStepped(pu194)
+
+        if not vu187[pu194] then
+            vu187[pu194] = {}
+        end
+
+        local vu195 = pu194.Character
+
+        if vu195 then
+            vu195 = vu195:FindFirstChild('HumanoidRootPart')
+        end
+        if vu195 then
+            local v196 = vu186:Connect(function()
+                if vu19 and vu38.AntiFling.enabled then
+                    if vu195 and vu195.Parent then
+                        pcall(function()
+                            vu195.Velocity = Vector3.new()
+                            vu195.RotVelocity = Vector3.new()
+                            vu195.AssemblyLinearVelocity = Vector3.new()
+                            vu195.AssemblyAngularVelocity = Vector3.new()
+                        end)
+                    else
+                        vu41.disableRenderStepped(pu194)
+                    end
+                else
+                    vu41.disableRenderStepped(pu194)
+                end
+            end)
+
+            table.insert(vu187[pu194], v196)
+        end
+    end
+end
+
+local function vu198(_, p197)
+    if vu19 then
+        if vu38.AntiFling.enabled then
+            task.wait(0.5)
+            vu41.enableRenderStepped(p197)
+        end
+    end
+end
+
+function vu41.initPlayer(pu199)
+    if pu199 ~= vu185 then
+        if not vu187[pu199] then
+            vu187[pu199] = {}
+        end
+        if not vu188[pu199] then
+            vu188[pu199] = nil
+        end
+
+        vu188[pu199] = vu110(vu188[pu199])
+
+        if pu199.Character and vu38.AntiFling.enabled then
+            task.wait(0.1)
+            vu41.enableRenderStepped(pu199)
+        end
+
+        vu188[pu199] = pu199.CharacterAdded:Connect(function(p200)
+            vu198(p200, pu199)
+        end)
+    end
+end
+function vu41.handleToggle(p201)
+    local v202 = vu2
+    local v203, v204, v205 = ipairs(v202:GetPlayers())
+
+    while true do
+        local v206
+
+        v205, v206 = v203(v204, v205)
+
+        if v205 == nil then
+            break
+        end
+        if v206 ~= vu185 then
+            if p201 then
+                vu41.initPlayer(v206)
+            else
+                vu41.disableRenderStepped(v206)
+            end
+        end
+    end
+end
+
+local v207 = vu2
+local v208, v209, v210 = ipairs(vu2.GetPlayers(v207))
+local vu211 = vu145
+local v212 = vu5
+local vu213 = vu100
+local vu214 = vu129
+local vu215 = vu95
+local vu216 = vu33
+local vu217 = vu187
+local vu218 = vu15
+local vu219 = vu38
+local vu220 = vu3
+local vu221 = vu19
+local vu222 = vu11
+local vu223 = vu16
+local vu224 = vu169
+local vu225 = vu112
+local vu226 = vu2
+local vu227 = vu110
+local vu228 = vu1
+local vu229 = vu188
+local vu230 = vu152
+local vu231 = vu41
+local vu232 = vu185
+
+while true do
+    local v233, v234 = v208(v209, v210)
+
+    if v233 == nil then
+        break
+    end
+
+    v210 = v233
+
+    if v234 ~= vu232 then
+        vu231.initPlayer(v234)
+    end
+end
+
+vu227(v31)
+
+local vu236 = vu226.PlayerAdded:Connect(function(p235)
+    if vu221 then
+        if p235 ~= vu232 then
+            vu231.initPlayer(p235)
+        end
+    end
+end)
+
+vu227(v32)
+
+local vu238 = vu226.PlayerRemoving:Connect(function(p237)
+    if p237 ~= vu232 then
+        vu231.disableRenderStepped(p237)
+
+        vu217[p237] = nil
+        vu229[p237] = vu227(vu229[p237])
+    end
+end)
+
+local function vu241(p239)
+    if vu219.TeleportCycle.isCycling then
+        vu219.TeleportCycle.isCycling = false
+
+        if vu219.TeleportCycle.cycleCoroutine then
+            task.cancel(vu219.TeleportCycle.cycleCoroutine)
+
+            vu219.TeleportCycle.cycleCoroutine = nil
+        end
+
+        local vu240 = vu226.LocalPlayer.Character
+
+        if vu240 then
+            vu240 = vu240:FindFirstChild('HumanoidRootPart')
+        end
+        if p239 and (vu240 and vu219.TeleportCycle.originalPosition) then
+            pcall(function()
+                vu240.CFrame = CFrame.new(vu219.TeleportCycle.originalPosition)
+            end)
+        elseif not p239 then
+            vu228:Notify({
+                Title = 'Teleport Cycle',
+                Content = 'Done',
+                Duration = 3,
+            })
+        end
+
+        vu219.TeleportCycle.originalPosition = nil
+    end
+end
+local function vu255()
+    if vu221 and not vu219.TeleportCycle.isCycling then
+        local vu242 = vu226.LocalPlayer.Character
+
+        if vu242 then
+            vu242 = vu242:FindFirstChild('HumanoidRootPart')
+        end
+        if vu242 then
+            vu219.TeleportCycle.originalPosition = vu242.Position
+            vu219.TeleportCycle.isCycling = true
+
+            vu228:Notify({
+                Title = 'Teleport Cycle',
+                Content = 'Starting...',
+                Duration = 3,
+            })
+
+            vu219.TeleportCycle.cycleCoroutine = task.spawn(function()
+                local v243 = vu226
+                local v244, v245, v246 = ipairs(v243:GetPlayers())
+                local v247 = {}
+
+                while true do
+                    local v248
+
+                    v246, v248 = v244(v245, v246)
+
+                    if v246 == nil then
+                        break
+                    end
+                    if v248 ~= vu226.LocalPlayer and v248.Character and (v248.Character:FindFirstChild('HumanoidRootPart') and not (vu219.ExcludedPlayers[v248.Name] or vu219.TeleportBehind.ignoreSigma and vu219.TeleportBehind.excludedPlayers[v248.Name])) then
+                        table.insert(v247, v248)
+                    end
+                end
+
+                if #v247 ~= 0 then
+                    local v249, v250, v251 = ipairs(v247)
+
+                    while true do
+                        local v252
+
+                        v251, v252 = v249(v250, v251)
+
+                        if v251 == nil or not (vu219.TeleportCycle.isCycling and vu221) then
+                            break
+                        end
+                        if v252 and v252.Character then
+                            local v253 = v252.Character:FindFirstChild('HumanoidRootPart')
+
+                            if v253 then
+                                local vu254 = v253.Position + Vector3.new(0, 5, 0)
+
+                                pcall(function()
+                                    vu242.CFrame = CFrame.new(vu254)
+                                end)
+                                task.wait(vu219.TeleportCycle.delayBetweenTeleports)
+                            else
+                                task.wait(0.1)
+                            end
+                        else
+                            task.wait(0.1)
+                        end
+                        if not (vu219.TeleportCycle.isCycling and vu221) then
+                            break
+                        end
+                    end
+
+                    if vu219.TeleportCycle.isCycling then
+                        task.defer(vu241, true)
+                    end
+
+                    vu219.TeleportCycle.cycleCoroutine = nil
+                else
+                    vu228:Notify({
+                        Title = 'Teleport Cycle',
+                        Content = 'No targets found',
+                        Duration = 3,
+                    })
+                    task.defer(vu241, true)
+                end
+            end)
+        else
+            vu228:Notify({
+                Title = 'Teleport Cycle',
+                Content = 'Character not found',
+                Duration = 3,
+            })
+        end
+    else
+        return
+    end
+end
+local function vu267(pu256)
+    if vu221 then
+        local v257 = vu222.Character
+
+        if v257 then
+            local vu258 = v257:FindFirstChild('HumanoidRootPart')
+
+            if vu258 then
+                if vu219.Movement.smoothMovement then
+                    local vu259 = vu258.Position
+                    local vu260 = 0.2
+                    local vu261 = tick()
+                    local vu262 = nil
+
+                    vu262 = vu12:Connect(function()
+                        if vu221 then
+                            local v263 = tick() - vu261
+                            local v264 = math.min(v263 / vu260, 1)
+                            local v265 = 1 - (1 - v264) ^ 3
+
+                            if vu258 and vu258.Parent then
+                                local vu266 = vu259:Lerp(pu256, v265)
+
+                                pcall(function()
+                                    vu258.CFrame = CFrame.new(vu266)
+                                end)
+                            else
+                                vu262 = vu227(vu262)
+                            end
+                            if v264 >= 1 then
+                                vu262 = vu227(vu262)
+                            end
+                        else
+                            vu262 = vu227(vu262)
+                        end
+                    end)
+                elseif vu258 and vu258.Parent then
+                    pcall(function()
+                        vu258.CFrame = CFrame.new(pu256)
+                    end)
+                end
+            end
+        else
+            return
+        end
+    else
+        return
+    end
+end
+local function vu272(p268)
+    if vu221 then
+        local v269 = vu222.Character
+
+        if v269 then
+            local v270 = v269:FindFirstChild('HumanoidRootPart')
+
+            if v270 then
+                local v271 = v270.Position
+
+                if p268 ~= Enum.KeyCode.X then
+                    if p268 ~= Enum.KeyCode.C then
+                        if p268 == Enum.KeyCode.V then
+                            v271 = Vector3.new(v271.X, v271.Y + vu219.Movement.boostDistance, v271.Z)
+                        end
+                    else
+                        v271 = Vector3.new(v271.X, v271.Y - vu219.Movement.downDistance, v271.Z)
+                    end
+                else
+                    v271 = Vector3.new(v271.X, v271.Y + vu219.Movement.upDistance, v271.Z)
+                end
+
+                vu267(v271)
+            end
+        else
+            return
+        end
+    else
+        return
+    end
+end
+local function vu276(p273)
+    if vu221 then
+        local vu274 = vu222.Character
+
+        if vu274 then
+            vu274 = vu274:FindFirstChild('HumanoidRootPart')
+        end
+        if vu274 then
+            local vu275 = vu274.Position + p273
+
+            pcall(function()
+                vu274.CFrame = CFrame.new(vu275)
+            end)
+            vu228:Notify({
+                Title = 'Custom Teleport',
+                Content = string.format('Teleported by Offset: %.1f, %.1f, %.1f', p273.X, p273.Y, p273.Z),
+                Duration = 2,
+            })
+        else
+            vu228:Notify({
+                Title = 'Error',
+                Content = 'Could not find character HumanoidRootPart',
+                Duration = 3,
+            })
+        end
+    end
+end
+local function vu288(p277)
+    local v278 = vu226.LocalPlayer
+    local v279 = nil
+    local v280 = math.huge
+    local v281 = vu222.Character
+
+    if v281 then
+        v281 = vu222.Character:FindFirstChild('HumanoidRootPart')
+    end
+    if not v281 then
+        return nil
+    end
+
+    local v282 = vu226
+    local v283, v284, v285 = ipairs(v282:GetPlayers())
+
+    while true do
+        local v286
+
+        v285, v286 = v283(v284, v285)
+
+        if v285 == nil then
+            break
+        end
+        if v286 ~= v278 and v286.Character and (v286.Character:FindFirstChild('HumanoidRootPart') and (v286.Character:FindFirstChild('Humanoid') and (v286.Character.Humanoid.Health > 0 and not (vu219.ExcludedPlayers[v286.Name] or vu219.TeleportBehind.ignoreSigma and vu219.TeleportBehind.excludedPlayers[v286.Name])) and v286.Name ~= p277)) then
+            local v287 = (v286.Character.HumanoidRootPart.Position - v281.Position).Magnitude
+
+            if v287 < v280 then
+                v279 = v286
+                v280 = v287
+            end
+        end
+    end
+
+    return v279
+end
+local function vu295(p289)
+    if vu221 then
+        local v290 = vu226.LocalPlayer
+
+        if v290.Character and p289.Character then
+            local vu291 = v290.Character:FindFirstChild('HumanoidRootPart')
+            local v292 = p289.Character:FindFirstChild('HumanoidRootPart')
+
+            if vu291 and v292 then
+                local vu293 = v292.CFrame
+                local vu294 = vu293.Position - vu293.LookVector * vu219.TeleportBehind.teleportDistance
+
+                pcall(function()
+                    vu291.CFrame = CFrame.new(vu294, vu293.Position)
+                end)
+            end
+        else
+            return
+        end
+    else
+        return
+    end
+end
+local function vu305()
+    if vu221 then
+        local v296 = vu226.LocalPlayer.Character
+
+        if v296 then
+            local v297 = v296:WaitForChild('Humanoid')
+
+            if v297 then
+                v297 = v297:FindFirstChildOfClass('Animator')
+            end
+            if v297 then
+                v297.AnimationPlayed:Connect(function(p298)
+                    if not (vu221 and vu219.AnimationTeleport.isEnabled) then
+                        return
+                    end
+
+                    local v299, v300, v301 = ipairs(vu219.AnimationTeleport.animations)
+
+                    while true do
+                        local vu302
+
+                        v301, vu302 = v299(v300, v301)
+
+                        if v301 == nil then
+                            break
+                        end
+                        if p298.Animation.AnimationId == vu302.id then
+                            task.delay(vu302.delay, function()
+                                if vu221 then
+                                    local vu303 = vu226.LocalPlayer.Character
+
+                                    if vu303 then
+                                        vu303 = vu303:FindFirstChild('HumanoidRootPart')
+                                    end
+                                    if vu303 then
+                                        local vu304 = vu303.Position + Vector3.new(0, vu302.distance or vu219.AnimationTeleport.defaultDistance, 0)
+
+                                        pcall(function()
+                                            vu303.CFrame = CFrame.new(vu304)
+                                        end)
+                                    end
+                                end
+                            end)
+
+                            break
+                        end
+                    end
+                end)
+            end
+        else
+            return
+        end
+    else
+        return
+    end
+end
+local function vu307(p306)
+    if p306 then
+        p306 = not vu219.ExcludedPlayers[p306.Name]
+    end
+
+    return p306
+end
+local function vu310()
+    if vu221 then
+        if vu219.Aiming.isLocked then
+            vu219.Aiming.isLocked = false
+            vu219.Aiming.lockedPlayer = nil
+
+            vu228:Notify({
+                Title = 'Aim Lock',
+                Content = 'Unlocked target',
+                Duration = 2,
+            })
+        else
+            local v308 = vu218.Target
+
+            if v308 and v308:IsDescendantOf(workspace) then
+                local v309 = v308:FindFirstAncestorOfClass('Model')
+
+                if v309 then
+                    v309 = vu225(v309)
+                end
+                if v309 and (v309 ~= vu222 and vu307(v309)) then
+                    vu219.Aiming.lockedPlayer = v309
+                    vu219.Aiming.isLocked = true
+
+                    vu228:Notify({
+                        Title = 'Aim Lock',
+                        Content = 'Locked on: ' .. v309.Name,
+                        Duration = 2,
+                    })
+                else
+                    vu228:Notify({
+                        Title = 'Aim Lock',
+                        Content = 'Cannot lock this target',
+                        Duration = 2,
+                    })
+
+                    vu219.Aiming.isLocked = false
+                    vu219.Aiming.lockedPlayer = nil
+
+                    if vu228.Options.LockOnToggle then
+                        vu228.Options.LockOnToggle:SetValue(false)
+                    end
+                end
+            else
+                vu228:Notify({
+                    Title = 'Aim Lock',
+                    Content = 'No valid target',
+                    Duration = 2,
+                })
+
+                vu219.Aiming.isLocked = false
+                vu219.Aiming.lockedPlayer = nil
+
+                if vu228.Options.LockOnToggle then
+                    vu228.Options.LockOnToggle:SetValue(false)
+                end
+            end
+        end
+    end
+end
+local function vu324(p311)
+    local v312 = vu226.LocalPlayer
+    local v313 = vu226
+    local v314, v315, v316 = ipairs(v313:GetPlayers())
+
+    while true do
+        local v317
+
+        v316, v317 = v314(v315, v316)
+
+        if v316 == nil then
+            break
+        end
+        if v317 ~= v312 and v317.Name ~= p311 then
+            local v318 = v317.Character
+
+            if v318 then
+                v318 = v318:FindFirstChildOfClass('Humanoid')
+            end
+            if v318 then
+                v318 = v318:FindFirstChildOfClass('Animator')
+            end
+            if v318 then
+                local v319 = v318:GetPlayingAnimationTracks()
+                local v320, v321, v322 = ipairs(v319)
+
+                while true do
+                    local v323
+
+                    v322, v323 = v320(v321, v322)
+
+                    if v322 == nil then
+                        break
+                    end
+                    if v323 and (v323.Animation and vu219.AutoRankMode.blockingAnimationIds[v323.Animation.AnimationId]) then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+
+    return false
+end
+local function vu332()
+    if vu221 then
+        local v325 = vu226.LocalPlayer.Character
+
+        if v325 then
+            local vu326 = v325:FindFirstChild('HumanoidRootPart')
+
+            if vu326 then
+                local v327 = vu288(vu219.AutoRankMode.excludedPlayerName ~= '' and vu219.AutoRankMode.excludedPlayerName or nil)
+
+                if v327 and v327.Character then
+                    local vu328 = v327.Character:FindFirstChild('HumanoidRootPart')
+
+                    if vu328 then
+                        pcall(function()
+                            vu326.CFrame = CFrame.new(vu328.Position + Vector3.new(0, 3, 0))
+                        end)
+                        task.wait(0.1)
+
+                        local vu329 = vu219.AutoRankMode.selectedKey
+
+                        pcall(function()
+                            vu6:SendKeyEvent(true, vu329, false, game)
+                            task.wait(0.05)
+                            vu6:SendKeyEvent(false, vu329, false, game)
+                        end)
+                        task.wait(0.1)
+
+                        local v330 = tonumber(vu219.AutoRankMode.downTeleportDelay) or 0
+
+                        if v330 > 0 then
+                            task.wait(v330)
+                        end
+                        if vu326 and (vu326.Parent and vu221) then
+                            local vu331 = vu326.Position + Vector3.new(0, -400, 0)
+
+                            pcall(function()
+                                vu326.CFrame = CFrame.new(vu331)
+                            end)
+                        end
+                    else
+                        vu228:Notify({
+                            Title = 'Auto Rank',
+                            Content = 'Nearest target not found',
+                            Duration = 2,
+                        })
+                    end
+                else
+                    vu228:Notify({
+                        Title = 'Auto Rank',
+                        Content = 'Nearest target not found',
+                        Duration = 2,
+                    })
+                end
+            end
+        else
+            return
+        end
+    else
+        return
+    end
+end
+local function vu335(p333)
+    if not p333 then
+        return false
+    end
+
+    local v334 = p333:GetState()
+
+    return p333.PlatformStand or (v334 == Enum.HumanoidStateType.FallingDown or (v334 == Enum.HumanoidStateType.Ragdoll or v334 == Enum.HumanoidStateType.Seated))
+end
+local function vu337()
+    local v336 = vu219.AntiRagdoll.velocityStrength
+
+    return Vector3.new(math.random(-v336, v336), math.random(0, v336), math.random(-v336, v336))
+end
+local function vu339()
+    local v338 = vu219.AntiRagdoll.teleportDistance
+
+    return Vector3.new(math.random(-v338, v338), math.random(-v338, v338), math.random(-v338, v338))
+end
+local function vu350(p340)
+    if vu221 and p340 then
+        local vu341 = p340:FindFirstChild('HumanoidRootPart')
+
+        if vu341 then
+            vu216 = vu227(vu216)
+            vu219.AntiRagdoll.isBreaking = true
+
+            local vu342 = tick()
+            local vu343 = 0
+            local vu344 = 0
+            local vu345 = vu341.Position
+
+            vu216 = vu13:Connect(function(_)
+                if vu221 and (vu219.AntiRagdoll.isBreaking and (vu219.AntiRagdoll.enabled and (vu341 and vu341.Parent))) then
+                    local v346 = tick()
+
+                    if v346 - vu343 >= 0.1 then
+                        if vu341 and vu341.Parent then
+                            pcall(function()
+                                vu341.Velocity = vu337()
+                            end)
+                        end
+
+                        vu343 = v346
+                    end
+                    if v346 - vu344 >= 0.2 then
+                        if vu341 and vu341.Parent then
+                            local vu347 = vu339()
+
+                            pcall(function()
+                                vu341.CFrame = vu341.CFrame + vu347
+                            end)
+                        end
+
+                        vu344 = v346
+                    end
+                    if vu341 and vu341.Parent then
+                        local v348 = v346 - vu342
+                        local vu349 = math.sin(v348 * 10) * vu219.AntiRagdoll.breakHeight
+
+                        pcall(function()
+                            vu341.CFrame = CFrame.new(vu341.Position.X, vu345.Y + vu349, vu341.Position.Z)
+                        end)
+                    end
+                else
+                    vu216 = vu227(vu216)
+                    vu219.AntiRagdoll.isBreaking = false
+                end
+            end)
+        end
+    else
+        return
+    end
+end
+local function vu354(p351)
+    if vu221 and p351 then
+        local v352 = p351:FindFirstChild('Humanoid')
+
+        if v352 then
+            if vu335(v352) and not vu219.AntiRagdoll.isBreaking then
+                vu350(p351)
+                task.spawn(function()
+                    while vu221 and (vu219.AntiRagdoll.enabled and vu219.AntiRagdoll.isBreaking) do
+                        local vu353 = vu226.LocalPlayer.Character
+
+                        if vu353 then
+                            vu353 = vu353:FindFirstChild('Humanoid')
+                        end
+                        if not (vu353 and vu335(vu353)) then
+                            vu219.AntiRagdoll.isBreaking = false
+                            vu216 = vu227(vu216)
+
+                            if vu353 then
+                                pcall(function()
+                                    vu353.PlatformStand = false
+                                end)
+                                pcall(function()
+                                    vu353.Sit = false
+                                end)
+                                task.wait(0.1)
+                                pcall(function()
+                                    vu353.Jump = true
+                                end)
+                            end
+
+                            break
+                        end
+
+                        task.wait(0.1)
+                    end
+                end)
+            end
+        end
+    else
+        return
+    end
+end
+local function vu365()
+    if vu221 then
+        local v355, v356, v357 = ipairs(vu219.AntiRagdoll.connections)
+
+        while true do
+            local v358
+
+            v357, v358 = v355(v356, v357)
+
+            if v357 == nil then
+                break
+            end
+
+            vu219.AntiRagdoll.connections[v357] = vu227(v358)
+        end
+
+        table.clear(vu219.AntiRagdoll.connections)
+
+        local function v364(pu359)
+            if vu221 and pu359 then
+                local v360 = pu359:WaitForChild('Humanoid')
+
+                if v360 then
+                    local v361 = v360:GetPropertyChangedSignal('PlatformStand'):Connect(function()
+                        if vu221 and vu219.AntiRagdoll.enabled then
+                            vu354(pu359)
+                        end
+                    end)
+
+                    table.insert(vu219.AntiRagdoll.connections, v361)
+
+                    local v363 = v360.StateChanged:Connect(function(_, p362)
+                        if vu221 and (vu219.AntiRagdoll.enabled and (p362 == Enum.HumanoidStateType.FallingDown or (p362 == Enum.HumanoidStateType.Ragdoll or p362 == Enum.HumanoidStateType.Seated))) then
+                            vu354(pu359)
+                        end
+                    end)
+
+                    table.insert(vu219.AntiRagdoll.connections, v363)
+                end
+            else
+                return
+            end
+        end
+
+        if vu226.LocalPlayer.Character then
+            v364(vu226.LocalPlayer.Character)
+        end
+    end
+end
+local function vu369(p366)
+    if vu221 and (p366 and (p366.Character and not vu39[p366])) then
+        local v367 = p366.Character:FindFirstChild('KukuriSpeedHighlight')
+
+        if v367 then
+            pcall(v367.Destroy, v367)
+        end
+
+        local v368 = Instance.new('Highlight')
+
+        v368.Name = 'KukuriSpeedHighlight'
+        v368.FillColor = Color3.fromRGB(255, 0, 0)
+        v368.OutlineColor = Color3.fromRGB(255, 0, 0)
+        v368.FillTransparency = 0.7
+        v368.OutlineTransparency = 0.5
+        v368.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        v368.Adornee = p366.Character
+        v368.Parent = p366.Character
+        vu39[p366] = v368
+    end
+end
+local function vu373(p370)
+    if p370 then
+        local v371 = vu39[p370]
+
+        if v371 then
+            pcall(v371.Destroy, v371)
+
+            vu39[p370] = nil
+        end
+
+        local v372 = p370.Character and p370.Character:FindFirstChild('KukuriSpeedHighlight')
+
+        if v372 then
+            pcall(v372.Destroy, v372)
+        end
+    end
+end
+local function vu376(p374)
+    if vu221 and p374 then
+        if p374.Character then
+            local v375 = p374.Character:FindFirstChild('Humanoid')
+
+            if v375 then
+                if v375.WalkSpeed <= 26 then
+                    vu373(p374)
+                else
+                    vu369(p374)
+                end
+            else
+                vu373(p374)
+            end
+        else
+            vu373(p374)
+
+            return
+        end
+    else
+        return
+    end
+end
+local function vu381(pu377, p378)
+    if vu221 and (p378 and p378.Animation) then
+        if p378.Animation.AnimationId == 'rbxassetid://12447707844' and not vu40[pu377.UserId] then
+            local v379, v380 = pcall(vu226.GetUserThumbnailAsync, vu226, pu377.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+
+            if not v379 then
+                v380 = nil
+            end
+
+            pcall(vu4.SetCore, vu4, 'SendNotification', {
+                Title = pu377.Name,
+                Text = 'Used Saitama ULT',
+                Icon = v380,
+                Duration = 3,
+            })
+
+            vu40[pu377.UserId] = true
+
+            task.delay(5, function()
+                vu40[pu377.UserId] = nil
+            end)
+        end
+    end
+end
+local function vu397()
+    if vu221 then
+        if vu219.Orbit.isOrbiting then
+            vu219.Orbit.isOrbiting = false
+            vu219.Orbit.target = nil
+
+            if vu228.Options.orbitToggle then
+                vu228.Options.orbitToggle:SetValue(false)
+            end
+
+            vu228:Notify({
+                Title = 'Orbit',
+                Content = 'Stopped Orbit',
+                Duration = 2,
+            })
+        else
+            local v382 = vu218.X
+            local v383 = vu218.Y
+            local v384 = math.huge
+            local v385 = vu226
+            local v386, v387, v388 = ipairs(v385:GetPlayers())
+            local v389 = nil
+
+            while true do
+                local v390
+
+                v388, v390 = v386(v387, v388)
+
+                if v388 == nil then
+                    break
+                end
+                if v390 ~= vu222 and v390.Character and (v390.Character:FindFirstChild('HumanoidRootPart') and not vu219.ExcludedPlayers[v390.Name]) then
+                    local v391 = v390.Character:FindFirstChild(vu219.Orbit.targetPartName) or v390.Character:FindFirstChild('HumanoidRootPart')
+
+                    if v391 then
+                        local v392, v393 = vu223:WorldToScreenPoint(v391.Position)
+
+                        if v393 then
+                            local v394 = v392.X - v382
+                            local v395 = v392.Y - v383
+                            local v396 = math.sqrt(v394 * v394 + v395 * v395)
+
+                            if v396 < v384 then
+                                v389 = v390
+                                v384 = v396
+                            end
+                        end
+                    end
+                end
+            end
+
+            if v389 then
+                vu219.Orbit.target = v389
+                vu219.Orbit.isOrbiting = true
+                vu219.Orbit.angle = 0
+
+                if vu228.Options.orbitToggle then
+                    vu228.Options.orbitToggle:SetValue(true)
+                end
+
+                vu228:Notify({
+                    Title = 'Orbit',
+                    Content = 'Orbiting: ' .. v389.Name .. ' (' .. vu219.Orbit.targetPartName .. ')',
+                    Duration = 2,
+                })
+            else
+                vu228:Notify({
+                    Title = 'Orbit',
+                    Content = 'No valid target near cursor',
+                    Duration = 2,
+                })
+            end
+        end
+    else
+        return
+    end
+end
+local function vu404(p398)
+    local v399
+
+    if p398 then
+        v399 = p398.Character
+    else
+        v399 = p398
+    end
+    if v399 then
+        v399 = v399:FindFirstChild('HumanoidRootPart')
+    end
+    if not v399 then
+        return Vector3.new()
+    end
+
+    local v400 = v399.Position
+    local v401 = vu45[p398] or v400
+    local v402 = vu220.Heartbeat:Wait()
+    local v403 = Vector3.new()
+
+    if v402 > 0 then
+        v403 = (v400 - v401) / v402
+    end
+
+    vu45[p398] = v400
+
+    return v400 + v403 * vu46
+end
+
+pcall(function()
+    if not workspace:FindFirstChild('KukuriCute') then
+        local v405 = Instance.new('Part')
+
+        v405.Name = 'KukuriCute'
+        v405.Size = Vector3.new(80000, 1, 80000)
+        v405.Position = Vector3.new(0, -10050, 0)
+        v405.Anchored = true
+        v405.CanCollide = true
+        v405.Transparency = 0.8
+        v405.Color = Color3.fromRGB(150, 150, 255)
+        v405.Material = Enum.Material.ForceField
+        v405.Parent = workspace
+    end
+end)
+
+local function vu406(_) end
+
+local vu407 = vu228:CreateWindow({
+    Title = 'Kukuri Client v1.2.0',
+    SubTitle = 'Developed by Kukuri',
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 720),
+    Acrylic = true,
+    Theme = 'Dark',
+    MinimizeKey = Enum.KeyCode.LeftControl,
+})
+local v408 = {
+    Home = vu407:AddTab({
+        Title = 'Home',
+        Icon = 'home',
+    }),
+    Aim = vu407:AddTab({
+        Title = 'Aim',
+        Icon = 'crosshair',
+    }),
+    Movement = vu407:AddTab({
+        Title = 'Movement',
+        Icon = 'move-3d',
+    }),
+    Combat = vu407:AddTab({
+        Title = 'Combat',
+        Icon = 'swords',
+    }),
+    Map = vu407:AddTab({
+        Title = 'Map',
+        Icon = 'map',
+    }),
+    Main = vu407:AddTab({
+        Title = 'Main',
+        Icon = 'settings',
+    }),
+    Misc = vu407:AddTab({
+        Title = 'Misc',
+        Icon = 'box',
+    }),
+    Config = vu407:AddTab({
+        Title = 'Config',
+        Icon = 'save',
+    }),
+}
+local vu409 = vu228.Options
+
+v408.Home:AddParagraph({
+    Title = 'Welcome to Kukuri Client',
+    Content = 'Version: 1.1.8\nDeveloped by: Kukuri\nAdmin: ' .. vu21,
+})
+v408.Home:AddParagraph({
+    Title = 'Credit',
+    Content = [[Kukuri: Cute person
+secret (_1.8e308): Helping with important things (and called me 'good girl')]],
+})
+
+local vu410 = v408.Home:AddParagraph({
+    Title = 'Character Stats',
+    Content = 'Loading...',
+})
+
+task.spawn(function()
+    while vu221 and task.wait(1) do
+        local v411 = vu226.LocalPlayer.Character
+
+        if v411 then
+            local vu412 = v411:FindFirstChild('Humanoid')
+
+            if vu412 then
+                local v413, v414, v415, v416, v417 = pcall(function()
+                    return vu412.Health, vu412.MaxHealth, vu412.WalkSpeed, vu412.JumpPower
+                end)
+
+                if v413 then
+                    vu410:SetDesc(string.format('Health: %.0f / %.0f\nWalkSpeed: %.1f\nJumpPower: %.1f', v414, v415, v416, v417))
+                else
+                    vu410:SetDesc('Error loading stats.')
+                end
+            else
+                vu410:SetDesc('Character loading...')
+            end
+        else
+            vu410:SetDesc('Character not loaded.')
+        end
+    end
+
+    if vu410 and vu410.Visible then
+        vu410:SetDesc('Script disabled')
+    end
+end)
+
+local v418 = v408.Aim:AddToggle('MainAimToggle', {
+    Title = 'Toggle Aim Mode',
+    Description = 'Enable/Disable all aim modes',
+    Default = false,
+})
+
+v408.Aim:AddParagraph({
+    Title = 'Aim Types',
+    Content = 'Select a mode below (one mode at a time):',
+})
+
+local v419 = v408.Aim:AddSection('Types')
+local vu420 = v419:AddToggle('HoldAimToggle', {
+    Title = 'Aim Mode (Hold F)',
+    Description = [[Press and hold F to aim at the nearest player (camera follows)]],
+    Default = false,
+    Enabled = false,
+})
+local vu421 = v419:AddToggle('HoldLockToggle', {
+    Title = 'Lock Mode (Hold F)',
+    Description = [[Press and hold F to lock onto the nearest player (camera does not follow)]],
+    Default = false,
+    Enabled = false,
+})
+local vu422 = v419:AddToggle('LockOnToggle', {
+    Title = 'Lock On (Middle Click)',
+    Description = [[Click the middle mouse button to lock/unlock the target (toggle)]],
+    Default = false,
+    Enabled = false,
+})
+
+v418:OnChanged(function()
+    if vu221 then
+        local v423 = vu409.MainAimToggle.Value
+
+        vu409.HoldAimToggle:SetValue(false)
+        vu409.HoldLockToggle:SetValue(false)
+        vu409.LockOnToggle:SetValue(false)
+
+        vu420.Enabled = v423
+        vu421.Enabled = v423
+        vu422.Enabled = v423
+
+        if not v423 then
+            vu219.Aiming.isAiming = false
+            vu219.Aiming.isAimingNoCamera = false
+            vu219.Aiming.isLocked = false
+            vu219.Aiming.lockedPlayer = nil
+        end
+    end
+end)
+
+local v424 = vu420
+
+vu420.OnChanged(v424, function()
+    if vu221 then
+        if vu409.HoldAimToggle.Value then
+            vu409.HoldLockToggle:SetValue(false)
+            vu409.LockOnToggle:SetValue(false)
+        end
+    end
+end)
+
+local v425 = vu421
+
+vu421.OnChanged(v425, function()
+    if vu221 then
+        if vu409.HoldLockToggle.Value then
+            vu409.HoldAimToggle:SetValue(false)
+            vu409.LockOnToggle:SetValue(false)
+        end
+    end
+end)
+
+local v426 = vu422
+
+vu422.OnChanged(v426, function()
+    if vu221 then
+        if vu409.LockOnToggle.Value then
+            vu409.HoldAimToggle:SetValue(false)
+            vu409.HoldLockToggle:SetValue(false)
+        else
+            vu219.Aiming.isLocked = false
+            vu219.Aiming.lockedPlayer = nil
+        end
+    end
+end)
+
+local v427 = v408.Movement:AddSection('Teleport to Cursor (T)')
+
+v427:AddToggle('teleportToCursorToggle', {
+    Title = 'Enable Teleport to Cursor',
+    Description = 'Press T to teleport to where your mouse is pointing.',
+    Default = vu219.TeleportToCursor.enabled,
+}):OnChanged(function(p428)
+    if vu221 then
+        vu219.TeleportToCursor.enabled = p428
+
+        vu228:Notify({
+            Title = 'Teleport to Cursor',
+            Content = p428 and 'Enabled' or 'Disabled',
+            Duration = 2,
+        })
+    end
+end)
+v427:AddSlider('teleportCursorOffsetY', {
+    Title = 'Vertical Offset',
+    Description = 'Adjust height offset for teleport',
+    Default = vu219.TeleportToCursor.verticalOffset,
+    Min = 0,
+    Max = 10,
+    Rounding = 0.5,
+    Callback = function(p429)
+        if vu221 then
+            vu219.TeleportToCursor.verticalOffset = p429
+        end
+    end,
+})
+
+vu409.flyModeToggle = v408.Movement:AddToggle('flyModeToggle', {
+    Title = 'Fly Mode (Y)',
+    Default = vu219.FlyMode.enabled,
+    Callback = function(p430)
+        vu219.FlyMode.enabled = p430
+
+        if p430 then
+            vu104()
+        else
+            vu105()
+        end
+    end,
+})
+vu409.flySpeedSlider = v408.Movement:AddSlider('flySpeedSlider', {
+    Title = 'Fly Speed',
+    Min = 25,
+    Max = 500,
+    Default = vu219.FlyMode.speed,
+    Rounding = 5,
+    Callback = function(p431)
+        vu219.FlyMode.speed = p431
+    end,
+})
+
+local v432 = v408.Movement:AddSection('Orbit Control')
+
+vu409.orbitToggle = v432:AddToggle('orbitToggle', {
+    Title = 'Orbit (H)',
+    Description = 'Press H to start/stop orbiting the pointing player.',
+    Default = vu219.Orbit.isOrbiting,
+})
+
+v432:AddDropdown('orbitTargetPartDropdown', {
+    Title = 'Orbit Target Part',
+    Description = 'Select body part to orbit around',
+    Default = vu219.Orbit.targetPartName,
+    Values = {
+        'HumanoidRootPart',
+        'Head',
+        'Torso',
+        'LeftUpperLeg',
+        'RightUpperLeg',
+        'LeftUpperArm',
+        'RightUpperArm',
+    },
+    Callback = function(p433)
+        if vu221 then
+            vu219.Orbit.targetPartName = p433
+
+            vu228:Notify({
+                Title = 'Orbit',
+                Content = 'Orbit target set to: ' .. p433,
+                Duration = 2,
+            })
+        end
+    end,
+})
+v432:AddSlider('orbitRadius', {
+    Title = 'Orbit Radius',
+    Default = vu219.Orbit.radius,
+    Min = 5,
+    Max = 30,
+    Rounding = 1,
+    Callback = function(p434)
+        if vu221 then
+            vu219.Orbit.radius = p434
+        end
+    end,
+})
+v432:AddSlider('orbitSpeed', {
+    Title = 'Orbit Speed',
+    Default = vu219.Orbit.speed,
+    Min = 0.1,
+    Max = 5,
+    Rounding = 0.1,
+    Callback = function(p435)
+        if vu221 then
+            vu219.Orbit.speed = p435
+        end
+    end,
+})
+v432:AddSlider('orbitHeight', {
+    Title = 'Orbit Height',
+    Default = vu219.Orbit.height,
+    Min = vu219.Orbit.heightMin,
+    Max = vu219.Orbit.heightMax,
+    Rounding = 1,
+    Callback = function(p436)
+        if vu221 then
+            vu219.Orbit.height = p436
+        end
+    end,
+})
+v432:AddToggle('predictToggle', {
+    Title = 'Enable Prediction',
+    Description = 'Use predictive tracking for orbit',
+    Default = vu219.Orbit.predictEnabled,
+}):OnChanged(function(p437)
+    if vu221 then
+        vu219.Orbit.predictEnabled = p437
+
+        vu228:Notify({
+            Title = 'Orbit',
+            Content = p437 and 'Prediction ON' or 'Prediction OFF',
+            Duration = 2,
+        })
+    end
+end)
+v432:AddToggle('faceToggle', {
+    Title = 'Face Target',
+    Description = 'Orient toward orbit target using CFrame.lookAt',
+    Default = vu219.Orbit.faceEnabled,
+}):OnChanged(function(p438)
+    if vu221 then
+        vu219.Orbit.faceEnabled = p438
+
+        vu228:Notify({
+            Title = 'Orbit',
+            Content = p438 and 'Face Target ON' or 'Face Target OFF',
+            Duration = 2,
+        })
+    end
+end)
+vu409.orbitToggle:OnChanged(function(p439)
+    if vu221 then
+        if p439 then
+            vu228:Notify({
+                Title = 'Orbit',
+                Content = 'Press H on a player to start Orbit',
+                Duration = 3,
+            })
+        else
+            vu219.Orbit.isOrbiting = false
+            vu219.Orbit.target = nil
+
+            vu228:Notify({
+                Title = 'Orbit',
+                Content = 'Stopped Orbit',
+                Duration = 2,
+            })
+        end
+    end
+end)
+
+local v440 = v408.Movement:AddSection('Set Velocity')
+
+v440:AddParagraph({
+    Title = 'Custom Velocity',
+    Content = 'Set the desired Velocity and press Apply.',
+})
+
+vu409.velocityX = v440:AddSlider('velocityX', {
+    Title = 'Velocity X',
+    Default = vu219.CustomVelocity.X,
+    Min = -500,
+    Max = 500,
+    Rounding = 0,
+    Callback = function(p441)
+        if vu221 then
+            vu219.CustomVelocity.X = p441
+        end
+    end,
+})
+vu409.velocityY = v440:AddSlider('velocityY', {
+    Title = 'Velocity Y',
+    Default = vu219.CustomVelocity.Y,
+    Min = -500,
+    Max = 500,
+    Rounding = 0,
+    Callback = function(p442)
+        if vu221 then
+            vu219.CustomVelocity.Y = p442
+        end
+    end,
+})
+vu409.velocityZ = v440:AddSlider('velocityZ', {
+    Title = 'Velocity Z',
+    Default = vu219.CustomVelocity.Z,
+    Min = -500,
+    Max = 500,
+    Rounding = 0,
+    Callback = function(p443)
+        if vu221 then
+            vu219.CustomVelocity.Z = p443
+        end
+    end,
+})
+
+v440:AddButton({
+    Title = 'Apply Velocity',
+    Description = 'Use the Velocity value set on the character.',
+    Callback = function()
+        if vu221 then
+            local vu444 = vu226.LocalPlayer.Character
+
+            if vu444 then
+                vu444 = vu444:FindFirstChild('HumanoidRootPart')
+            end
+            if vu444 then
+                local vu445 = Vector3.new(vu219.CustomVelocity.X, vu219.CustomVelocity.Y, vu219.CustomVelocity.Z)
+
+                pcall(function()
+                    vu444.Velocity = vu445
+                end)
+                vu228:Notify({
+                    Title = 'Velocity Applied',
+                    Content = string.format('Set Velocity to: %.0f, %.0f, %.0f', vu445.X, vu445.Y, vu445.Z),
+                    Duration = 3,
+                })
+            else
+                vu228:Notify({
+                    Title = 'Error',
+                    Content = 'Could not find HumanoidRootPart',
+                    Duration = 3,
+                })
+            end
+        end
+    end,
+})
+v440:AddButton({
+    Title = 'Stop Velocity',
+    Description = "Set the character's Velocity to zero.",
+    Callback = function()
+        if vu221 then
+            local vu446 = vu226.LocalPlayer.Character
+
+            if vu446 then
+                vu446 = vu446:FindFirstChild('HumanoidRootPart')
+            end
+            if vu446 then
+                pcall(function()
+                    vu446.Velocity = Vector3.new(0, 0, 0)
+                end)
+
+                vu219.CustomVelocity.X = 0
+                vu219.CustomVelocity.Y = 0
+                vu219.CustomVelocity.Z = 0
+
+                if vu409.velocityX then
+                    vu409.velocityX:SetValue(0)
+                end
+                if vu409.velocityY then
+                    vu409.velocityY:SetValue(0)
+                end
+                if vu409.velocityZ then
+                    vu409.velocityZ:SetValue(0)
+                end
+
+                vu228:Notify({
+                    Title = 'Velocity Stopped',
+                    Content = 'Set Velocity to: 0, 0, 0',
+                    Duration = 3,
+                })
+            else
+                vu228:Notify({
+                    Title = 'Error',
+                    Content = 'Could not find HumanoidRootPart',
+                    Duration = 3,
+                })
+            end
+        end
+    end,
+})
+
+local v447 = v408.Movement:AddSection('Custom Teleport (Z)')
+
+v447:AddParagraph({
+    Title = 'Custom Relative Teleport',
+    Content = 'Input X Y Z offset',
+})
+
+vu409.customTeleportX = v447:AddInput('customTeleportX', {
+    Title = 'Teleport Offset X',
+    Default = tostring(vu219.CustomTeleportOffset.X),
+    Numeric = true,
+    Placeholder = 'Input number',
+    Callback = function(p448)
+        if vu221 then
+            vu219.CustomTeleportOffset.X = tonumber(p448) or 0
+        end
+    end,
+})
+vu409.customTeleportY = v447:AddInput('customTeleportY', {
+    Title = 'Teleport Offset Y',
+    Default = tostring(vu219.CustomTeleportOffset.Y),
+    Numeric = true,
+    Placeholder = 'Input number',
+    Callback = function(p449)
+        if vu221 then
+            vu219.CustomTeleportOffset.Y = tonumber(p449) or 0
+        end
+    end,
+})
+vu409.customTeleportZ = v447:AddInput('customTeleportZ', {
+    Title = 'Teleport Offset Z',
+    Default = tostring(vu219.CustomTeleportOffset.Z),
+    Numeric = true,
+    Placeholder = 'Input number',
+    Callback = function(p450)
+        if vu221 then
+            vu219.CustomTeleportOffset.Z = tonumber(p450) or 0
+        end
+    end,
+})
+
+v447:AddButton({
+    Title = 'Teleport Now (Z)',
+    Description = 'Teleport now with current offsets (Press Z)',
+    Callback = function()
+        if vu221 then
+            vu276((Vector3.new(vu219.CustomTeleportOffset.X, vu219.CustomTeleportOffset.Y, vu219.CustomTeleportOffset.Z)))
+        end
+    end,
+})
+v447:AddButton({
+    Title = 'Reset Inputs to Zero',
+    Description = 'Reset all offsets to 0',
+    Callback = function()
+        if vu221 then
+            vu219.CustomTeleportOffset.X = 0
+            vu219.CustomTeleportOffset.Y = 0
+            vu219.CustomTeleportOffset.Z = 0
+
+            if vu409.customTeleportX then
+                vu409.customTeleportX:SetValue('0')
+            end
+            if vu409.customTeleportY then
+                vu409.customTeleportY:SetValue('0')
+            end
+            if vu409.customTeleportZ then
+                vu409.customTeleportZ:SetValue('0')
+            end
+
+            vu228:Notify({
+                Title = 'Inputs Reset',
+                Content = 'Offset reset to 0,0,0',
+                Duration = 2,
+            })
+        end
+    end,
+})
+
+local v451 = v408.Movement:AddSection('Teleport to Player')
+
+v451:AddParagraph({
+    Title = 'Teleport to Player',
+    Content = 'Enter player name and press Teleport button.',
+})
+
+vu409.teleportToPlayerInput = v451:AddInput('teleportToPlayerInput', {
+    Title = 'Username',
+    PlaceholderText = 'Enter target player name',
+    Default = vu219.TeleportToPlayer.selectedPlayerName,
+    Callback = function(p452)
+        if vu221 then
+            vu219.TeleportToPlayer.selectedPlayerName = p452 or ''
+        end
+    end,
+})
+
+v451:AddButton({
+    Title = 'Teleport to Entered Player',
+    Description = 'Teleport to the player you entered.',
+    Callback = function()
+        if vu221 then
+            local v453 = vu219.TeleportToPlayer.selectedPlayerName
+
+            if v453 == '' then
+                vu228:Notify({
+                    Title = 'Teleport',
+                    Content = 'Please enter player name',
+                    Duration = 3,
+                })
+
+                return
+            else
+                local v454 = vu226:FindFirstChild(v453)
+                local vu455 = vu226.LocalPlayer.Character
+
+                if vu455 then
+                    vu455 = vu455:FindFirstChild('HumanoidRootPart')
+                end
+                if vu455 then
+                    if v454 and v454.Character then
+                        local vu456 = v454.Character:FindFirstChild('HumanoidRootPart')
+
+                        if vu456 then
+                            pcall(function()
+                                vu455.CFrame = CFrame.new(vu456.Position + Vector3.new(0, 3, 0))
+                            end)
+                            vu228:Notify({
+                                Title = 'Teleport',
+                                Content = 'Teleported to ' .. v454.Name .. ' successfully',
+                                Duration = 3,
+                            })
+                        else
+                            vu228:Notify({
+                                Title = 'Teleport Error',
+                                Content = "Couldn't find character of: " .. v454.Name,
+                                Duration = 3,
+                            })
+                        end
+                    else
+                        vu228:Notify({
+                            Title = 'Teleport Error',
+                            Content = "Couldn't find player named: " .. v453,
+                            Duration = 3,
+                        })
+                    end
+                else
+                    vu228:Notify({
+                        Title = 'Teleport Error',
+                        Content = "Couldn't find your character",
+                        Duration = 3,
+                    })
+                end
+            end
+        else
+            return
+        end
+    end,
+})
+
+local v457 = v408.Movement:AddSection('Dash (Q)')
+
+v457:AddParagraph({
+    Title = 'Use Remote Event for dashing',
+})
+v457:AddButton({
+    Title = 'Front Dash (W+Q)',
+    Callback = function()
+        if vu221 then
+            local v458 = {
+                {
+                    Dash = Enum.KeyCode.W,
+                    Key = Enum.KeyCode.Q,
+                    Goal = 'KeyPress',
+                },
+            }
+
+            vu180(unpack(v458))
+        end
+    end,
+})
+v457:AddButton({
+    Title = 'Left Dash (A+Q)',
+    Callback = function()
+        if vu221 then
+            local v459 = {
+                {
+                    Dash = Enum.KeyCode.A,
+                    Key = Enum.KeyCode.Q,
+                    Goal = 'KeyPress',
+                },
+            }
+
+            vu180(unpack(v459))
+        end
+    end,
+})
+v457:AddButton({
+    Title = 'Right Dash (D+Q)',
+    Callback = function()
+        if vu221 then
+            local v460 = {
+                {
+                    Dash = Enum.KeyCode.D,
+                    Key = Enum.KeyCode.Q,
+                    Goal = 'KeyPress',
+                },
+            }
+
+            vu180(unpack(v460))
+        end
+    end,
+})
+v457:AddButton({
+    Title = 'Back Dash (S+Q)',
+    Callback = function()
+        if vu221 then
+            local v461 = {
+                {
+                    Dash = Enum.KeyCode.S,
+                    Key = Enum.KeyCode.Q,
+                    Goal = 'KeyPress',
+                },
+            }
+
+            vu180(unpack(v461))
+        end
+    end,
+})
+
+local v462 = v408.Combat:AddSection('Basic Movement')
+
+v462:AddButton({
+    Title = 'Block (F)',
+    Description = 'Hold F to block',
+    Callback = function()
+        if vu221 then
+            local v463 = {
+                {
+                    Goal = 'KeyPress',
+                    Key = Enum.KeyCode.F,
+                },
+            }
+
+            vu180(unpack(v463))
+        end
+    end,
+})
+v462:AddButton({
+    Title = 'Unblock (F)',
+    Description = 'Release F to unblock',
+    Callback = function()
+        if vu221 then
+            local v464 = {
+                {
+                    Goal = 'KeyRelease',
+                    Key = Enum.KeyCode.F,
+                },
+            }
+
+            vu180(unpack(v464))
+        end
+    end,
+})
+v462:AddButton({
+    Title = 'Use Ultimate (G)',
+    Description = 'Press G to use Ultimate',
+    Callback = function()
+        if vu221 then
+            local v465 = {
+                {
+                    MoveDirection = Vector3.zero,
+                    Key = Enum.KeyCode.G,
+                    Goal = 'KeyPress',
+                },
+            }
+
+            vu180(unpack(v465))
+        end
+    end,
+})
+v462:AddButton({
+    Title = 'Use Wall Combo',
+    Description = 'Use Wall Combo',
+    Callback = function()
+        if vu221 then
+            vu180(unpack({
+                {
+                    Goal = 'Wall Combo',
+                },
+            }))
+        end
+    end,
+})
+
+local v466 = v408.Combat:AddSection('Auto Rank (R)')
+
+vu409.autoRankModeToggle = v466:AddToggle('autoRankModeToggle', {
+    Title = 'Auto Rank Mode',
+    Description = 'Press R to teleport to nearest player then void kill',
+    Default = vu219.AutoRankMode.enabled,
+    Callback = function(p467)
+        if vu221 then
+            vu219.AutoRankMode.enabled = p467
+
+            if not p467 then
+                vu219.AutoRankMode.isWaitingForAnimation = false
+            end
+        end
+    end,
+})
+
+v466:AddParagraph({
+    Title = 'Keybind',
+    Content = 'R (default)',
+})
+
+vu409.autoRankExcludeInput = v466:AddInput('autoRankExcludeInput', {
+    Title = 'Exclude Player (Username)',
+    PlaceholderText = 'Enter player name to exclude',
+    Default = vu219.AutoRankMode.excludedPlayerName,
+    Callback = function(p468)
+        if vu221 then
+            vu219.AutoRankMode.excludedPlayerName = p468 or ''
+        end
+    end,
+})
+vu409.autoRankKeyDropdown = v466:AddDropdown('autoRankKeyDropdown', {
+    Title = 'Button to press for skill',
+    Default = '1',
+    Values = {
+        '1',
+        '2',
+        '3',
+        '4',
+    },
+    Callback = function(p469)
+        if vu221 then
+            vu219.AutoRankMode.selectedKey = vu219.KeyMapping[p469] or Enum.KeyCode.One
+        end
+    end,
+})
+vu409.autoRankDelaySlider = v466:AddSlider('autoRankDelaySlider', {
+    Title = 'Delay before void kill (second)',
+    Default = vu219.AutoRankMode.downTeleportDelay,
+    Min = 0,
+    Max = 7.5,
+    Rounding = 0.1,
+    Callback = function(p470)
+        if vu221 then
+            vu219.AutoRankMode.downTeleportDelay = p470
+        end
+    end,
+})
+
+local v471 = v408.Map:AddSection('Teleport Locations')
+
+local function vu475(p472, pu473)
+    if vu221 then
+        local vu474 = vu226.LocalPlayer.Character
+
+        if vu474 then
+            vu474 = vu474:FindFirstChild('HumanoidRootPart')
+        end
+        if vu474 then
+            pcall(function()
+                vu474.CFrame = CFrame.new(pu473)
+            end)
+            vu228:Notify({
+                Title = 'Map Teleport',
+                Content = 'Teleported to ' .. p472 .. ' successfully',
+                Duration = 3,
+            })
+        else
+            vu228:Notify({
+                Title = 'Teleport Error',
+                Content = "Couldn't find HumanoidRootPart",
+                Duration = 3,
+            })
+        end
+    end
+end
+
+v471:AddButton({
+    Title = 'Teleport to Middle Map',
+    Callback = function()
+        vu475('Middle Map', Vector3.new(147, 450, 30))
+    end,
+})
+v471:AddButton({
+    Title = 'Teleport to Void',
+    Callback = function()
+        vu475('Void', Vector3.new(147, -10000, 30))
+    end,
+})
+v471:AddButton({
+    Title = 'Teleport to Atomic Slash',
+    Callback = function()
+        vu475('Atomic Slash', Vector3.new(1064, 131, 23007))
+    end,
+})
+v471:AddButton({
+    Title = 'Teleport to Baseplate',
+    Callback = function()
+        vu475('Baseplate', Vector3.new(1073, 405, 22984))
+    end,
+})
+v471:AddButton({
+    Title = 'Teleport to Death Counter',
+    Callback = function()
+        vu475('Death Counter', Vector3.new(-66, 29, 20383))
+    end,
+})
+v471:AddButton({
+    Title = 'Teleport to Mountain',
+    Callback = function()
+        vu475('Mountain', Vector3.new(9, 652, -363))
+    end,
+})
+
+vu409.antiFlingToggle = v408.Main:AddToggle('antiFlingToggle', {
+    Title = 'Anti Fling',
+    Description = 'Prevent other players from flinging you',
+    Default = vu219.AntiFling.enabled,
+})
+
+vu409.antiFlingToggle:OnChanged(function(p476)
+    if vu221 then
+        vu219.AntiFling.enabled = p476
+
+        if vu231.handleToggle then
+            vu231.handleToggle(p476)
+        end
+    end
+end)
+
+local v477 = v408.Main:AddSection('Anti Orbit/Warp Lock')
+
+vu409.antiOrbitLockToggle = v477:AddToggle('antiOrbitLockToggle', {
+    Title = 'Enable Anti-Orbit Lock',
+    Description = 'Locks camera on detect, TPs away if lock persists >1s',
+    Default = vu219.AntiOrbitLock.enabled,
+})
+
+vu409.antiOrbitLockToggle:OnChanged(function(p478)
+    if vu221 then
+        vu219.AntiOrbitLock.enabled = p478
+
+        if p478 then
+            vu228:Notify({
+                Title = 'Anti-Orbit',
+                Content = 'Enabled',
+                Duration = 2,
+            })
+        else
+            vu230()
+            vu228:Notify({
+                Title = 'Anti-Orbit',
+                Content = 'Disabled',
+                Duration = 2,
+            })
+        end
+    end
+end)
+
+vu409.antiOrbitDetectDist = v477:AddSlider('antiOrbitDetectDist', {
+    Title = 'Detection Distance (Studs)',
+    Default = vu219.AntiOrbitLock.detectionDistance,
+    Min = 5,
+    Max = 50,
+    Rounding = 1,
+    Callback = function(p479)
+        if vu221 then
+            vu219.AntiOrbitLock.detectionDistance = p479
+        end
+    end,
+})
+
+local v480 = v408.Main:AddSection('Auto Farm Kill')
+
+vu409.farmToggle = v480:AddToggle('farmToggle', {
+    Title = 'Auto Farm',
+    Description = 'Teleport to player with lowest health and attack',
+    Default = vu219.AutoFarm.isAutoFarming,
+})
+vu409.farmDistance = v480:AddSlider('farmDistance', {
+    Title = 'Farm Distance',
+    Default = vu219.AutoFarm.farmDistance,
+    Min = 3,
+    Max = 20,
+    Rounding = 1,
+    Callback = function(p481)
+        if vu221 then
+            vu219.AutoFarm.farmDistance = p481
+        end
+    end,
+})
+vu409.farmHeight = v480:AddSlider('farmHeight', {
+    Title = 'Farm Height',
+    Default = vu219.AutoFarm.farmHeight,
+    Min = -10,
+    Max = 10,
+    Rounding = 1,
+    Callback = function(p482)
+        if vu221 then
+            vu219.AutoFarm.farmHeight = p482
+        end
+    end,
+})
+vu409.healthThreshold = v480:AddSlider('healthThreshold', {
+    Title = 'Target Health Threshold (%)',
+    Default = vu219.AutoFarm.targetHealthThreshold,
+    Min = 1,
+    Max = 100,
+    Rounding = 1,
+    Callback = function(p483)
+        if vu221 then
+            vu219.AutoFarm.targetHealthThreshold = p483
+        end
+    end,
+})
+
+vu409.farmToggle:OnChanged(function()
+    if vu221 then
+        vu219.AutoFarm.isAutoFarming = vu409.farmToggle.Value
+    end
+end)
+
+local v484 = v408.Main:AddSection('Teleport Cycle (Y)')
+
+vu409.teleportCycleToggle = v484:AddToggle('teleportCycleToggle', {
+    Title = 'Enable Teleport Cycle',
+    Description = [[Press Y to start teleporting to others, press Y again to return to origin.]],
+    Default = vu219.TeleportCycle.enabled,
+    Callback = function(p485)
+        if vu221 then
+            vu219.TeleportCycle.enabled = p485
+
+            if not p485 and vu219.TeleportCycle.isCycling then
+                vu241(true)
+            end
+        end
+    end,
+})
+vu409.teleportCycleDelaySlider = v484:AddSlider('teleportCycleDelaySlider', {
+    Title = 'Delay per teleport (second)',
+    Default = vu219.TeleportCycle.delayBetweenTeleports,
+    Min = 0.5,
+    Max = 5,
+    Rounding = 0.1,
+    Callback = function(p486)
+        if vu221 then
+            vu219.TeleportCycle.delayBetweenTeleports = p486
+        end
+    end,
+})
+
+local v487 = v408.Main:AddSection('Auto Void Kill')
+
+vu409.voidKillToggle = v487:AddToggle('voidKillToggle', {
+    Title = 'Enable Auto Void Kill',
+    Description = 'Teleport enemy to void',
+    Default = vu219.AnimationTeleport.isEnabled,
+    Callback = function(p488)
+        if vu221 then
+            vu219.AnimationTeleport.isEnabled = p488
+        end
+    end,
+})
+vu409.voidKillDistance = v487:AddSlider('voidKillDistance', {
+    Title = 'Height to teleport enemy to',
+    Default = vu219.AnimationTeleport.defaultDistance,
+    Min = -1000,
+    Max = 500,
+    Rounding = 10,
+    Callback = function(p489)
+        if vu221 then
+            local v490, v491, v492 = ipairs(vu219.AnimationTeleport.animations)
+
+            while true do
+                local v493
+
+                v492, v493 = v490(v491, v492)
+
+                if v492 == nil then
+                    break
+                end
+
+                v493.distance = p489
+            end
+
+            vu219.AnimationTeleport.defaultDistance = p489
+        end
+    end,
+})
+
+local v494 = v408.Main:AddSection('Teleport to Enemy Back')
+
+vu409.backTeleportToggle = v494:AddToggle('backTeleportToggle', {
+    Title = 'Enable Teleport to Back',
+    Description = 'Automatically teleport behind the nearest player',
+    Default = vu219.TeleportBehind.isEnabled,
+    Callback = function(p495)
+        if vu221 then
+            vu219.TeleportBehind.isEnabled = p495
+        end
+    end,
+})
+vu409.teleportDistanceSlider = v494:AddSlider('teleportDistanceSlider', {
+    Title = 'Distance from back',
+    Default = vu219.TeleportBehind.teleportDistance,
+    Min = 2,
+    Max = 10,
+    Rounding = 0.5,
+    Callback = function(p496)
+        if vu221 then
+            vu219.TeleportBehind.teleportDistance = p496
+        end
+    end,
+})
+vu409.antiRagdollToggle = v408.Main:AddSection('Combo Breaker (Fix Ragdoll)'):AddToggle('antiRagdollToggle', {
+    Title = 'Enable Combo Breaker',
+    Description = 'Makes character fling violently when ragdolled',
+    Default = vu219.AntiRagdoll.enabled,
+})
+
+vu409.antiRagdollToggle:OnChanged(function(p497)
+    if vu221 then
+        vu219.AntiRagdoll.enabled = p497
+
+        if vu219.AntiRagdoll.enabled then
+            vu365()
+        else
+            local v498, v499, v500 = ipairs(vu219.AntiRagdoll.connections)
+
+            while true do
+                local v501
+
+                v500, v501 = v498(v499, v500)
+
+                if v500 == nil then
+                    break
+                end
+
+                vu219.AntiRagdoll.connections[v500] = vu227(v501)
+            end
+
+            table.clear(vu219.AntiRagdoll.connections)
+
+            vu219.AntiRagdoll.isBreaking = false
+            vu216 = vu227(vu216)
+        end
+    end
+end)
+
+local v502 = v408.Main:AddSection('Basic Movement Buttons')
+
+v502:AddButton({
+    Title = 'Move Up (X)',
+    Callback = function()
+        vu272(Enum.KeyCode.X)
+    end,
+})
+v502:AddButton({
+    Title = 'Move Down (C)',
+    Callback = function()
+        vu272(Enum.KeyCode.C)
+    end,
+})
+v502:AddButton({
+    Title = 'Boost Up (V)',
+    Callback = function()
+        vu272(Enum.KeyCode.V)
+    end,
+})
+
+vu409.smoothMovementToggle = v502:AddToggle('smoothMovementToggle', {
+    Title = 'Enable Smooth Movement',
+    Default = vu219.Movement.smoothMovement,
+    Callback = function(p503)
+        if vu221 then
+            vu219.Movement.smoothMovement = p503
+        end
+    end,
+})
+
+local v504 = v408.Misc:AddSection('Crash Method (Toggle: LeftAlt)')
+
+vu409.crashModeToggle = v504:AddToggle('crashModeToggle', {
+    Title = 'Enable Crash Mode',
+    Description = 'When enabled: E = TP Infinity, R = Lock/Unlock Camera',
+    Default = vu219.CrashMode.enabled,
+})
+
+vu409.crashModeToggle:OnChanged(function(p505)
+    if vu221 then
+        vu219.CrashMode.enabled = p505
+
+        if not p505 then
+            vu224()
+        end
+
+        vu228:Notify({
+            Title = 'Crash Mode',
+            Content = p505 and 'Enabled' or 'Disabled',
+            Duration = 2,
+        })
+    end
+end)
+v504:AddParagraph({
+    Title = 'Keybinds (When Enabled)',
+    Content = '- E: Teleport to Infinity\n- R: Toggle Camera Lock',
+})
+
+local v506 = v408.Misc:AddSection('Character')
+
+v506:AddButton({
+    Title = 'Reset Character',
+    Description = 'Reset your character',
+    Callback = function()
+        if vu221 then
+            vu180(unpack({
+                {
+                    Goal = 'Reset',
+                },
+            }))
+        end
+    end,
+})
+
+vu409.changeCharacterDropdown = v506:AddDropdown('changeCharacterDropdown', {
+    Title = 'Choose character to change',
+    Default = vu219.RemoteActions.characterToChange,
+    Values = {
+        'Bald',
+        'Hunter',
+        'Cyborg',
+        'Ninja',
+        'Batter',
+        'Blade',
+        'Esper',
+        'Purple',
+        'Tech',
+        'Sorcerer',
+        'KJ',
+    },
+    Callback = function(p507)
+        if vu221 then
+            vu219.RemoteActions.characterToChange = p507
+        end
+    end,
+})
+
+v506:AddButton({
+    Title = 'Change Character',
+    Description = 'Change to selected character',
+    Callback = function()
+        if vu221 then
+            local v508 = {
+                {
+                    Goal = 'Change Character',
+                    Character = vu219.RemoteActions.characterToChange,
+                },
+            }
+
+            vu180(unpack(v508))
+        end
+    end,
+})
+v408.Misc:AddSection('Emote'):AddButton({
+    Title = 'Claim Emote Spin',
+    Description = 'Claim Emote if your kill reach 50',
+    Callback = function()
+        if vu221 then
+            vu180(unpack({
+                {
+                    Goal = 'Emote Spin',
+                },
+            }))
+        end
+    end,
+})
+
+local v509 = v408.Misc:AddSection('Chat')
+
+vu409.chatMessageInput = v509:AddInput('chatMessageInput', {
+    Title = 'Message to send',
+    PlaceholderText = 'Input message...',
+    Default = vu219.RemoteActions.chatMessage,
+    Callback = function(p510)
+        if vu221 then
+            vu219.RemoteActions.chatMessage = p510 or ''
+        end
+    end,
+})
+
+v509:AddButton({
+    Title = 'Send Message',
+    Description = 'Send message to all chat',
+    Callback = function()
+        if vu221 then
+            local v511 = {
+                vu219.RemoteActions.chatMessage,
+                'All',
+            }
+
+            vu181(unpack(v511))
+        end
+    end,
+})
+
+vu409.spamChatToggle = v509:AddToggle('spamChatToggle', {
+    Title = 'Spam Chat',
+    Default = vu219.RemoteActions.isSpammingChat,
+    Callback = function(p512)
+        if vu221 then
+            vu219.RemoteActions.isSpammingChat = p512
+
+            if p512 then
+                if vu219.RemoteActions.spamChatCoroutine then
+                    task.cancel(vu219.RemoteActions.spamChatCoroutine)
+                end
+
+                vu219.RemoteActions.spamChatCoroutine = task.spawn(function()
+                    while vu221 and (vu219.RemoteActions.isSpammingChat and task.wait(vu219.RemoteActions.spamChatDelay)) do
+                        local v513 = {
+                            vu219.RemoteActions.chatMessage,
+                            'All',
+                        }
+
+                        vu181(unpack(v513))
+                    end
+                end)
+            elseif vu219.RemoteActions.spamChatCoroutine then
+                task.cancel(vu219.RemoteActions.spamChatCoroutine)
+
+                vu219.RemoteActions.spamChatCoroutine = nil
+            end
+        end
+    end,
+})
+vu409.spamChatDelaySlider = v509:AddSlider('spamChatDelaySlider', {
+    Title = 'Spam Chat Delay (second)',
+    Default = vu219.RemoteActions.spamChatDelay,
+    Min = 0.5,
+    Max = 5,
+    Rounding = 0.1,
+    Callback = function(p514)
+        if vu221 then
+            vu219.RemoteActions.spamChatDelay = p514
+        end
+    end,
+})
+
+local v515 = v408.Config
+local v516 = v515:AddSection('Manage Configurations')
+
+vu409.configNameInput = v516:AddInput('configNameInput', {
+    Title = 'Config Name',
+    PlaceholderText = 'Enter name for new/overwrite config',
+    Default = vu219.ConfigManagement.currentConfigName,
+    Callback = function(p517)
+        if vu221 then
+            vu219.ConfigManagement.currentConfigName = p517 or ''
+        end
+    end,
+})
+
+v516:AddButton({
+    Title = 'Create/Save Config',
+    Description = 'Save the current settings with the name above',
+    Callback = function()
+        if vu221 then
+            local v518 = vu219.ConfigManagement.currentConfigName
+
+            if v518 and v518 ~= '' then
+                local v519, v520, v521 = pairs(vu219)
+                local v522 = {}
+
+                while true do
+                    local v523
+
+                    v521, v523 = v519(v520, v521)
+
+                    if v521 == nil then
+                        break
+                    end
+                    if v521 ~= 'ConfigManagement' then
+                        v522[v521] = v523
+                    end
+                end
+
+                local v524, v525 = vu64(v518, v522)
+
+                if v524 then
+                    vu228:Notify({
+                        Title = 'Config Saved',
+                        Content = "Configuration '" .. v518 .. "' saved.",
+                        Duration = 3,
+                    })
+
+                    if vu409.configListDropdown then
+                        local v526 = vu91()
+
+                        vu409.configListDropdown:SetValues(v526)
+                        vu409.configListDropdown:SetValue(v518)
+
+                        vu219.ConfigManagement.selectedConfigName = v518
+                    end
+                else
+                    vu228:Notify({
+                        Title = 'Config Error',
+                        Content = 'Failed to save config: ' .. (v525 or 'Unknown error'),
+                        Duration = 4,
+                    })
+                end
+            else
+                vu228:Notify({
+                    Title = 'Config Error',
+                    Content = 'Please enter a name for the config.',
+                    Duration = 3,
+                })
+            end
+        else
+            return
+        end
+    end,
+})
+v516:AddParagraph({
+    Title = 'Load/Manage Existing',
+    Content = 'Select a config below and choose an action.',
+})
+
+local v527 = vu91()
+local v528 = 'configListDropdown'
+local v529 = v516
+local v530 = v516.AddDropdown
+local v531 = 'configListDropdown'
+local v532 = {
+    Title = 'Saved Configs',
+}
+local v533 = 'Default'
+local v534
+
+if #v527 <= 0 then
+    v534 = nil
+else
+    v534 = v527[1] or nil
+end
+
+v532[v533] = v534
+v532.Values = v527
+
+function v532.Callback(p535)
+    if vu221 then
+        vu219.ConfigManagement.selectedConfigName = p535
+
+        if vu409.configNameInput then
+            vu409.configNameInput:SetValue(p535 or '')
+
+            vu219.ConfigManagement.currentConfigName = p535 or ''
+        end
+    end
+end
+
+vu409[v528] = v530(v529, v531, v532)
+
+if vu409.configListDropdown.Value then
+    vu219.ConfigManagement.selectedConfigName = vu409.configListDropdown.Value
+    vu219.ConfigManagement.currentConfigName = vu409.configListDropdown.Value
+
+    if vu409.configNameInput then
+        vu409.configNameInput:SetValue(vu409.configListDropdown.Value)
+    end
+end
+
+v516:AddButton({
+    Title = 'Load Selected Config',
+    Description = 'Load settings from the selected config',
+    Callback = function()
+        if vu221 then
+            local v536 = vu219.ConfigManagement.selectedConfigName
+
+            if v536 and v536 ~= '' then
+                local v537, v538 = vu73(v536)
+
+                if v537 then
+                    vu144(v537)
+                    vu228:Notify({
+                        Title = 'Config Loaded',
+                        Content = "'" .. v536 .. "' loaded successfully.",
+                        Duration = 3,
+                    })
+
+                    if vu409.configNameInput then
+                        vu409.configNameInput:SetValue(v536)
+                    end
+
+                    vu219.ConfigManagement.currentConfigName = v536
+                else
+                    vu228:Notify({
+                        Title = 'Config Error',
+                        Content = "Failed to load '" .. v536 .. "': " .. (v538 or 'Unknown error'),
+                        Duration = 4,
+                    })
+                end
+            else
+                vu228:Notify({
+                    Title = 'Config Error',
+                    Content = 'Please select a config from the list.',
+                    Duration = 3,
+                })
+            end
+        else
+            return
+        end
+    end,
+})
+v516:AddButton({
+    Title = 'Overwrite Selected Config',
+    Description = 'Save current settings, overwriting the selected config',
+    Callback = function()
+        if vu221 then
+            local v539 = vu219.ConfigManagement.selectedConfigName
+
+            if v539 and v539 ~= '' then
+                local v540 = vu219.ConfigManagement.currentConfigName
+
+                if v540 and v540 ~= '' then
+                    if v540 == v539 then
+                        vu228:Notify({
+                            Title = 'Config Overwrite',
+                            Content = "Overwriting '" .. v540 .. "'",
+                            Duration = 3,
+                        })
+                    else
+                        vu228:Notify({
+                            Title = 'Config Save',
+                            Content = "Saving as new name: '" .. v540 .. "'",
+                            Duration = 3,
+                        })
+                    end
+
+                    local v541, v542, v543 = pairs(vu219)
+                    local v544 = {}
+
+                    while true do
+                        local v545
+
+                        v543, v545 = v541(v542, v543)
+
+                        if v543 == nil then
+                            break
+                        end
+                        if v543 ~= 'ConfigManagement' then
+                            v544[v543] = v545
+                        end
+                    end
+
+                    local v546, v547 = vu64(v540, v544)
+
+                    if v546 then
+                        vu228:Notify({
+                            Title = 'Config Saved',
+                            Content = "Configuration '" .. v540 .. "' saved.",
+                            Duration = 3,
+                        })
+
+                        if vu409.configListDropdown then
+                            local v548 = vu91()
+
+                            vu409.configListDropdown:SetValues(v548)
+                            vu409.configListDropdown:SetValue(v540)
+
+                            vu219.ConfigManagement.selectedConfigName = v540
+                        end
+                    else
+                        vu228:Notify({
+                            Title = 'Config Error',
+                            Content = 'Failed to save/overwrite config: ' .. (v547 or 'Unknown error'),
+                            Duration = 4,
+                        })
+                    end
+                else
+                    vu228:Notify({
+                        Title = 'Config Error',
+                        Content = 'Config name input is empty. Cannot save.',
+                        Duration = 3,
+                    })
+                end
+            else
+                vu228:Notify({
+                    Title = 'Config Error',
+                    Content = 'Please select a config to overwrite.',
+                    Duration = 3,
+                })
+
+                return
+            end
+        else
+            return
+        end
+    end,
+})
+v516:AddButton({
+    Title = 'Delete Selected Config',
+    Description = 'Permanently delete the selected config file',
+    Callback = function()
+        if vu221 then
+            local v549 = vu219.ConfigManagement.selectedConfigName
+
+            if v549 and v549 ~= '' then
+                local v550, v551 = vu80(v549)
+
+                if v550 then
+                    vu228:Notify({
+                        Title = 'Config Deleted',
+                        Content = "'" .. v549 .. "' deleted.",
+                        Duration = 3,
+                    })
+
+                    if vu409.configListDropdown then
+                        local v552 = vu91()
+
+                        vu409.configListDropdown:SetValues(v552)
+
+                        local v553 = #v552 > 0 and v552[1] or nil
+
+                        vu409.configListDropdown:SetValue(v553)
+
+                        vu219.ConfigManagement.selectedConfigName = v553 or ''
+
+                        if vu409.configNameInput then
+                            vu409.configNameInput:SetValue(v553 or '')
+                        end
+
+                        vu219.ConfigManagement.currentConfigName = v553 or ''
+                    end
+                    if vu213() == v549 then
+                        vu102()
+
+                        if vu409.autoloadStatusLabel then
+                            vu409.autoloadStatusLabel:SetDesc('Current autoload: None')
+                        end
+
+                        vu228:Notify({
+                            Title = 'Autoload Reset',
+                            Content = 'Deleted config was autoload, resetting.',
+                            Duration = 3,
+                        })
+                    end
+                else
+                    vu228:Notify({
+                        Title = 'Config Error',
+                        Content = "Failed to delete '" .. v549 .. "': " .. (v551 or 'Unknown error'),
+                        Duration = 4,
+                    })
+                end
+            else
+                vu228:Notify({
+                    Title = 'Config Error',
+                    Content = 'Please select a config to delete.',
+                    Duration = 3,
+                })
+            end
+        else
+            return
+        end
+    end,
+})
+v516:AddButton({
+    Title = 'Refresh List',
+    Description = 'Reload the list of saved configs',
+    Callback = function()
+        if vu221 then
+            if vu409.configListDropdown then
+                local v554 = vu91()
+
+                vu409.configListDropdown:SetValues(v554)
+
+                local v555 = #v554 > 0 and v554[1] or nil
+
+                vu409.configListDropdown:SetValue(v555)
+
+                vu219.ConfigManagement.selectedConfigName = v555 or ''
+
+                if vu409.configNameInput then
+                    vu409.configNameInput:SetValue(v555 or '')
+                end
+
+                vu219.ConfigManagement.currentConfigName = v555 or ''
+
+                vu228:Notify({
+                    Title = 'Config List',
+                    Content = 'Refreshed.',
+                    Duration = 2,
+                })
+            end
+        end
+    end,
+})
+
+local v556 = v515:AddSection('Autoload Configuration')
+
+vu409.autoloadStatusLabel = v556:AddParagraph({
+    Title = 'Autoload Status',
+    Content = 'Current autoload: None',
+})
+
+v556:AddButton({
+    Title = 'Set Selected as Autoload',
+    Description = [[Automatically load the selected config when the script starts]],
+    Callback = function()
+        if vu221 then
+            local v557 = vu219.ConfigManagement.selectedConfigName
+
+            if v557 and v557 ~= '' then
+                if vu215(v557) then
+                    if vu409.autoloadStatusLabel then
+                        vu409.autoloadStatusLabel:SetDesc('Current autoload: ' .. v557)
+                    end
+
+                    vu228:Notify({
+                        Title = 'Autoload Set',
+                        Content = "'" .. v557 .. "' will load on start.",
+                        Duration = 3,
+                    })
+                else
+                    vu228:Notify({
+                        Title = 'Autoload Error',
+                        Content = 'Failed to set autoload config.',
+                        Duration = 4,
+                    })
+                end
+            else
+                vu228:Notify({
+                    Title = 'Autoload Error',
+                    Content = 'Please select a config from the list first.',
+                    Duration = 3,
+                })
+            end
+        else
+            return
+        end
+    end,
+})
+v556:AddButton({
+    Title = 'Reset Autoload',
+    Description = 'Stop any config from loading automatically',
+    Callback = function()
+        if vu221 then
+            if vu102() then
+                if vu409.autoloadStatusLabel then
+                    vu409.autoloadStatusLabel:SetDesc('Current autoload: None')
+                end
+
+                vu228:Notify({
+                    Title = 'Autoload Reset',
+                    Content = 'Autoload configuration cleared.',
+                    Duration = 3,
+                })
+            else
+                vu228:Notify({
+                    Title = 'Autoload Error',
+                    Content = 'Failed to reset autoload config.',
+                    Duration = 4,
+                })
+            end
+        end
+    end,
+})
+
+local function vu566(pu558)
+    if vu221 and pu558 ~= vu226.LocalPlayer then
+        if not vu44[pu558] then
+            vu44[pu558] = {
+                walkSpeedConn = nil,
+                animPlayedConn = nil,
+                charAddedConn = nil,
+                chattedConn = nil,
+            }
+        end
+
+        local vu559 = vu44[pu558]
+
+        local function v564(p560)
+            if vu221 and vu559 then
+                vu559.walkSpeedConn = vu227(vu559.walkSpeedConn)
+                vu559.animPlayedConn = vu227(vu559.animPlayedConn)
+
+                vu373(pu558)
+                vu376(pu558)
+
+                local v561 = p560:WaitForChild('Humanoid')
+
+                if v561 then
+                    vu559.walkSpeedConn = v561:GetPropertyChangedSignal('WalkSpeed'):Connect(function()
+                        vu376(pu558)
+                    end)
+
+                    local v562 = v561:WaitForChild('Animator')
+
+                    if v562 then
+                        vu559.animPlayedConn = v562.AnimationPlayed:Connect(function(p563)
+                            vu381(pu558, p563)
+                        end)
+                    end
+                end
+            else
+                return
+            end
+        end
+
+        (function()
+            if vu559 then
+                vu559.walkSpeedConn = vu227(vu559.walkSpeedConn)
+                vu559.animPlayedConn = vu227(vu559.animPlayedConn)
+                vu559.charAddedConn = vu227(vu559.charAddedConn)
+                vu559.chattedConn = vu227(vu559.chattedConn)
+                vu559.animTeleportCharAddedConn = vu227(vu559.animTeleportCharAddedConn)
+                vu559.animTeleportAnimPlayedConn = vu227(vu559.animTeleportAnimPlayedConn)
+
+                vu373(pu558)
+            end
+        end)()
+
+        if pu558.Character then
+            v564(pu558.Character)
+        end
+
+        vu559.charAddedConn = pu558.CharacterAdded:Connect(v564)
+        vu559.chattedConn = pu558.Chatted:Connect(function(p565)
+            vu406(pu558, p565)
+        end)
+    end
+end
+local function vu568()
+    if vu221 then
+        vu28 = vu227(vu28)
+        vu28 = vu222.Chatted:Connect(function(p567)
+            vu406(vu222, p567)
+        end)
+    end
+end
+local function v570(p569)
+    if vu221 then
+        if p569 ~= vu222 then
+            vu566(p569)
+        else
+            vu568()
+        end
+    end
+end
+local function v573(p571)
+    if vu44[p571] then
+        local v572 = vu44[p571]
+
+        v572.walkSpeedConn = vu227(v572.walkSpeedConn)
+        v572.animPlayedConn = vu227(v572.animPlayedConn)
+        v572.charAddedConn = vu227(v572.charAddedConn)
+        v572.chattedConn = vu227(v572.chattedConn)
+        v572.animTeleportCharAddedConn = vu227(v572.animTeleportCharAddedConn)
+        v572.animTeleportAnimPlayedConn = vu227(v572.animTeleportAnimPlayedConn)
+        vu44[p571] = nil
+    end
+
+    vu373(p571)
+
+    if vu39[p571] then
+        vu39[p571] = nil
+    end
+    if vu40[p571.UserId] then
+        vu40[p571.UserId] = nil
+    end
+    if vu219.Aiming.lockedPlayer == p571 then
+        vu219.Aiming.lockedPlayer = nil
+        vu219.Aiming.isLocked = false
+    end
+    if vu219.Orbit.target == p571 then
+        vu219.Orbit.target = nil
+        vu219.Orbit.isOrbiting = false
+    end
+end
+
+vu227(v26)
+
+local vu574 = vu226.PlayerAdded:Connect(v570)
+
+vu227(v27)
+
+local vu575 = vu226.PlayerRemoving:Connect(v573)
+local v576, v577, v578 = ipairs(vu226:GetPlayers())
+local vu579 = vu267
+local vu580 = vu365
+local vu581 = vu288
+local vu582 = vu241
+local vu583 = vu409
+local vu584 = vu276
+local vu585 = vu272
+
+while true do
+    local v586
+
+    v578, v586 = v576(v577, v578)
+
+    if v578 == nil then
+        break
+    end
+
+    task.spawn(v570, v586)
+end
+
+vu227(v24)
+
+local vu591 = v212.InputBegan:Connect(function(p587, p588)
+    if vu221 and not p588 then
+        if p587.KeyCode ~= vu219.CrashMode.keybindToggle then
+            if vu219.CrashMode.enabled then
+                if p587.KeyCode == Enum.KeyCode.E then
+                    if vu219.CrashMode.isCameraLocked then
+                        vu173()
+                    else
+                        vu228:Notify({
+                            Title = 'Crash Mode',
+                            Content = 'Lock camera first.',
+                            Duration = 3,
+                        })
+                    end
+
+                    return
+                end
+                if p587.KeyCode == Enum.KeyCode.R then
+                    if vu219.CrashMode.isCameraLocked then
+                        vu224()
+                    else
+                        vu168()
+                    end
+
+                    return
+                end
+            end
+            if p587.KeyCode == vu219.FlyMode.keybind then
+                vu219.FlyMode.enabled = not vu219.FlyMode.enabled
+
+                if vu219.FlyMode.enabled then
+                    vu104()
+                else
+                    vu105()
+                end
+            end
+            if p587.KeyCode == Enum.KeyCode.X or (p587.KeyCode == Enum.KeyCode.C or p587.KeyCode == Enum.KeyCode.V) then
+                vu585(p587.KeyCode)
+            end
+            if p587.KeyCode == Enum.KeyCode.T then
+                vu167()
+            end
+            if p587.KeyCode == vu219.TeleportCycle.keybind and vu219.TeleportCycle.enabled then
+                if vu219.TeleportCycle.isCycling then
+                    vu582(true)
+                else
+                    vu255()
+                end
+            end
+            if p587.KeyCode == Enum.KeyCode.Z then
+                vu584((Vector3.new(vu219.CustomTeleportOffset.X, vu219.CustomTeleportOffset.Y, vu219.CustomTeleportOffset.Z)))
+            end
+            if p587.KeyCode == vu219.AutoRankMode.targetKeybind and (not vu219.CrashMode.enabled and (vu219.AutoRankMode.enabled and not vu219.AutoRankMode.isWaitingForAnimation)) then
+                vu219.AutoRankMode.isWaitingForAnimation = true
+
+                local vu589 = vu219.AutoRankMode.excludedPlayerName ~= '' and vu219.AutoRankMode.excludedPlayerName or nil
+
+                task.spawn(function()
+                    local v590 = vu324(vu589)
+
+                    if v590 then
+                        vu228:Notify({
+                            Title = 'Auto Rank',
+                            Content = 'Waiting for opportunity...',
+                            Duration = 2,
+                        })
+                    end
+
+                    while vu221 and (vu219.AutoRankMode.enabled and v590) do
+                        task.wait(0.2)
+
+                        v590 = vu324(vu589)
+                    end
+
+                    if vu221 and vu219.AutoRankMode.enabled then
+                        vu332()
+                    end
+
+                    vu219.AutoRankMode.isWaitingForAnimation = false
+                end)
+            end
+            if vu583.MainAimToggle and vu583.MainAimToggle.Value then
+                if p587.KeyCode ~= Enum.KeyCode.F then
+                    if p587.UserInputType == Enum.UserInputType.MouseButton3 and (vu583.LockOnToggle and vu583.LockOnToggle.Value) then
+                        vu310()
+                    end
+                else
+                    if vu583.HoldAimToggle and vu583.HoldAimToggle.Value then
+                        vu219.Aiming.isAiming = true
+                    end
+                    if vu583.HoldLockToggle and vu583.HoldLockToggle.Value then
+                        vu219.Aiming.isAimingNoCamera = true
+                    end
+                end
+            end
+            if p587.KeyCode == Enum.KeyCode.H then
+                vu397()
+            end
+        else
+            vu174()
+        end
+    else
+        return
+    end
+end)
+
+vu227(v25)
+
+local vu594 = v212.InputEnded:Connect(function(p592, p593)
+    if vu221 and not p593 then
+        if p592.KeyCode == Enum.KeyCode.F and (vu583.MainAimToggle and vu583.MainAimToggle.Value) then
+            if vu583.HoldAimToggle and vu583.HoldAimToggle.Value then
+                vu219.Aiming.isAiming = false
+            end
+            if vu583.HoldLockToggle and vu583.HoldLockToggle.Value then
+                vu219.Aiming.isAimingNoCamera = false
+            end
+        end
+    end
+end)
+local vu595 = vu227(v22)
+
+vu595 = vu12:Connect(function(p596)
+    if vu221 then
+        if vu219.CrashMode.enabled and (vu219.CrashMode.isCameraLocked and (vu219.CrashMode.lockedCameraPosition and vu219.CrashMode.lockedCameraRotation)) then
+            vu223.CFrame = CFrame.new(vu219.CrashMode.lockedCameraPosition) * vu219.CrashMode.lockedCameraRotation
+
+            return
+        else
+            vu164()
+
+            if vu219.AntiOrbitLock.isCameraLocked and vu219.AntiOrbitLock.isDetectingLock then
+                return
+            else
+                local v597 = vu226.LocalPlayer
+                local v598 = v597.Character
+
+                if v597 and (v598 and v598:FindFirstChild('HumanoidRootPart')) then
+                    local vu599 = v598.HumanoidRootPart
+
+                    if vu219.Aiming.isLocked and vu219.Aiming.lockedPlayer then
+                        if vu219.Aiming.lockedPlayer.Character then
+                            local vu600 = vu219.Aiming.lockedPlayer.Character:FindFirstChild('Head') or vu219.Aiming.lockedPlayer.Character:FindFirstChild('HumanoidRootPart')
+
+                            if vu600 then
+                                pcall(function()
+                                    vu223.CFrame = CFrame.lookAt(vu223.CFrame.Position, vu600.Position)
+                                end)
+
+                                local vu601 = Vector3.new(vu600.Position.X, vu599.Position.Y, vu600.Position.Z)
+
+                                if (vu601 - vu599.Position).Magnitude > 0.1 then
+                                    pcall(function()
+                                        vu599.CFrame = CFrame.lookAt(vu599.Position, vu601)
+                                    end)
+                                end
+                            else
+                                vu219.Aiming.isLocked = false
+                                vu219.Aiming.lockedPlayer = nil
+
+                                if vu583.LockOnToggle then
+                                    vu583.LockOnToggle:SetValue(false)
+                                end
+                            end
+                        else
+                            vu219.Aiming.isLocked = false
+                            vu219.Aiming.lockedPlayer = nil
+
+                            if vu583.LockOnToggle then
+                                vu583.LockOnToggle:SetValue(false)
+                            end
+                        end
+
+                        return
+                    elseif vu219.Aiming.isAiming or vu219.Aiming.isAimingNoCamera then
+                        local v602 = math.huge
+                        local v603 = vu226
+                        local v604, v605, v606 = pairs(v603:GetPlayers())
+                        local v607 = nil
+
+                        while true do
+                            local v608
+
+                            v606, v608 = v604(v605, v606)
+
+                            if v606 == nil then
+                                break
+                            end
+                            if v608 ~= v597 and v608.Character and (v608.Character:FindFirstChild('HumanoidRootPart') and (v608.Character:FindFirstChild('Humanoid') and (v608.Character.Humanoid.Health > 0 and not (vu219.ExcludedPlayers[v608.Name] or vu219.TeleportBehind.ignoreSigma and vu219.TeleportBehind.excludedPlayers[v608.Name])))) then
+                                local v609 = (v608.Character.HumanoidRootPart.Position - vu599.Position).Magnitude
+
+                                if v609 < v602 then
+                                    v607 = v608
+                                    v602 = v609
+                                end
+                            end
+                        end
+
+                        local vu610 = v607 and v607.Character and (v607.Character:FindFirstChild('Head') or v607.Character:FindFirstChild('HumanoidRootPart'))
+
+                        if vu610 then
+                            if vu219.Aiming.isAiming then
+                                pcall(function()
+                                    vu223.CFrame = CFrame.lookAt(vu223.CFrame.Position, vu610.Position)
+                                end)
+                            end
+
+                            local vu611 = Vector3.new(vu610.Position.X, vu599.Position.Y, vu610.Position.Z)
+
+                            if (vu611 - vu599.Position).Magnitude > 0.1 then
+                                pcall(function()
+                                    vu599.CFrame = CFrame.lookAt(vu599.Position, vu611)
+                                end)
+                            end
+                        end
+
+                        return
+                    elseif vu219.Orbit.isOrbiting and vu219.Orbit.target then
+                        local v612 = vu219.Orbit.target
+
+                        if v612.Character then
+                            local vu613 = v612.Character:FindFirstChild(vu219.Orbit.targetPartName) or v612.Character:FindFirstChild('HumanoidRootPart')
+
+                            if vu613 then
+                                local v614 = tonumber(vu219.Orbit.speed) or 1
+                                local v615 = tonumber(p596) or 0
+
+                                vu219.Orbit.angle = vu219.Orbit.angle + v615 * v614
+
+                                local v616 = math.cos(vu219.Orbit.angle) * (tonumber(vu219.Orbit.radius) or 10)
+                                local v617 = math.sin(vu219.Orbit.angle) * (tonumber(vu219.Orbit.radius) or 10)
+                                local vu618 = (vu219.Orbit.predictEnabled and vu404(v612) or vu613.Position) + Vector3.new(v616, vu219.Orbit.height, v617)
+
+                                if vu219.Orbit.faceEnabled then
+                                    pcall(function()
+                                        vu599.CFrame = CFrame.lookAt(vu618, vu613.Position)
+                                    end)
+                                else
+                                    vu579(vu618)
+                                end
+                            else
+                                vu219.Orbit.isOrbiting = false
+                                vu219.Orbit.target = nil
+
+                                if vu583.orbitToggle then
+                                    vu583.orbitToggle:SetValue(false)
+                                end
+
+                                vu228:Notify({
+                                    Title = 'Orbit',
+                                    Content = 'Target part not found, stopping orbit.',
+                                    Duration = 3,
+                                })
+                            end
+                        else
+                            vu219.Orbit.isOrbiting = false
+                            vu219.Orbit.target = nil
+
+                            if vu583.orbitToggle then
+                                vu583.orbitToggle:SetValue(false)
+                            end
+                        end
+                    elseif vu219.AutoFarm.isAutoFarming then
+                        local v619 = math.huge
+                        local v620 = tonumber(vu219.AutoFarm.targetHealthThreshold) or 50
+                        local v621 = vu226
+                        local v622, v623, v624 = pairs(v621:GetPlayers())
+                        local v625 = nil
+
+                        while true do
+                            local v626
+
+                            v624, v626 = v622(v623, v624)
+
+                            if v624 == nil then
+                                break
+                            end
+                            if v626 ~= v597 and v626.Character and (v626.Character:FindFirstChild('Humanoid') and (v626.Character:FindFirstChild('HumanoidRootPart') and not vu219.ExcludedPlayers[v626.Name])) then
+                                local v627 = v626.Character.Humanoid
+
+                                if v627.MaxHealth > 0 and v627.Health > 0 then
+                                    local v628 = v627.Health / v627.MaxHealth * 100
+
+                                    if v628 <= v620 and v628 < v619 then
+                                        v625 = v626
+                                        v619 = v628
+                                    end
+                                end
+                            end
+                        end
+
+                        local vu629 = v625 and v625.Character and v625.Character:FindFirstChild('HumanoidRootPart')
+
+                        if vu629 then
+                            local v630 = tick()
+                            local v631 = math.cos(v630 * vu219.Movement.moveSpeed) * vu219.AutoFarm.farmDistance
+                            local v632 = math.sin(v630 * vu219.Movement.moveSpeed) * vu219.AutoFarm.farmDistance
+                            local vu633 = vu629.Position + Vector3.new(v631, vu219.AutoFarm.farmHeight, v632)
+
+                            pcall(function()
+                                vu599.CFrame = CFrame.lookAt(vu633, vu629.Position)
+                            end)
+                        end
+                    end
+                else
+                    return
+                end
+            end
+        end
+    else
+        vu595 = vu227(vu595)
+
+        return
+    end
+end)
+
+local vu634 = 0
+local vu635 = 0.5
+local vu636 = vu227(v23)
+
+vu636 = vu13:Connect(function(_)
+    if vu221 then
+        if vu219.TeleportBehind.isEnabled and vu222.Character then
+            local v637 = tick()
+            local v638 = vu635 <= v637 - vu634 and vu581(nil)
+
+            if v638 then
+                vu295(v638)
+
+                vu634 = v637
+            end
+        end
+    else
+        vu636 = vu227(vu636)
+    end
+end)
+
+task.spawn(function()
+    local v639 = vu213()
+
+    if v639 and v639 ~= '' then
+        print('Kukuri Client: Attempting to autoload config:', v639)
+
+        local v640, v641 = vu73(v639)
+
+        if v640 then
+            vu144(v640)
+            vu228:Notify({
+                Title = 'Autoload',
+                Content = "'" .. v639 .. "' loaded.",
+                Duration = 4,
+            })
+        else
+            warn("Kukuri Client: Failed to autoload config '" .. v639 .. "':", v641 or 'Unknown error')
+            vu228:Notify({
+                Title = 'Autoload Error',
+                Content = "Failed to load '" .. v639 .. "'. Using defaults.",
+                Duration = 5,
+            })
+        end
+    else
+        print('Kukuri Client: No autoload configuration set.')
+        task.wait(0.1)
+        vu214()
+    end
+
+    pcall(function()
+        if vu407 and vu407.Visible then
+            vu407:SelectTab(1)
+        end
+    end)
+
+    if vu219.AntiFling.enabled and vu231.handleToggle then
+        vu231.handleToggle(true)
+    end
+    if vu219.AntiRagdoll.enabled then
+        vu580()
+    end
+    if vu219.AnimationTeleport.isEnabled then
+        vu305()
+    end
+
+    task.wait(0.2)
+
+    if vu583 and vu583.autoloadStatusLabel then
+        vu583.autoloadStatusLabel:SetDesc('Current autoload: ' .. (vu213() or 'None'))
+    else
+        warn('Kukuri Client: Autoload status label not found after delay.')
+    end
+
+    vu228:Notify({
+        Title = 'Kukuri Client Loaded',
+        Content = 'Script ready to use (Admin: ' .. vu21 .. ') - v1.2.0',
+        Duration = 5,
+    })
+    print([[======================Kukuri Client v1.2.0======================]])
+end)
+v10.ChildRemoved:Connect(function(p642)
+    local v643
+
+    if vu407 and vu407.GUI then
+        v643 = vu407.GUI
+    else
+        v643 = nil
+    end
+    if p642 == v643 then
+        print('Kukuri Client GUI removed. Cleaning up connections...')
+
+        vu221 = false
+        vu595 = vu227(vu595)
+        vu636 = vu227(vu636)
+        vu591 = vu227(vu591)
+        vu594 = vu227(vu594)
+        vu574 = vu227(vu574)
+        vu575 = vu227(vu575)
+        vu28 = vu227(vu28)
+        vu184 = vu227(vu184)
+
+        vu211()
+
+        vu236 = vu227(vu236)
+        vu238 = vu227(vu238)
+
+        if vu231.handleToggle then
+            vu231.handleToggle(false)
+        end
+
+        vu219.AntiRagdoll.enabled = false
+
+        local v644, v645, v646 = ipairs(vu219.AntiRagdoll.connections)
+
+        while true do
+            local v647
+
+            v646, v647 = v644(v645, v646)
+
+            if v646 == nil then
+                break
+            end
+
+            vu219.AntiRagdoll.connections[v646] = vu227(v647)
+        end
+
+        table.clear(vu219.AntiRagdoll.connections)
+
+        vu219.AntiRagdoll.isBreaking = false
+        vu216 = vu227(vu216)
+
+        local v648, v649, v650 = pairs(vu44)
+
+        while true do
+            local v651
+
+            v650, v651 = v648(v649, v650)
+
+            if v650 == nil then
+                break
+            end
+            if v651 then
+                v651.walkSpeedConn = vu227(v651.walkSpeedConn)
+                v651.animPlayedConn = vu227(v651.animPlayedConn)
+                v651.charAddedConn = vu227(v651.charAddedConn)
+                v651.chattedConn = vu227(v651.chattedConn)
+                v651.animTeleportCharAddedConn = vu227(v651.animTeleportCharAddedConn)
+                v651.animTeleportAnimPlayedConn = vu227(v651.animTeleportAnimPlayedConn)
+            end
+        end
+
+        table.clear(vu44)
+
+        if vu219.TeleportCycle.cycleCoroutine then
+            task.cancel(vu219.TeleportCycle.cycleCoroutine)
+
+            vu219.TeleportCycle.cycleCoroutine = nil
+        end
+        if vu219.RemoteActions.spamChatCoroutine then
+            task.cancel(vu219.RemoteActions.spamChatCoroutine)
+
+            vu219.RemoteActions.spamChatCoroutine = nil
+        end
+
+        vu224()
+        vu230()
+        print('Kukuri Client cleanup complete.')
+    end
+end)
