@@ -1,0 +1,2568 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+
+if not game or not game.GetService then
+    return
+end
+
+local cloneref = cloneref or function(o) return o end
+
+local Players = cloneref(game:GetService("Players"))
+local RunService = cloneref(game:GetService("RunService"))
+local UserInputService = cloneref(game:GetService("UserInputService"))
+local TeleportService = cloneref(game:GetService("TeleportService"))
+local HttpService = cloneref(game:GetService("HttpService"))
+local Lighting = cloneref(game:GetService("Lighting"))
+local VirtualUser = cloneref(game:GetService("VirtualUser"))
+local CoreGui = cloneref(game:GetService("CoreGui"))
+local Workspace = cloneref(workspace)
+
+local LocalPlayer = Players.LocalPlayer
+if not LocalPlayer then
+    Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+    LocalPlayer = Players.LocalPlayer
+end
+
+local Mouse = LocalPlayer:GetMouse()
+local Camera = Workspace.CurrentCamera
+Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+    Camera = Workspace.CurrentCamera
+end)
+
+local rawRequest = (syn and syn.request) or http_request or request or (fluxus and fluxus.request) or (Fluxus and Fluxus.request)
+
+local function SafeHttpGet(url)
+    if rawRequest then
+        local ok, response = pcall(rawRequest, {
+            Url = url,
+            Method = "GET",
+        })
+        if ok and response and response.Body then
+            return response.Body
+        end
+    end
+    return game:HttpGet(url)
+end
+
+local WindUI
+do
+    local ok, result = pcall(function()
+        if isfile and readfile and isfile("WindUI.lua") then
+            return loadstring(readfile("WindUI.lua"))()
+        end
+    end)
+    if ok and result then
+        WindUI = result
+    else
+        if not loadstring then
+            warn("WindUI requires loadstring.")
+            return
+        end
+        WindUI = loadstring(SafeHttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+    end
+end
+
+local function Notify(title, content)
+    if WindUI and WindUI.Notify then
+        WindUI:Notify({ Title = title, Content = content })
+    end
+end
+
+local DefaultGravity = Workspace.Gravity
+local DefaultFov = Camera and Camera.FieldOfView or 70
+
+local DefaultState = {
+    AimbotEnabled = false,
+    AimbotMode = "Hold",
+    AimbotKey = "E",
+    AimbotFov = 220,
+    AimbotUseFov = true,
+    AimbotSmooth = 12,
+    AimbotPart = "Head",
+    AimbotTeam = true,
+    AimbotVisible = false,
+    AimbotPrediction = 0.12,
+    AimbotPriority = "Cursor",
+
+    SilentAimEnabled = false,
+    SilentAimPart = "Head",
+    SilentAimFov = 220,
+    SilentAimUseFov = true,
+    SilentAimPrediction = 0.12,
+    SilentAimTeam = true,
+
+    TriggerbotEnabled = false,
+    TriggerbotMode = "Hold",
+    TriggerbotKey = "T",
+    TriggerbotDelay = 0.05,
+    TriggerbotTeam = true,
+
+    AutoClickerEnabled = false,
+    AutoClickerCps = 12,
+
+    HitboxEnabled = false,
+    HitboxPart = "HumanoidRootPart",
+    HitboxSize = 6,
+    HitboxTransparency = 0.5,
+
+    ESPEnabled = false,
+    ESPShowName = true,
+    ESPShowDistance = true,
+    ESPShowHealth = true,
+    ESPTeamColor = false,
+    ESPFillColor = Color3.fromRGB(255, 80, 80),
+    ESPOutlineColor = Color3.fromRGB(255, 255, 255),
+    ESPFillTransparency = 0.6,
+    ESPOutlineTransparency = 0,
+
+    TracersEnabled = false,
+    TracerColor = Color3.fromRGB(255, 255, 255),
+
+    CrosshairEnabled = false,
+    CrosshairColor = Color3.fromRGB(255, 255, 255),
+    CrosshairSize = 8,
+    CrosshairThickness = 1,
+
+    ShowFov = true,
+    FovColor = Color3.fromRGB(255, 200, 80),
+    FovSource = "Aimbot",
+
+    CameraFov = DefaultFov,
+    Fullbright = false,
+    NoFog = false,
+
+    WalkSpeedEnabled = false,
+    WalkSpeedValue = 22,
+    JumpPowerEnabled = false,
+    JumpPowerValue = 60,
+    GravityEnabled = false,
+    GravityValue = DefaultGravity,
+
+    FlyEnabled = false,
+    FlySpeed = 2,
+    FlyKey = "X",
+
+    NoclipEnabled = false,
+    InfiniteJump = false,
+    BunnyHop = false,
+
+    AntiAFK = true,
+    AntiKick = true,
+    AntiVoid = false,
+    AntiVoidHeight = -30,
+    AntiFling = false,
+    AntiRagdoll = false,
+    StealthMode = false,
+    PanicKey = "RightControl",
+
+    UiKey = "RightShift",
+    AutoLoadConfig = false,
+}
+
+local State = {}
+for k, v in pairs(DefaultState) do
+    State[k] = v
+end
+
+local ConfigFile = "UniversalHub_Config.json"
+
+local function ColorToTable(color)
+    return { color.R, color.G, color.B }
+end
+
+local function TableToColor(tbl, fallback)
+    if type(tbl) == "table" then
+        local r = tonumber(tbl[1]) or fallback.R
+        local g = tonumber(tbl[2]) or fallback.G
+        local b = tonumber(tbl[3]) or fallback.B
+        return Color3.new(r, g, b)
+    end
+    return fallback
+end
+
+local function SerializeState()
+    local data = {}
+    for k, v in pairs(State) do
+        if typeof(v) == "Color3" then
+            data[k] = ColorToTable(v)
+        else
+            data[k] = v
+        end
+    end
+    return data
+end
+
+local function DeserializeState(data)
+    if type(data) ~= "table" then
+        return
+    end
+    for k, v in pairs(data) do
+        if State[k] ~= nil then
+            if typeof(State[k]) == "Color3" then
+                State[k] = TableToColor(v, State[k])
+            else
+                State[k] = v
+            end
+        end
+    end
+end
+
+local UiRefs = {}
+local function RegisterRef(key, element)
+    UiRefs[key] = element
+    return element
+end
+
+local function TrySetValue(key, value)
+    local element = UiRefs[key]
+    if not element then
+        return
+    end
+    if type(element.SetValue) == "function" then
+        pcall(element.SetValue, element, value)
+        return
+    end
+    if type(element.Set) == "function" then
+        pcall(element.Set, element, value)
+        return
+    end
+    if type(element.SetState) == "function" then
+        pcall(element.SetState, element, value)
+    end
+end
+
+local Connections = {}
+local function BindConnection(name, connection)
+    if Connections[name] then
+        Connections[name]:Disconnect()
+    end
+    Connections[name] = connection
+end
+
+local function UnbindConnection(name)
+    if Connections[name] then
+        Connections[name]:Disconnect()
+        Connections[name] = nil
+    end
+end
+
+local function WrapClosure(fn)
+    if newcclosure then
+        return newcclosure(fn)
+    end
+    return fn
+end
+
+local function HookMetamethod(obj, method, fn)
+    if hookmetamethod then
+        return hookmetamethod(obj, method, fn)
+    end
+    if not getrawmetatable or not setreadonly then
+        return nil
+    end
+    local mt = getrawmetatable(obj)
+    local old = mt[method]
+    setreadonly(mt, false)
+    mt[method] = WrapClosure(fn)
+    setreadonly(mt, true)
+    return old
+end
+
+local function IsCaller()
+    if checkcaller then
+        return checkcaller()
+    end
+    return false
+end
+
+local function GetKeyCode(key)
+    if typeof(key) == "EnumItem" then
+        return key
+    end
+    if type(key) == "string" then
+        return Enum.KeyCode[key]
+    end
+    return nil
+end
+
+local function IsKeyDown(keyName)
+    local keyCode = GetKeyCode(keyName)
+    if not keyCode then
+        return false
+    end
+    return UserInputService:IsKeyDown(keyCode)
+end
+
+local function GetCharacter()
+    return LocalPlayer.Character
+end
+
+local function GetHumanoid()
+    local char = GetCharacter()
+    return char and char:FindFirstChildOfClass("Humanoid")
+end
+
+local function GetRoot()
+    local char = GetCharacter()
+    return char and char:FindFirstChild("HumanoidRootPart")
+end
+
+local function IsAlive(plr)
+    local char = plr.Character
+    local hum = char and char:FindFirstChildOfClass("Humanoid")
+    return hum and hum.Health > 0
+end
+
+local function IsEnemy(plr, teamCheck)
+    if plr == LocalPlayer then
+        return false
+    end
+    if teamCheck and plr.Team ~= nil and plr.Team == LocalPlayer.Team then
+        return false
+    end
+    return true
+end
+
+local function GetAimPart(character, partName)
+    if not character then
+        return nil
+    end
+    if partName == "Auto" then
+        return character:FindFirstChild("Head")
+            or character:FindFirstChild("UpperTorso")
+            or character:FindFirstChild("HumanoidRootPart")
+    end
+    return character:FindFirstChild(partName)
+end
+
+local InternalNamecall = false
+
+local function IsVisible(part, character)
+    if not part or not Camera then
+        return false
+    end
+    local origin = Camera.CFrame.Position
+    local direction = (part.Position - origin)
+    local params = RaycastParams.new()
+    params.FilterType = Enum.RaycastFilterType.Blacklist
+    params.FilterDescendantsInstances = { GetCharacter() }
+    InternalNamecall = true
+    local result = Workspace:Raycast(origin, direction, params)
+    InternalNamecall = false
+    if not result then
+        return true
+    end
+    return result.Instance and result.Instance:IsDescendantOf(character)
+end
+
+local function GetPredictedPosition(part, prediction)
+    local velocity = part.AssemblyLinearVelocity or part.Velocity
+    return part.Position + (velocity * (prediction or 0))
+end
+
+local function GetClosestTarget(fov, useFov, priority, useVisible, partName, teamCheck)
+    if not Camera then
+        return nil
+    end
+    local mousePos = UserInputService:GetMouseLocation()
+    local best = nil
+    local bestScore = math.huge
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if IsEnemy(plr, teamCheck) and IsAlive(plr) then
+            local char = plr.Character
+            local part = GetAimPart(char, partName)
+            if part then
+                local screenPos, onScreen = Camera:WorldToViewportPoint(part.Position)
+                if onScreen then
+                    local screenVec = Vector2.new(screenPos.X, screenPos.Y)
+                    local dist = (screenVec - mousePos).Magnitude
+                    if not useFov or dist <= fov then
+                        if not useVisible or IsVisible(part, char) then
+                            local score = dist
+                            if priority == "Distance" then
+                                score = (Camera.CFrame.Position - part.Position).Magnitude
+                            end
+                            if score < bestScore then
+                                bestScore = score
+                                best = { Player = plr, Part = part, Screen = screenVec }
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return best
+end
+local function HasClicker()
+    if type(mouse1click) == "function" then
+        return true
+    end
+    if type(mouse1press) == "function" and type(mouse1release) == "function" then
+        return true
+    end
+    return false
+end
+
+local function DoClick()
+    if type(mouse1click) == "function" then
+        mouse1click()
+        return
+    end
+    if type(mouse1press) == "function" and type(mouse1release) == "function" then
+        mouse1press()
+        task.wait()
+        mouse1release()
+    end
+end
+
+local AimbotActive = false
+local function IsAimbotActive()
+    if not State.AimbotEnabled then
+        return false
+    end
+    if State.AimbotMode == "Hold" then
+        return IsKeyDown(State.AimbotKey)
+    end
+    return AimbotActive
+end
+
+local function SetAimbotEnabled(enabled)
+    State.AimbotEnabled = enabled
+    if enabled then
+        BindConnection("Aimbot", RunService.RenderStepped:Connect(function()
+            if not IsAimbotActive() then
+                return
+            end
+            local target = GetClosestTarget(
+                State.AimbotFov,
+                State.AimbotUseFov,
+                State.AimbotPriority,
+                State.AimbotVisible,
+                State.AimbotPart,
+                State.AimbotTeam
+            )
+            if target and target.Part and Camera then
+                local aimPos = GetPredictedPosition(target.Part, State.AimbotPrediction)
+                local aimCFrame = CFrame.new(Camera.CFrame.Position, aimPos)
+                local smooth = math.clamp(State.AimbotSmooth, 0, 100)
+                local alpha = smooth <= 0 and 1 or math.clamp(1 - (smooth / 100), 0.05, 1)
+                Camera.CFrame = Camera.CFrame:Lerp(aimCFrame, alpha)
+            end
+        end))
+    else
+        UnbindConnection("Aimbot")
+        AimbotActive = false
+    end
+end
+
+local function GetSilentAimTarget()
+    return GetClosestTarget(
+        State.SilentAimFov,
+        State.SilentAimUseFov,
+        State.AimbotPriority,
+        State.AimbotVisible,
+        State.SilentAimPart,
+        State.SilentAimTeam
+    )
+end
+
+local NamecallHooked = false
+local BaseNamecall = nil
+local function EnsureNamecallHook()
+    if NamecallHooked then
+        return true
+    end
+    if not getnamecallmethod then
+        return false
+    end
+    BaseNamecall = HookMetamethod(game, "__namecall", function(self, ...)
+        if IsCaller() or InternalNamecall then
+            return BaseNamecall(self, ...)
+        end
+        local method = getnamecallmethod()
+        if State.AntiKick and method == "Kick" then
+            return nil
+        end
+        if State.SilentAimEnabled and self == Workspace then
+            local target = GetSilentAimTarget()
+            if target and target.Part then
+                if method == "Raycast" then
+                    local origin = select(1, ...)
+                    local direction = select(2, ...)
+                    if typeof(origin) == "Vector3" and typeof(direction) == "Vector3" then
+                        local aimPos = GetPredictedPosition(target.Part, State.SilentAimPrediction)
+                        local newDir = (aimPos - origin)
+                        if direction.Magnitude > 0 then
+                            newDir = newDir.Unit * direction.Magnitude
+                        end
+                        local args = { ... }
+                        args[2] = newDir
+                        return BaseNamecall(self, table.unpack(args))
+                    end
+                elseif method == "FindPartOnRay"
+                    or method == "FindPartOnRayWithIgnoreList"
+                    or method == "FindPartOnRayWithWhitelist"
+                then
+                    local ray = select(1, ...)
+                    if typeof(ray) == "Ray" then
+                        local origin = ray.Origin
+                        local direction = ray.Direction
+                        local aimPos = GetPredictedPosition(target.Part, State.SilentAimPrediction)
+                        local newDir = (aimPos - origin)
+                        if direction.Magnitude > 0 then
+                            newDir = newDir.Unit * direction.Magnitude
+                        end
+                        local args = { ... }
+                        args[1] = Ray.new(origin, newDir)
+                        return BaseNamecall(self, table.unpack(args))
+                    end
+                end
+            end
+        end
+        return BaseNamecall(self, ...)
+    end)
+    NamecallHooked = BaseNamecall ~= nil
+    return NamecallHooked
+end
+
+local SilentAimHooked = false
+local OldIndex = nil
+local function SetupSilentAim()
+    if SilentAimHooked then
+        return true
+    end
+    if not getrawmetatable or not setreadonly then
+        return false
+    end
+    OldIndex = HookMetamethod(game, "__index", function(self, key)
+        if not IsCaller()
+            and State.SilentAimEnabled
+            and (key == "Hit" or key == "Target" or key == "UnitRay")
+        then
+            local target = GetSilentAimTarget()
+            if target and target.Part then
+                if key == "Hit" then
+                    local pos = GetPredictedPosition(target.Part, State.SilentAimPrediction)
+                    return CFrame.new(pos)
+                end
+                if key == "Target" then
+                    return target.Part
+                end
+                if key == "UnitRay" and Camera then
+                    local origin = Camera.CFrame.Position
+                    local aimPos = GetPredictedPosition(target.Part, State.SilentAimPrediction)
+                    local direction = (aimPos - origin).Unit
+                    return Ray.new(origin, direction)
+                end
+            end
+        end
+        return OldIndex(self, key)
+    end)
+    SilentAimHooked = OldIndex ~= nil
+    return SilentAimHooked
+end
+
+local function SetSilentAimEnabled(enabled)
+    State.SilentAimEnabled = enabled
+    if enabled then
+        local ok = SetupSilentAim()
+        if not ok then
+            State.SilentAimEnabled = false
+            TrySetValue("SilentAimEnabled", false)
+            Notify("Silent Aim", "Index hook failed. Executor missing functions.")
+            return
+        end
+        local namecallOk = EnsureNamecallHook()
+        if not namecallOk then
+            Notify("Silent Aim", "Raycast hook missing. Some games won't be affected.")
+        end
+    end
+end
+
+local TriggerbotLastShot = 0
+local function SetTriggerbotEnabled(enabled)
+    State.TriggerbotEnabled = enabled
+    if enabled then
+        if not HasClicker() then
+            State.TriggerbotEnabled = false
+            TrySetValue("TriggerbotEnabled", false)
+            Notify("Triggerbot", "Mouse click API missing.")
+            return
+        end
+        BindConnection("Triggerbot", RunService.RenderStepped:Connect(function()
+            if not State.TriggerbotEnabled then
+                return
+            end
+            if State.TriggerbotMode == "Hold" and not IsKeyDown(State.TriggerbotKey) then
+                return
+            end
+            local now = os.clock()
+            if now - TriggerbotLastShot < State.TriggerbotDelay then
+                return
+            end
+            local targetPart = Mouse.Target
+            if targetPart then
+                local model = targetPart:FindFirstAncestorOfClass("Model")
+                local plr = model and Players:GetPlayerFromCharacter(model)
+                if plr and IsEnemy(plr, State.TriggerbotTeam) then
+                    TriggerbotLastShot = now
+                    DoClick()
+                end
+            end
+        end))
+    else
+        UnbindConnection("Triggerbot")
+    end
+end
+
+local AutoClickLast = 0
+local function SetAutoClickerEnabled(enabled)
+    State.AutoClickerEnabled = enabled
+    if enabled then
+        if not HasClicker() then
+            State.AutoClickerEnabled = false
+            TrySetValue("AutoClickerEnabled", false)
+            Notify("Auto Clicker", "Mouse click API missing.")
+            return
+        end
+        BindConnection("AutoClicker", RunService.Heartbeat:Connect(function()
+            local cps = math.max(State.AutoClickerCps, 1)
+            local delay = 1 / cps
+            local now = os.clock()
+            if now - AutoClickLast >= delay then
+                AutoClickLast = now
+                DoClick()
+            end
+        end))
+    else
+        UnbindConnection("AutoClicker")
+    end
+end
+
+local HitboxCache = {}
+local function ApplyHitboxToCharacter(character)
+    local part = character:FindFirstChild(State.HitboxPart)
+    if part and part:IsA("BasePart") then
+        if not HitboxCache[part] then
+            HitboxCache[part] = {
+                Size = part.Size,
+                Transparency = part.Transparency,
+                CanCollide = part.CanCollide,
+            }
+        end
+        part.Size = Vector3.new(State.HitboxSize, State.HitboxSize, State.HitboxSize)
+        part.Transparency = State.HitboxTransparency
+        part.CanCollide = false
+    end
+end
+
+local function RestoreHitboxes()
+    for part, data in pairs(HitboxCache) do
+        if part and part.Parent then
+            part.Size = data.Size
+            part.Transparency = data.Transparency
+            part.CanCollide = data.CanCollide
+        end
+    end
+    HitboxCache = {}
+end
+
+local function UpdateHitboxes()
+    if not State.HitboxEnabled then
+        RestoreHitboxes()
+        return
+    end
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            ApplyHitboxToCharacter(plr.Character)
+        end
+    end
+end
+
+local function SetHitboxEnabled(enabled)
+    State.HitboxEnabled = enabled
+    UpdateHitboxes()
+end
+
+local function RandomName(length)
+    local chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    local result = ""
+    for _ = 1, length do
+        local idx = math.random(1, #chars)
+        result = result .. chars:sub(idx, idx)
+    end
+    return result
+end
+
+local function SafeParent(instance, preferred, fallback)
+    if not instance then
+        return
+    end
+    if preferred then
+        local ok = pcall(function()
+            instance.Parent = preferred
+        end)
+        if ok then
+            return
+        end
+    end
+    if fallback then
+        instance.Parent = fallback
+    end
+end
+
+local function GetStealthParent()
+    if not State.StealthMode then
+        return nil
+    end
+    if gethui then
+        local ok, gui = pcall(gethui)
+        if ok and gui then
+            return gui
+        end
+    end
+    return CoreGui
+end
+
+local ESPObjects = {}
+local function ApplyStealthToEsp(plr)
+    local obj = ESPObjects[plr]
+    if not obj then
+        return
+    end
+    local char = plr.Character
+    local head = char and char:FindFirstChild("Head")
+    local parent = GetStealthParent()
+    if obj.Highlight then
+        obj.Highlight.Name = State.StealthMode and RandomName(10) or "UniversalHubESP"
+        SafeParent(obj.Highlight, parent, char)
+    end
+    if obj.Tag and head then
+        obj.Tag.Name = State.StealthMode and RandomName(10) or "UniversalHubTag"
+        SafeParent(obj.Tag, parent, head)
+    end
+end
+
+local function ApplyStealthToAll()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        ApplyStealthToEsp(plr)
+    end
+end
+
+local function CreateNameTag(head)
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "UniversalHubTag"
+    billboard.Adornee = head
+    billboard.Size = UDim2.new(0, 200, 0, 50)
+    billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+    billboard.AlwaysOnTop = true
+
+    local label = Instance.new("TextLabel")
+    label.Name = "Label"
+    label.BackgroundTransparency = 1
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.Font = Enum.Font.SourceSansBold
+    label.TextSize = 16
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.TextStrokeTransparency = 0.2
+    label.Parent = billboard
+
+    return billboard
+end
+
+local function SetupESPForPlayer(plr)
+    if plr == LocalPlayer then
+        return
+    end
+    local function onChar(char)
+        local previous = ESPObjects[plr]
+        if previous then
+            if previous.Highlight then
+                previous.Highlight:Destroy()
+            end
+            if previous.Tag then
+                previous.Tag:Destroy()
+            end
+        end
+        local highlight = Instance.new("Highlight")
+        highlight.Name = "UniversalHubESP"
+        highlight.Adornee = char
+        highlight.Enabled = State.ESPEnabled
+
+        local head = char:FindFirstChild("Head")
+        local tag = nil
+        if head then
+            tag = CreateNameTag(head)
+        end
+        ESPObjects[plr] = { Highlight = highlight, Tag = tag }
+        ApplyStealthToEsp(plr)
+    end
+    plr.CharacterAdded:Connect(onChar)
+    if plr.Character then
+        onChar(plr.Character)
+    end
+end
+
+local espTick = 0
+local function UpdateESP(dt)
+    espTick = espTick + dt
+    if espTick < 0.15 then
+        return
+    end
+    espTick = 0
+    for plr, obj in pairs(ESPObjects) do
+        local char = plr.Character
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        local root = char and char:FindFirstChild("HumanoidRootPart")
+        if obj.Highlight then
+            obj.Highlight.Enabled = State.ESPEnabled
+            local fill = State.ESPFillColor
+            if State.ESPTeamColor and plr.TeamColor then
+                fill = plr.TeamColor.Color
+            end
+            obj.Highlight.FillColor = fill
+            obj.Highlight.OutlineColor = State.ESPOutlineColor
+            obj.Highlight.FillTransparency = State.ESPFillTransparency
+            obj.Highlight.OutlineTransparency = State.ESPOutlineTransparency
+        end
+        if obj.Tag then
+            local label = obj.Tag:FindFirstChild("Label")
+            if label then
+                local textParts = {}
+                if State.ESPShowName then
+                    table.insert(textParts, plr.Name)
+                end
+                if State.ESPShowDistance and root and Camera then
+                    local dist = (Camera.CFrame.Position - root.Position).Magnitude
+                    table.insert(textParts, tostring(math.floor(dist)) .. "m")
+                end
+                if State.ESPShowHealth and hum then
+                    local hp = math.floor((hum.Health / math.max(hum.MaxHealth, 1)) * 100)
+                    table.insert(textParts, tostring(hp) .. "%")
+                end
+                label.Text = table.concat(textParts, " | ")
+            end
+            obj.Tag.Enabled = State.ESPEnabled and (State.ESPShowName or State.ESPShowDistance or State.ESPShowHealth)
+        end
+    end
+end
+
+local function ApplyEspVisibility(enabled)
+    for _, obj in pairs(ESPObjects) do
+        if obj.Highlight then
+            obj.Highlight.Enabled = enabled
+        end
+        if obj.Tag then
+            obj.Tag.Enabled = enabled
+        end
+    end
+end
+
+local function SetEspEnabled(enabled)
+    State.ESPEnabled = enabled
+    if enabled then
+        BindConnection("ESPUpdate", RunService.Heartbeat:Connect(UpdateESP))
+    else
+        UnbindConnection("ESPUpdate")
+        ApplyEspVisibility(false)
+    end
+end
+
+local FovCircle = nil
+local CrosshairLines = nil
+local TracerLines = nil
+
+local function EnsureFovCircle()
+    if not Drawing or not Drawing.new then
+        return
+    end
+    if FovCircle then
+        return
+    end
+    local circle = Drawing.new("Circle")
+    circle.Filled = false
+    circle.NumSides = 90
+    circle.Thickness = 1.5
+    circle.Visible = false
+    FovCircle = circle
+end
+
+local function EnsureCrosshair()
+    if not Drawing or not Drawing.new then
+        return
+    end
+    if CrosshairLines then
+        return
+    end
+    CrosshairLines = {}
+    for _ = 1, 4 do
+        local line = Drawing.new("Line")
+        line.Visible = false
+        line.Thickness = State.CrosshairThickness
+        line.Color = State.CrosshairColor
+        table.insert(CrosshairLines, line)
+    end
+end
+
+local function EnsureTracers()
+    if not Drawing or not Drawing.new then
+        return
+    end
+    if not TracerLines then
+        TracerLines = {}
+    end
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and not TracerLines[plr] then
+            local line = Drawing.new("Line")
+            line.Visible = false
+            line.Thickness = 1
+            TracerLines[plr] = line
+        end
+    end
+end
+
+local function UpdateDrawing()
+    local mousePos = UserInputService:GetMouseLocation()
+    if FovCircle then
+        FovCircle.Visible = State.ShowFov
+        if State.FovSource == "Silent" then
+            FovCircle.Radius = State.SilentAimFov
+        else
+            FovCircle.Radius = State.AimbotFov
+        end
+        FovCircle.Position = mousePos
+        FovCircle.Color = State.FovColor
+    end
+
+    if CrosshairLines then
+        local visible = State.CrosshairEnabled
+        for _, line in ipairs(CrosshairLines) do
+            line.Visible = visible
+            line.Thickness = State.CrosshairThickness
+            line.Color = State.CrosshairColor
+        end
+        if visible then
+            local size = State.CrosshairSize
+            local x, y = mousePos.X, mousePos.Y
+            CrosshairLines[1].From = Vector2.new(x - size, y)
+            CrosshairLines[1].To = Vector2.new(x - 2, y)
+            CrosshairLines[2].From = Vector2.new(x + 2, y)
+            CrosshairLines[2].To = Vector2.new(x + size, y)
+            CrosshairLines[3].From = Vector2.new(x, y - size)
+            CrosshairLines[3].To = Vector2.new(x, y - 2)
+            CrosshairLines[4].From = Vector2.new(x, y + 2)
+            CrosshairLines[4].To = Vector2.new(x, y + size)
+        end
+    end
+
+    if State.TracersEnabled and TracerLines and Camera then
+        local screenBottom = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= LocalPlayer then
+                local line = TracerLines[plr]
+                if line then
+                    local char = plr.Character
+                    local root = char and char:FindFirstChild("HumanoidRootPart")
+                    if root then
+                        local pos, onScreen = Camera:WorldToViewportPoint(root.Position)
+                        if onScreen then
+                            line.From = screenBottom
+                            line.To = Vector2.new(pos.X, pos.Y)
+                            line.Color = State.TracerColor
+                            line.Visible = true
+                        else
+                            line.Visible = false
+                        end
+                    else
+                        line.Visible = false
+                    end
+                end
+            end
+        end
+    elseif TracerLines then
+        for _, line in pairs(TracerLines) do
+            line.Visible = false
+        end
+    end
+end
+
+local function RefreshDrawingLoop()
+    local want = State.ShowFov or State.CrosshairEnabled or State.TracersEnabled
+    if want and Drawing and Drawing.new then
+        EnsureFovCircle()
+        EnsureCrosshair()
+        EnsureTracers()
+        if not Connections.Drawing then
+            BindConnection("Drawing", RunService.RenderStepped:Connect(UpdateDrawing))
+        end
+    else
+        UnbindConnection("Drawing")
+        if FovCircle then
+            FovCircle.Visible = false
+        end
+        if CrosshairLines then
+            for _, line in ipairs(CrosshairLines) do
+                line.Visible = false
+            end
+        end
+        if TracerLines then
+            for _, line in pairs(TracerLines) do
+                line.Visible = false
+            end
+        end
+    end
+end
+
+local function SetTracersEnabled(enabled)
+    State.TracersEnabled = enabled
+    if enabled and not (Drawing and Drawing.new) then
+        State.TracersEnabled = false
+        TrySetValue("TracersEnabled", false)
+        Notify("Tracers", "Drawing API missing.")
+    end
+    RefreshDrawingLoop()
+end
+
+local function SetCrosshairEnabled(enabled)
+    State.CrosshairEnabled = enabled
+    if enabled and not (Drawing and Drawing.new) then
+        State.CrosshairEnabled = false
+        TrySetValue("CrosshairEnabled", false)
+        Notify("Crosshair", "Drawing API missing.")
+    end
+    RefreshDrawingLoop()
+end
+
+local function SetFovEnabled(enabled)
+    State.ShowFov = enabled
+    if enabled and not (Drawing and Drawing.new) then
+        State.ShowFov = false
+        TrySetValue("ShowFov", false)
+        Notify("FOV", "Drawing API missing.")
+    end
+    RefreshDrawingLoop()
+end
+local function SetWalkSpeedEnabled(enabled)
+    State.WalkSpeedEnabled = enabled
+    if enabled then
+        BindConnection("WalkSpeed", RunService.Heartbeat:Connect(function()
+            local hum = GetHumanoid()
+            if hum and hum.WalkSpeed ~= State.WalkSpeedValue then
+                hum.WalkSpeed = State.WalkSpeedValue
+            end
+        end))
+    else
+        UnbindConnection("WalkSpeed")
+    end
+end
+
+local function SetJumpPowerEnabled(enabled)
+    State.JumpPowerEnabled = enabled
+    if enabled then
+        BindConnection("JumpPower", RunService.Heartbeat:Connect(function()
+            local hum = GetHumanoid()
+            if hum then
+                hum.UseJumpPower = true
+                if hum.JumpPower ~= State.JumpPowerValue then
+                    hum.JumpPower = State.JumpPowerValue
+                end
+            end
+        end))
+    else
+        UnbindConnection("JumpPower")
+    end
+end
+
+local function SetGravityEnabled(enabled)
+    State.GravityEnabled = enabled
+    if enabled then
+        Workspace.Gravity = State.GravityValue
+    else
+        Workspace.Gravity = DefaultGravity
+    end
+end
+
+local FlyVelocity, FlyGyro
+local function EnsureFlyBodies(root)
+    if not root then
+        return
+    end
+    if FlyVelocity and FlyVelocity.Parent ~= root then
+        FlyVelocity:Destroy()
+        FlyVelocity = nil
+    end
+    if FlyGyro and FlyGyro.Parent ~= root then
+        FlyGyro:Destroy()
+        FlyGyro = nil
+    end
+    if not FlyVelocity then
+        FlyVelocity = Instance.new("BodyVelocity")
+        FlyVelocity.MaxForce = Vector3.new(1, 1, 1) * 1000000
+        FlyVelocity.Velocity = Vector3.new()
+        FlyVelocity.Parent = root
+    end
+    if not FlyGyro then
+        FlyGyro = Instance.new("BodyGyro")
+        FlyGyro.MaxTorque = Vector3.new(1, 1, 1) * 1000000
+        FlyGyro.P = 10000
+        FlyGyro.Parent = root
+    end
+end
+
+local function SetFlyEnabled(enabled)
+    State.FlyEnabled = enabled
+    if enabled then
+        BindConnection("Fly", RunService.RenderStepped:Connect(function()
+            local root = GetRoot()
+            if not root or not Camera then
+                return
+            end
+            EnsureFlyBodies(root)
+            local move = Vector3.new()
+            if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                move = move + Camera.CFrame.LookVector
+            end
+            if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                move = move - Camera.CFrame.LookVector
+            end
+            if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                move = move - Camera.CFrame.RightVector
+            end
+            if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                move = move + Camera.CFrame.RightVector
+            end
+            if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                move = move + Vector3.new(0, 1, 0)
+            end
+            if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+                move = move - Vector3.new(0, 1, 0)
+            end
+            if move.Magnitude > 0 then
+                FlyVelocity.Velocity = move.Unit * (State.FlySpeed * 16)
+            else
+                FlyVelocity.Velocity = Vector3.new()
+            end
+            FlyGyro.CFrame = Camera.CFrame
+        end))
+    else
+        UnbindConnection("Fly")
+        if FlyVelocity then
+            FlyVelocity:Destroy()
+            FlyVelocity = nil
+        end
+        if FlyGyro then
+            FlyGyro:Destroy()
+            FlyGyro = nil
+        end
+    end
+end
+
+local function SetNoclipEnabled(enabled)
+    State.NoclipEnabled = enabled
+    if enabled then
+        BindConnection("Noclip", RunService.Stepped:Connect(function()
+            local char = GetCharacter()
+            if char then
+                for _, part in ipairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = false
+                    end
+                end
+            end
+        end))
+    else
+        UnbindConnection("Noclip")
+    end
+end
+
+local function SetInfiniteJumpEnabled(enabled)
+    State.InfiniteJump = enabled
+    if enabled then
+        BindConnection("InfiniteJump", UserInputService.JumpRequest:Connect(function()
+            local hum = GetHumanoid()
+            if hum then
+                hum:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end))
+    else
+        UnbindConnection("InfiniteJump")
+    end
+end
+
+local function SetBunnyHopEnabled(enabled)
+    State.BunnyHop = enabled
+    if enabled then
+        BindConnection("BunnyHop", RunService.Heartbeat:Connect(function()
+            local hum = GetHumanoid()
+            if hum and hum.FloorMaterial ~= Enum.Material.Air then
+                hum.Jump = true
+            end
+        end))
+    else
+        UnbindConnection("BunnyHop")
+    end
+end
+
+local function SetAntiAfkEnabled(enabled)
+    State.AntiAFK = enabled
+    if enabled then
+        BindConnection("AntiAFK", LocalPlayer.Idled:Connect(function()
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton2(Vector2.new())
+        end))
+    else
+        UnbindConnection("AntiAFK")
+    end
+end
+
+local function SetAntiKickEnabled(enabled)
+    State.AntiKick = enabled
+    if enabled then
+        local ok = EnsureNamecallHook()
+        if not ok then
+            State.AntiKick = false
+            TrySetValue("AntiKick", false)
+            Notify("Anti Kick", "Hook failed. Executor missing functions.")
+        end
+    end
+end
+
+local LastSafeCFrame = nil
+local function SetAntiVoidEnabled(enabled)
+    State.AntiVoid = enabled
+    if enabled then
+        BindConnection("AntiVoid", RunService.Heartbeat:Connect(function()
+            local hum = GetHumanoid()
+            local root = GetRoot()
+            if not hum or not root then
+                return
+            end
+            if hum.FloorMaterial ~= Enum.Material.Air then
+                LastSafeCFrame = root.CFrame
+            end
+            if root.Position.Y < State.AntiVoidHeight and LastSafeCFrame then
+                root.CFrame = LastSafeCFrame
+            end
+        end))
+    else
+        UnbindConnection("AntiVoid")
+    end
+end
+
+local function SetAntiFlingEnabled(enabled)
+    State.AntiFling = enabled
+    if enabled then
+        BindConnection("AntiFling", RunService.Heartbeat:Connect(function()
+            local root = GetRoot()
+            if root then
+                local vel = root.AssemblyLinearVelocity
+                if vel.Magnitude > 120 then
+                    root.AssemblyLinearVelocity = vel.Unit * 60
+                end
+                root.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
+            end
+        end))
+    else
+        UnbindConnection("AntiFling")
+    end
+end
+
+local function SetAntiRagdollEnabled(enabled)
+    State.AntiRagdoll = enabled
+    if enabled then
+        BindConnection("AntiRagdoll", RunService.Heartbeat:Connect(function()
+            local hum = GetHumanoid()
+            if hum then
+                hum.PlatformStand = false
+                if hum:GetState() == Enum.HumanoidStateType.Physics then
+                    hum:ChangeState(Enum.HumanoidStateType.Running)
+                end
+            end
+        end))
+    else
+        UnbindConnection("AntiRagdoll")
+    end
+end
+
+local LightingBackup = {
+    Brightness = Lighting.Brightness,
+    ClockTime = Lighting.ClockTime,
+    FogStart = Lighting.FogStart,
+    FogEnd = Lighting.FogEnd,
+    Ambient = Lighting.Ambient,
+    OutdoorAmbient = Lighting.OutdoorAmbient,
+}
+
+local function SetFullbrightEnabled(enabled)
+    State.Fullbright = enabled
+    if enabled then
+        Lighting.Brightness = 2
+        Lighting.ClockTime = 14
+        Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+        Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+    else
+        Lighting.Brightness = LightingBackup.Brightness
+        Lighting.ClockTime = LightingBackup.ClockTime
+        Lighting.Ambient = LightingBackup.Ambient
+        Lighting.OutdoorAmbient = LightingBackup.OutdoorAmbient
+    end
+end
+
+local function SetNoFogEnabled(enabled)
+    State.NoFog = enabled
+    if enabled then
+        Lighting.FogStart = 0
+        Lighting.FogEnd = 100000
+    else
+        Lighting.FogStart = LightingBackup.FogStart
+        Lighting.FogEnd = LightingBackup.FogEnd
+    end
+end
+local function ApplyAllState()
+    SetAimbotEnabled(State.AimbotEnabled)
+    SetSilentAimEnabled(State.SilentAimEnabled)
+    SetTriggerbotEnabled(State.TriggerbotEnabled)
+    SetAutoClickerEnabled(State.AutoClickerEnabled)
+    SetHitboxEnabled(State.HitboxEnabled)
+    SetEspEnabled(State.ESPEnabled)
+    SetTracersEnabled(State.TracersEnabled)
+    SetCrosshairEnabled(State.CrosshairEnabled)
+    SetFovEnabled(State.ShowFov)
+    SetWalkSpeedEnabled(State.WalkSpeedEnabled)
+    SetJumpPowerEnabled(State.JumpPowerEnabled)
+    SetGravityEnabled(State.GravityEnabled)
+    SetFlyEnabled(State.FlyEnabled)
+    SetNoclipEnabled(State.NoclipEnabled)
+    SetInfiniteJumpEnabled(State.InfiniteJump)
+    SetBunnyHopEnabled(State.BunnyHop)
+    SetAntiAfkEnabled(State.AntiAFK)
+    SetAntiKickEnabled(State.AntiKick)
+    SetAntiVoidEnabled(State.AntiVoid)
+    SetAntiFlingEnabled(State.AntiFling)
+    SetAntiRagdollEnabled(State.AntiRagdoll)
+    SetFullbrightEnabled(State.Fullbright)
+    SetNoFogEnabled(State.NoFog)
+    if Camera then
+        Camera.FieldOfView = State.CameraFov
+    end
+end
+
+local PanicFlags = {
+    "AimbotEnabled",
+    "SilentAimEnabled",
+    "TriggerbotEnabled",
+    "AutoClickerEnabled",
+    "HitboxEnabled",
+    "ESPEnabled",
+    "TracersEnabled",
+    "CrosshairEnabled",
+    "ShowFov",
+    "WalkSpeedEnabled",
+    "JumpPowerEnabled",
+    "GravityEnabled",
+    "FlyEnabled",
+    "NoclipEnabled",
+    "InfiniteJump",
+    "BunnyHop",
+    "Fullbright",
+    "NoFog",
+    "AntiAFK",
+    "AntiKick",
+    "AntiVoid",
+    "AntiFling",
+    "AntiRagdoll",
+}
+
+local function PanicNow()
+    for _, key in ipairs(PanicFlags) do
+        State[key] = false
+        TrySetValue(key, false)
+    end
+    AimbotActive = false
+    State.CameraFov = DefaultFov
+    TrySetValue("CameraFov", State.CameraFov)
+    ApplyAllState()
+    RefreshDrawingLoop()
+    Notify("Panic", "All features disabled.")
+end
+
+local function ReadConfigFile()
+    if isfile and readfile and isfile(ConfigFile) then
+        local ok, data = pcall(function()
+            return HttpService:JSONDecode(readfile(ConfigFile))
+        end)
+        if ok and type(data) == "table" then
+            return data
+        end
+    end
+    return nil
+end
+
+local function SaveConfig()
+    if not writefile then
+        Notify("Config", "writefile not available.")
+        return
+    end
+    local ok = pcall(function()
+        writefile(ConfigFile, HttpService:JSONEncode(SerializeState()))
+    end)
+    if ok then
+        Notify("Config", "Config saved.")
+    else
+        Notify("Config", "Failed to save config.")
+    end
+end
+
+local function LoadConfig(force)
+    local data = ReadConfigFile()
+    if not data then
+        Notify("Config", "No config found.")
+        return
+    end
+    if force or data.AutoLoadConfig then
+        DeserializeState(data)
+        ApplyAllState()
+        for k, v in pairs(State) do
+            TrySetValue(k, v)
+        end
+        Notify("Config", "Config loaded.")
+    else
+        Notify("Config", "Auto load disabled in config.")
+    end
+end
+
+local function ResetConfig()
+    for k, v in pairs(DefaultState) do
+        State[k] = v
+    end
+    ApplyAllState()
+    for k, v in pairs(State) do
+        TrySetValue(k, v)
+    end
+    Notify("Config", "Defaults restored.")
+end
+local function FindPlayer(name)
+    if not name or name == "" then
+        return nil
+    end
+    local lowered = name:lower()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr.Name:lower():find(lowered, 1, true)
+            or plr.DisplayName:lower():find(lowered, 1, true)
+        then
+            return plr
+        end
+    end
+    return nil
+end
+
+local function TeleportToPlayer(plr)
+    local root = GetRoot()
+    local targetRoot = plr and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+    if root and targetRoot then
+        root.CFrame = targetRoot.CFrame * CFrame.new(0, 0, 2)
+        return true
+    end
+    return false
+end
+
+local function TeleportToMouse()
+    local root = GetRoot()
+    if root and Mouse and Mouse.Hit then
+        root.CFrame = CFrame.new(Mouse.Hit.Position + Vector3.new(0, 3, 0))
+        return true
+    end
+    return false
+end
+
+local function ParseVector3(text)
+    if type(text) ~= "string" then
+        return nil
+    end
+    local x, y, z = text:match("([%-%d%.]+)%s*,%s*([%-%d%.]+)%s*,%s*([%-%d%.]+)")
+    if x and y and z then
+        return Vector3.new(tonumber(x), tonumber(y), tonumber(z))
+    end
+    return nil
+end
+
+local WaypointCFrame = nil
+
+local SpectateTarget = nil
+local function SetSpectate(plr)
+    SpectateTarget = plr
+    if plr and plr.Character then
+        local hum = plr.Character:FindFirstChildOfClass("Humanoid")
+        if hum then
+            Camera.CameraSubject = hum
+            return true
+        end
+    end
+    local humLocal = GetHumanoid()
+    if humLocal then
+        Camera.CameraSubject = humLocal
+    end
+    return false
+end
+
+local function RejoinServer()
+    TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
+end
+
+local function ServerHop()
+    local placeId = game.PlaceId
+    local cursor = nil
+    while true do
+        local url = "https://games.roblox.com/v1/games/" .. placeId .. "/servers/Public?sortOrder=Asc&limit=100"
+        if cursor then
+            url = url .. "&cursor=" .. cursor
+        end
+        local ok, data = pcall(function()
+            return HttpService:JSONDecode(game:HttpGet(url))
+        end)
+        if ok and data and data.data then
+            for _, server in ipairs(data.data) do
+                if server.playing < server.maxPlayers and server.id ~= game.JobId then
+                    TeleportService:TeleportToPlaceInstance(placeId, server.id, LocalPlayer)
+                    return
+                end
+            end
+            cursor = data.nextPageCursor
+            if not cursor then
+                break
+            end
+        else
+            break
+        end
+    end
+    Notify("Server", "No available server found.")
+end
+
+local function FPSBoostOnce()
+    task.spawn(function()
+        local count = 0
+        for _, v in pairs(game:GetDescendants()) do
+            count = count + 1
+            if count % 1000 == 0 then
+                task.wait()
+            end
+            if v:IsA("Part")
+                or v:IsA("UnionOperation")
+                or v:IsA("MeshPart")
+                or v:IsA("CornerWedgePart")
+                or v:IsA("TrussPart")
+            then
+                v.Material = Enum.Material.Plastic
+                v.Reflectance = 0
+            elseif v:IsA("Decal") then
+                v.Transparency = 1
+            elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+                v.Enabled = false
+            end
+        end
+        Notify("Performance", "FPS boost applied.")
+    end)
+end
+
+local function ApplyAutoLoad()
+    local data = ReadConfigFile()
+    if data and data.AutoLoadConfig then
+        DeserializeState(data)
+    end
+end
+
+ApplyAutoLoad()
+
+local Window = WindUI:CreateWindow({
+    Title = "SPIEM Universal",
+    Folder = "SPIEM_Universal",
+    Icon = "globe-lock",
+    NewElements = true,
+    Size = UDim2.fromOffset(560, 380),
+    HideSearchBar = false,
+    OpenButton = {
+        Title = "Open Universal",
+        CornerRadius = UDim.new(1, 0),
+        StrokeThickness = 2,
+        Enabled = true,
+        Draggable = true,
+        OnlyMobile = false,
+        Color = ColorSequence.new(
+            Color3.fromHex("#2b2b2b"),
+            Color3.fromHex("#111111")
+        )
+    },
+    Topbar = {
+        Height = 42,
+        ButtonsType = "Mac",
+    }
+})
+
+Window:Tag({
+    Title = "Spiem " .. "v1.0",
+    Icon = "github",
+    Color = Color3.fromHex("#111111"),
+    Border = true,
+})
+
+Window:SetToggleKey(GetKeyCode(State.UiKey) or Enum.KeyCode.RightShift)
+
+local TabIconColor = Color3.fromHex("#9ca3af")
+
+local HomeTab = Window:Tab({
+    Title = "Home",
+    Icon = "house",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local CombatTab = Window:Tab({
+    Title = "Combat",
+    Icon = "hand-fist",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local VisualTab = Window:Tab({
+    Title = "Visuals",
+    Icon = "solar:eye-bold",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local MovementTab = Window:Tab({
+    Title = "Movement",
+    Icon = "rabbit",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local PlayerTab = Window:Tab({
+    Title = "Player",
+    Icon = "solar:user-bold",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local WorldTab = Window:Tab({
+    Title = "World",
+    Icon = "solar:planet-bold",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local SafetyTab = Window:Tab({
+    Title = "Safety",
+    Icon = "solar:shield-check-bold",
+    IconColor = TabIconColor,
+    Border = false,
+})
+
+local SettingsTab = Window:Tab({
+    Title = "Settings",
+    Icon = "solar:settings-bold",
+    IconColor = TabIconColor,
+    Border = false,
+})
+do
+    local HomeSection = HomeTab:Section({ Title = "Universal Hub", Opened = true })
+    HomeSection:Paragraph({
+        Title = "Overview",
+        Desc = "Combat, visuals, movement, player tools, and safety controls in one hub. Use settings to save and load your layout.",
+    })
+    HomeSection:Toggle({
+        Title = "Anti AFK",
+        Value = State.AntiAFK,
+        Callback = function(v)
+            SetAntiAfkEnabled(v)
+        end
+    })
+    HomeSection:Toggle({
+        Title = "Anti Kick",
+        Value = State.AntiKick,
+        Callback = function(v)
+            SetAntiKickEnabled(v)
+        end
+    })
+end
+
+do
+    local AimbotSection = CombatTab:Section({ Title = "Aimbot", Opened = true })
+    RegisterRef("AimbotEnabled", AimbotSection:Toggle({
+        Title = "Enable Aimbot",
+        Value = State.AimbotEnabled,
+        Callback = function(v)
+            SetAimbotEnabled(v)
+        end
+    }))
+    RegisterRef("AimbotMode", AimbotSection:Dropdown({
+        Title = "Aim Mode",
+        Values = { "Hold", "Toggle" },
+        Value = State.AimbotMode,
+        Callback = function(v)
+            State.AimbotMode = v
+        end
+    }))
+    RegisterRef("AimbotKey", AimbotSection:Keybind({
+        Title = "Aim Key",
+        Value = State.AimbotKey,
+        Callback = function(v)
+            State.AimbotKey = v
+        end
+    }))
+    RegisterRef("AimbotPart", AimbotSection:Dropdown({
+        Title = "Aim Part",
+        Values = { "Head", "UpperTorso", "HumanoidRootPart", "Auto" },
+        Value = State.AimbotPart,
+        Callback = function(v)
+            State.AimbotPart = v
+        end
+    }))
+    RegisterRef("AimbotFov", AimbotSection:Slider({
+        Title = "FOV Radius",
+        Step = 1,
+        Value = {
+            Min = 50,
+            Max = 600,
+            Default = State.AimbotFov,
+        },
+        Callback = function(v)
+            State.AimbotFov = v
+        end
+    }))
+    RegisterRef("AimbotSmooth", AimbotSection:Slider({
+        Title = "Smoothness",
+        Step = 1,
+        Value = {
+            Min = 0,
+            Max = 100,
+            Default = State.AimbotSmooth,
+        },
+        Callback = function(v)
+            State.AimbotSmooth = v
+        end
+    }))
+    RegisterRef("AimbotPrediction", AimbotSection:Slider({
+        Title = "Prediction",
+        Step = 0.01,
+        Value = {
+            Min = 0,
+            Max = 0.3,
+            Default = State.AimbotPrediction,
+        },
+        Callback = function(v)
+            State.AimbotPrediction = v
+        end
+    }))
+    RegisterRef("AimbotUseFov", AimbotSection:Toggle({
+        Title = "Use FOV Limit",
+        Value = State.AimbotUseFov,
+        Callback = function(v)
+            State.AimbotUseFov = v
+        end
+    }))
+    RegisterRef("AimbotTeam", AimbotSection:Toggle({
+        Title = "Team Check",
+        Value = State.AimbotTeam,
+        Callback = function(v)
+            State.AimbotTeam = v
+        end
+    }))
+    RegisterRef("AimbotVisible", AimbotSection:Toggle({
+        Title = "Visibility Check",
+        Value = State.AimbotVisible,
+        Callback = function(v)
+            State.AimbotVisible = v
+        end
+    }))
+    RegisterRef("AimbotPriority", AimbotSection:Dropdown({
+        Title = "Priority",
+        Values = { "Cursor", "Distance" },
+        Value = State.AimbotPriority,
+        Callback = function(v)
+            State.AimbotPriority = v
+        end
+    }))
+end
+
+do
+    local SilentSection = CombatTab:Section({ Title = "Silent Aim", Opened = true })
+    RegisterRef("SilentAimEnabled", SilentSection:Toggle({
+        Title = "Enable Silent Aim",
+        Value = State.SilentAimEnabled,
+        Callback = function(v)
+            SetSilentAimEnabled(v)
+        end
+    }))
+    RegisterRef("SilentAimPart", SilentSection:Dropdown({
+        Title = "Silent Aim Part",
+        Values = { "Head", "UpperTorso", "HumanoidRootPart", "Auto" },
+        Value = State.SilentAimPart,
+        Callback = function(v)
+            State.SilentAimPart = v
+        end
+    }))
+    RegisterRef("SilentAimFov", SilentSection:Slider({
+        Title = "Silent FOV",
+        Step = 1,
+        Value = {
+            Min = 50,
+            Max = 600,
+            Default = State.SilentAimFov,
+        },
+        Callback = function(v)
+            State.SilentAimFov = v
+        end
+    }))
+    RegisterRef("SilentAimPrediction", SilentSection:Slider({
+        Title = "Prediction",
+        Step = 0.01,
+        Value = {
+            Min = 0,
+            Max = 0.3,
+            Default = State.SilentAimPrediction,
+        },
+        Callback = function(v)
+            State.SilentAimPrediction = v
+        end
+    }))
+    RegisterRef("SilentAimUseFov", SilentSection:Toggle({
+        Title = "Use FOV Limit",
+        Value = State.SilentAimUseFov,
+        Callback = function(v)
+            State.SilentAimUseFov = v
+        end
+    }))
+    RegisterRef("SilentAimTeam", SilentSection:Toggle({
+        Title = "Team Check",
+        Value = State.SilentAimTeam,
+        Callback = function(v)
+            State.SilentAimTeam = v
+        end
+    }))
+end
+
+do
+    local TriggerSection = CombatTab:Section({ Title = "Triggerbot + Clicker", Opened = true })
+    RegisterRef("TriggerbotEnabled", TriggerSection:Toggle({
+        Title = "Triggerbot",
+        Value = State.TriggerbotEnabled,
+        Callback = function(v)
+            SetTriggerbotEnabled(v)
+        end
+    }))
+    RegisterRef("TriggerbotMode", TriggerSection:Dropdown({
+        Title = "Trigger Mode",
+        Values = { "Hold", "Always" },
+        Value = State.TriggerbotMode,
+        Callback = function(v)
+            State.TriggerbotMode = v
+        end
+    }))
+    RegisterRef("TriggerbotKey", TriggerSection:Keybind({
+        Title = "Trigger Key",
+        Value = State.TriggerbotKey,
+        Callback = function(v)
+            State.TriggerbotKey = v
+        end
+    }))
+    RegisterRef("TriggerbotDelay", TriggerSection:Slider({
+        Title = "Shot Delay (s)",
+        Step = 0.01,
+        Value = {
+            Min = 0,
+            Max = 0.3,
+            Default = State.TriggerbotDelay,
+        },
+        Callback = function(v)
+            State.TriggerbotDelay = v
+        end
+    }))
+    RegisterRef("TriggerbotTeam", TriggerSection:Toggle({
+        Title = "Team Check",
+        Value = State.TriggerbotTeam,
+        Callback = function(v)
+            State.TriggerbotTeam = v
+        end
+    }))
+    RegisterRef("AutoClickerEnabled", TriggerSection:Toggle({
+        Title = "Auto Clicker",
+        Value = State.AutoClickerEnabled,
+        Callback = function(v)
+            SetAutoClickerEnabled(v)
+        end
+    }))
+    RegisterRef("AutoClickerCps", TriggerSection:Slider({
+        Title = "Click Speed (CPS)",
+        Step = 1,
+        Value = {
+            Min = 1,
+            Max = 20,
+            Default = State.AutoClickerCps,
+        },
+        Callback = function(v)
+            State.AutoClickerCps = v
+        end
+    }))
+end
+
+do
+    local HitboxSection = CombatTab:Section({ Title = "Hitbox", Opened = true })
+    RegisterRef("HitboxEnabled", HitboxSection:Toggle({
+        Title = "Hitbox Expander",
+        Value = State.HitboxEnabled,
+        Callback = function(v)
+            SetHitboxEnabled(v)
+        end
+    }))
+    RegisterRef("HitboxPart", HitboxSection:Dropdown({
+        Title = "Hitbox Part",
+        Values = { "Head", "HumanoidRootPart" },
+        Value = State.HitboxPart,
+        Callback = function(v)
+            State.HitboxPart = v
+            UpdateHitboxes()
+        end
+    }))
+    RegisterRef("HitboxSize", HitboxSection:Slider({
+        Title = "Hitbox Size",
+        Step = 1,
+        Value = {
+            Min = 3,
+            Max = 12,
+            Default = State.HitboxSize,
+        },
+        Callback = function(v)
+            State.HitboxSize = v
+            UpdateHitboxes()
+        end
+    }))
+    RegisterRef("HitboxTransparency", HitboxSection:Slider({
+        Title = "Hitbox Transparency",
+        Step = 0.05,
+        Value = {
+            Min = 0,
+            Max = 1,
+            Default = State.HitboxTransparency,
+        },
+        Callback = function(v)
+            State.HitboxTransparency = v
+            UpdateHitboxes()
+        end
+    }))
+end
+do
+    local EspSection = VisualTab:Section({ Title = "ESP", Opened = true })
+    RegisterRef("ESPEnabled", EspSection:Toggle({
+        Title = "Enable ESP",
+        Value = State.ESPEnabled,
+        Callback = function(v)
+            SetEspEnabled(v)
+        end
+    }))
+    RegisterRef("ESPShowName", EspSection:Toggle({
+        Title = "Show Name",
+        Value = State.ESPShowName,
+        Callback = function(v)
+            State.ESPShowName = v
+        end
+    }))
+    RegisterRef("ESPShowDistance", EspSection:Toggle({
+        Title = "Show Distance",
+        Value = State.ESPShowDistance,
+        Callback = function(v)
+            State.ESPShowDistance = v
+        end
+    }))
+    RegisterRef("ESPShowHealth", EspSection:Toggle({
+        Title = "Show Health",
+        Value = State.ESPShowHealth,
+        Callback = function(v)
+            State.ESPShowHealth = v
+        end
+    }))
+    RegisterRef("ESPTeamColor", EspSection:Toggle({
+        Title = "Use Team Color",
+        Value = State.ESPTeamColor,
+        Callback = function(v)
+            State.ESPTeamColor = v
+        end
+    }))
+    RegisterRef("ESPFillColor", EspSection:Colorpicker({
+        Title = "Fill Color",
+        Default = State.ESPFillColor,
+        Callback = function(v)
+            State.ESPFillColor = v
+        end
+    }))
+    RegisterRef("ESPOutlineColor", EspSection:Colorpicker({
+        Title = "Outline Color",
+        Default = State.ESPOutlineColor,
+        Callback = function(v)
+            State.ESPOutlineColor = v
+        end
+    }))
+    RegisterRef("ESPFillTransparency", EspSection:Slider({
+        Title = "Fill Transparency",
+        Step = 0.05,
+        Value = {
+            Min = 0,
+            Max = 1,
+            Default = State.ESPFillTransparency,
+        },
+        Callback = function(v)
+            State.ESPFillTransparency = v
+        end
+    }))
+    RegisterRef("ESPOutlineTransparency", EspSection:Slider({
+        Title = "Outline Transparency",
+        Step = 0.05,
+        Value = {
+            Min = 0,
+            Max = 1,
+            Default = State.ESPOutlineTransparency,
+        },
+        Callback = function(v)
+            State.ESPOutlineTransparency = v
+        end
+    }))
+end
+
+do
+    local TracerSection = VisualTab:Section({ Title = "Tracers", Opened = true })
+    RegisterRef("TracersEnabled", TracerSection:Toggle({
+        Title = "Enable Tracers",
+        Value = State.TracersEnabled,
+        Callback = function(v)
+            SetTracersEnabled(v)
+        end
+    }))
+    RegisterRef("TracerColor", TracerSection:Colorpicker({
+        Title = "Tracer Color",
+        Default = State.TracerColor,
+        Callback = function(v)
+            State.TracerColor = v
+        end
+    }))
+end
+
+do
+    local CrosshairSection = VisualTab:Section({ Title = "Crosshair + FOV", Opened = true })
+    RegisterRef("CrosshairEnabled", CrosshairSection:Toggle({
+        Title = "Crosshair",
+        Value = State.CrosshairEnabled,
+        Callback = function(v)
+            SetCrosshairEnabled(v)
+        end
+    }))
+    RegisterRef("CrosshairColor", CrosshairSection:Colorpicker({
+        Title = "Crosshair Color",
+        Default = State.CrosshairColor,
+        Callback = function(v)
+            State.CrosshairColor = v
+        end
+    }))
+    RegisterRef("CrosshairSize", CrosshairSection:Slider({
+        Title = "Crosshair Size",
+        Step = 1,
+        Value = {
+            Min = 4,
+            Max = 20,
+            Default = State.CrosshairSize,
+        },
+        Callback = function(v)
+            State.CrosshairSize = v
+        end
+    }))
+    RegisterRef("CrosshairThickness", CrosshairSection:Slider({
+        Title = "Crosshair Thickness",
+        Step = 1,
+        Value = {
+            Min = 1,
+            Max = 4,
+            Default = State.CrosshairThickness,
+        },
+        Callback = function(v)
+            State.CrosshairThickness = v
+        end
+    }))
+    RegisterRef("ShowFov", CrosshairSection:Toggle({
+        Title = "Show FOV Circle",
+        Value = State.ShowFov,
+        Callback = function(v)
+            SetFovEnabled(v)
+        end
+    }))
+    RegisterRef("FovColor", CrosshairSection:Colorpicker({
+        Title = "FOV Color",
+        Default = State.FovColor,
+        Callback = function(v)
+            State.FovColor = v
+        end
+    }))
+    RegisterRef("FovSource", CrosshairSection:Dropdown({
+        Title = "FOV Source",
+        Values = { "Aimbot", "Silent" },
+        Value = State.FovSource,
+        Callback = function(v)
+            State.FovSource = v
+        end
+    }))
+end
+
+do
+    local CameraSection = VisualTab:Section({ Title = "Camera + World", Opened = true })
+    RegisterRef("CameraFov", CameraSection:Slider({
+        Title = "Camera FOV",
+        Step = 1,
+        Value = {
+            Min = 60,
+            Max = 120,
+            Default = State.CameraFov,
+        },
+        Callback = function(v)
+            State.CameraFov = v
+            if Camera then
+                Camera.FieldOfView = v
+            end
+        end
+    }))
+    RegisterRef("Fullbright", CameraSection:Toggle({
+        Title = "Fullbright",
+        Value = State.Fullbright,
+        Callback = function(v)
+            SetFullbrightEnabled(v)
+        end
+    }))
+    RegisterRef("NoFog", CameraSection:Toggle({
+        Title = "Remove Fog",
+        Value = State.NoFog,
+        Callback = function(v)
+            SetNoFogEnabled(v)
+        end
+    }))
+end
+
+do
+    local MoveSection = MovementTab:Section({ Title = "Walk", Opened = true })
+    RegisterRef("WalkSpeedEnabled", MoveSection:Toggle({
+        Title = "WalkSpeed",
+        Value = State.WalkSpeedEnabled,
+        Callback = function(v)
+            SetWalkSpeedEnabled(v)
+        end
+    }))
+    RegisterRef("WalkSpeedValue", MoveSection:Slider({
+        Title = "WalkSpeed Value",
+        Step = 1,
+        Value = {
+            Min = 10,
+            Max = 150,
+            Default = State.WalkSpeedValue,
+        },
+        Callback = function(v)
+            State.WalkSpeedValue = v
+        end
+    }))
+    RegisterRef("JumpPowerEnabled", MoveSection:Toggle({
+        Title = "JumpPower",
+        Value = State.JumpPowerEnabled,
+        Callback = function(v)
+            SetJumpPowerEnabled(v)
+        end
+    }))
+    RegisterRef("JumpPowerValue", MoveSection:Slider({
+        Title = "JumpPower Value",
+        Step = 1,
+        Value = {
+            Min = 20,
+            Max = 200,
+            Default = State.JumpPowerValue,
+        },
+        Callback = function(v)
+            State.JumpPowerValue = v
+        end
+    }))
+    RegisterRef("GravityEnabled", MoveSection:Toggle({
+        Title = "Custom Gravity",
+        Value = State.GravityEnabled,
+        Callback = function(v)
+            SetGravityEnabled(v)
+        end
+    }))
+    RegisterRef("GravityValue", MoveSection:Slider({
+        Title = "Gravity Value",
+        Step = 1,
+        Value = {
+            Min = 50,
+            Max = 250,
+            Default = State.GravityValue,
+        },
+        Callback = function(v)
+            State.GravityValue = v
+            if State.GravityEnabled then
+                Workspace.Gravity = v
+            end
+        end
+    }))
+end
+
+do
+    local FlySection = MovementTab:Section({ Title = "Fly", Opened = true })
+    RegisterRef("FlyEnabled", FlySection:Toggle({
+        Title = "Enable Fly",
+        Value = State.FlyEnabled,
+        Callback = function(v)
+            SetFlyEnabled(v)
+        end
+    }))
+    RegisterRef("FlySpeed", FlySection:Slider({
+        Title = "Fly Speed",
+        Step = 1,
+        Value = {
+            Min = 1,
+            Max = 12,
+            Default = State.FlySpeed,
+        },
+        Callback = function(v)
+            State.FlySpeed = v
+        end
+    }))
+    RegisterRef("FlyKey", FlySection:Keybind({
+        Title = "Fly Toggle Key",
+        Value = State.FlyKey,
+        Callback = function(v)
+            State.FlyKey = v
+        end
+    }))
+end
+
+do
+    local NoclipSection = MovementTab:Section({ Title = "Noclip + Jump", Opened = true })
+    RegisterRef("NoclipEnabled", NoclipSection:Toggle({
+        Title = "Noclip",
+        Value = State.NoclipEnabled,
+        Callback = function(v)
+            SetNoclipEnabled(v)
+        end
+    }))
+    RegisterRef("InfiniteJump", NoclipSection:Toggle({
+        Title = "Infinite Jump",
+        Value = State.InfiniteJump,
+        Callback = function(v)
+            SetInfiniteJumpEnabled(v)
+        end
+    }))
+    RegisterRef("BunnyHop", NoclipSection:Toggle({
+        Title = "Bunny Hop",
+        Value = State.BunnyHop,
+        Callback = function(v)
+            SetBunnyHopEnabled(v)
+        end
+    }))
+end
+do
+    local TargetSection = PlayerTab:Section({ Title = "Target Player", Opened = true })
+    local selectedName = ""
+    TargetSection:Input({
+        Title = "Player Name",
+        Placeholder = "Name or display name",
+        Value = selectedName,
+        Callback = function(v)
+            selectedName = v
+        end
+    })
+    TargetSection:Button({
+        Title = "Teleport To Player",
+        Callback = function()
+            local plr = FindPlayer(selectedName)
+            if not plr then
+                Notify("Teleport", "Player not found.")
+                return
+            end
+            if not TeleportToPlayer(plr) then
+                Notify("Teleport", "Failed to teleport.")
+            end
+        end
+    })
+    TargetSection:Button({
+        Title = "Spectate Player",
+        Callback = function()
+            local plr = FindPlayer(selectedName)
+            if not plr then
+                Notify("Spectate", "Player not found.")
+                return
+            end
+            SetSpectate(plr)
+        end
+    })
+    TargetSection:Button({
+        Title = "Stop Spectate",
+        Callback = function()
+            SetSpectate(nil)
+        end
+    })
+end
+
+do
+    local TeleportSection = PlayerTab:Section({ Title = "Teleport Tools", Opened = true })
+    local coordInput = ""
+    TeleportSection:Input({
+        Title = "Teleport XYZ",
+        Placeholder = "0, 10, 0",
+        Value = coordInput,
+        Callback = function(v)
+            coordInput = v
+        end
+    })
+    TeleportSection:Button({
+        Title = "Teleport To XYZ",
+        Callback = function()
+            local vec = ParseVector3(coordInput)
+            if not vec then
+                Notify("Teleport", "Invalid coordinates.")
+                return
+            end
+            local root = GetRoot()
+            if root then
+                root.CFrame = CFrame.new(vec)
+            end
+        end
+    })
+    TeleportSection:Button({
+        Title = "Teleport To Mouse",
+        Callback = function()
+            if not TeleportToMouse() then
+                Notify("Teleport", "Mouse target not found.")
+            end
+        end
+    })
+    TeleportSection:Button({
+        Title = "Set Waypoint",
+        Callback = function()
+            local root = GetRoot()
+            if root then
+                WaypointCFrame = root.CFrame
+                Notify("Waypoint", "Waypoint saved.")
+            end
+        end
+    })
+    TeleportSection:Button({
+        Title = "Teleport To Waypoint",
+        Callback = function()
+            if WaypointCFrame then
+                local root = GetRoot()
+                if root then
+                    root.CFrame = WaypointCFrame
+                end
+            else
+                Notify("Waypoint", "No waypoint set.")
+            end
+        end
+    })
+end
+
+do
+    local WorldSection = WorldTab:Section({ Title = "Performance", Opened = true })
+    WorldSection:Button({
+        Title = "FPS Boost (One-Time)",
+        Callback = function()
+            FPSBoostOnce()
+        end
+    })
+end
+
+do
+    local ServerSection = WorldTab:Section({ Title = "Server Tools", Opened = true })
+    ServerSection:Button({
+        Title = "Rejoin Server",
+        Callback = function()
+            RejoinServer()
+        end
+    })
+    ServerSection:Button({
+        Title = "Server Hop",
+        Callback = function()
+            ServerHop()
+        end
+    })
+end
+
+do
+    local SafetySection = SafetyTab:Section({ Title = "Anti Features", Opened = true })
+    RegisterRef("AntiAFK", SafetySection:Toggle({
+        Title = "Anti AFK",
+        Value = State.AntiAFK,
+        Callback = function(v)
+            SetAntiAfkEnabled(v)
+        end
+    }))
+    RegisterRef("AntiKick", SafetySection:Toggle({
+        Title = "Anti Kick",
+        Value = State.AntiKick,
+        Callback = function(v)
+            SetAntiKickEnabled(v)
+        end
+    }))
+    RegisterRef("AntiVoid", SafetySection:Toggle({
+        Title = "Anti Void",
+        Value = State.AntiVoid,
+        Callback = function(v)
+            SetAntiVoidEnabled(v)
+        end
+    }))
+    RegisterRef("AntiVoidHeight", SafetySection:Slider({
+        Title = "Void Height",
+        Step = 1,
+        Value = {
+            Min = -500,
+            Max = 0,
+            Default = State.AntiVoidHeight,
+        },
+        Callback = function(v)
+            State.AntiVoidHeight = v
+        end
+    }))
+    RegisterRef("AntiFling", SafetySection:Toggle({
+        Title = "Anti Fling",
+        Value = State.AntiFling,
+        Callback = function(v)
+            SetAntiFlingEnabled(v)
+        end
+    }))
+    RegisterRef("AntiRagdoll", SafetySection:Toggle({
+        Title = "Anti Ragdoll",
+        Value = State.AntiRagdoll,
+        Callback = function(v)
+            SetAntiRagdollEnabled(v)
+        end
+    }))
+    RegisterRef("StealthMode", SafetySection:Toggle({
+        Title = "Stealth Mode",
+        Desc = "Randomize ESP names and avoid character parenting when possible.",
+        Value = State.StealthMode,
+        Callback = function(v)
+            State.StealthMode = v
+            ApplyStealthToAll()
+        end
+    }))
+    RegisterRef("PanicKey", SafetySection:Keybind({
+        Title = "Panic Key",
+        Value = State.PanicKey,
+        Callback = function(v)
+            State.PanicKey = v
+        end
+    }))
+    SafetySection:Button({
+        Title = "Panic Now",
+        Callback = function()
+            PanicNow()
+        end
+    })
+end
+
+do
+    local UiSection = SettingsTab:Section({ Title = "UI", Opened = true })
+    RegisterRef("UiKey", UiSection:Keybind({
+        Title = "UI Toggle Key",
+        Value = State.UiKey,
+        Callback = function(v)
+            State.UiKey = v
+            Window:SetToggleKey(GetKeyCode(v) or Enum.KeyCode.RightShift)
+        end
+    }))
+    UiSection:Button({
+        Title = "Destroy UI",
+        Callback = function()
+            Window:Destroy()
+        end
+    })
+end
+
+do
+    local ConfigSection = SettingsTab:Section({ Title = "Config", Opened = true })
+    RegisterRef("AutoLoadConfig", ConfigSection:Toggle({
+        Title = "Auto Load Config",
+        Value = State.AutoLoadConfig,
+        Callback = function(v)
+            State.AutoLoadConfig = v
+            SaveConfig()
+        end
+    }))
+    ConfigSection:Button({
+        Title = "Save Config",
+        Callback = function()
+            SaveConfig()
+        end
+    })
+    ConfigSection:Button({
+        Title = "Load Config",
+        Callback = function()
+            LoadConfig(true)
+        end
+    })
+    ConfigSection:Button({
+        Title = "Reset To Default",
+        Callback = function()
+            ResetConfig()
+        end
+    })
+end
+
+for _, plr in ipairs(Players:GetPlayers()) do
+    SetupESPForPlayer(plr)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    SetupESPForPlayer(plr)
+    if State.HitboxEnabled and plr.Character then
+        ApplyHitboxToCharacter(plr.Character)
+    end
+    if State.TracersEnabled then
+        EnsureTracers()
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(plr)
+    if TracerLines and TracerLines[plr] then
+        TracerLines[plr]:Remove()
+        TracerLines[plr] = nil
+    end
+    local obj = ESPObjects[plr]
+    if obj then
+        if obj.Highlight then
+            obj.Highlight:Destroy()
+        end
+        if obj.Tag then
+            obj.Tag:Destroy()
+        end
+    end
+    ESPObjects[plr] = nil
+end)
+
+BindConnection("InputToggles", UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then
+        return
+    end
+    local panicKey = GetKeyCode(State.PanicKey)
+    if panicKey and input.KeyCode == panicKey then
+        PanicNow()
+        return
+    end
+    local aimKey = GetKeyCode(State.AimbotKey)
+    if State.AimbotMode == "Toggle" and aimKey and input.KeyCode == aimKey then
+        AimbotActive = not AimbotActive
+        Notify("Aimbot", AimbotActive and "Aimbot toggled on." or "Aimbot toggled off.")
+    end
+    local flyKey = GetKeyCode(State.FlyKey)
+    if flyKey and input.KeyCode == flyKey then
+        SetFlyEnabled(not State.FlyEnabled)
+        TrySetValue("FlyEnabled", State.FlyEnabled)
+    end
+end))
+
+ApplyAllState()
+RefreshDrawingLoop()
+Notify("Universal Hub", "Loaded and ready.")
